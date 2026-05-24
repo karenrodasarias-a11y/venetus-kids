@@ -619,7 +619,7 @@ function HeroSection({ config, onShop }) {
           <button onClick={onShop} style={{ background: "transparent", color: C.brown, padding: "13px 30px", borderRadius: 100, fontSize: 14, fontWeight: 600, border: `1.5px solid ${C.beigeDark}`, cursor: "pointer" }}>Ver colección →</button>
         </motion.div>
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }} style={{ display: "flex", gap: 32, marginTop: 48 }}>
-          {[["5K+", "Mamás felices"], ["200+", "Productos premium"], ["4.9★", "Calificación"]].map(([num, lbl]) => (
+          {[["2K+", "Mamás felices"], ["100+", "Productos premium"], ["4.9★", "Calificación"]].map(([num, lbl]) => (
             <div key={lbl}>
               <div style={{ fontFamily: "serif", fontSize: 30, fontWeight: 700, color: C.brown, lineHeight: 1 }}>{num}</div>
               <div style={{ fontSize: 12, color: "#9B8878", marginTop: 4 }}>{lbl}</div>
