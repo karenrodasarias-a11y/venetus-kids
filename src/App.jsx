@@ -1905,4 +1905,3 @@ const selectStyle={...inputStyle,cursor:"pointer"};return(<div style={{backgroun
     {/* Hero */}
     <HeroSection config={config} onShop={()=>productsRef.current?.scrollIntoView({behavior:"smooth"})}/>
     </div>
-
