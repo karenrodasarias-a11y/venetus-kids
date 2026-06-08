@@ -932,7 +932,6 @@ function Storefront({ products, categories, config, coupons, cart, setCart, wish
     </div>
   );
 }
-}
 
 // ════════════════════════════════════════════════════════════════════════════
 // ADMIN PANEL
