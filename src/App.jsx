@@ -263,7 +263,7 @@ function ProductCard({ product, categories, onAddCart, onWishlist, wishlist = []
   const cat = categories.find(c => c.id === product.categoryId);
   const inWish = wishlist.includes(product.id);
   return (
-    <motion.div whileHover={{ y: -8 }} onHoverStart={() => setHover(true)} onHoverEnd={() => setHover(false)}
+    <motion.div whileHover={{ y: -8 }} onClick={() => onDetail(product)} onHoverStart={() => setHover(true)} onHoverEnd={() => setHover(false)}
       style={{ background: C.white, borderRadius: 24, overflow: "hidden", boxShadow: "0 4px 20px rgba(139,110,82,0.08)", cursor: "pointer", position: "relative" }}>
       <div style={{ position: "relative", aspectRatio: "1/1.1", background: product.bg || C.roseLight, display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
         <motion.span animate={{ scale: hover ? 1.1 : 1 }} transition={{ duration: 0.4 }} style={{ fontSize: 72, userSelect: "none" }}>{product.emoji}</motion.span>
@@ -646,7 +646,156 @@ function HeroSection({ config, onShop }) {
     </div>
   );
 }
+function ProductDetailModal({
+  product,
+  categories,
+  open,
+  onClose,
+  onAddCart,
+  onWishlist,
+  wishlist = [],
+  config
+}) {
+  if (!product) return null;
 
+  const cat = categories.find(c => c.id === product.categoryId);
+  const inWish = wishlist.includes(product.id);
+
+  return (
+    <Modal open={open} onClose={onClose} title={product.name} width={700}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
+        
+        {/* Imagen (emoji en tu caso) */}
+        <div
+          style={{
+            background: product.bg || C.roseLight,
+            borderRadius: 16,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            aspectRatio: "1/1"
+          }}
+        >
+          <span style={{ fontSize: 80 }}>{product.emoji}</span>
+        </div>
+
+        {/* Info */}
+        <div>
+          <div style={{ fontSize: 12, color: C.muted, marginBottom: 6 }}>
+            {cat?.name}
+          </div>
+
+          <h2
+            style={{
+              fontFamily: FONT.serif,
+              fontSize: 26,
+              color: C.charcoal,
+              margin: "0 0 10px"
+            }}
+          >
+            {product.name}
+          </h2>
+
+          <div style={{ marginBottom: 12 }}>
+            <Stars rating={product.rating} />
+            <span style={{ fontSize: 12, color: C.muted, marginLeft: 6 }}>
+              ({product.reviews})
+            </span>
+          </div>
+
+          <p
+            style={{
+              fontSize: 14,
+              color: C.muted,
+              lineHeight: 1.6,
+              marginBottom: 16
+            }}
+          >
+            {product.desc}
+          </p>
+
+          {/* Precio */}
+          <div style={{ marginBottom: 20 }}>
+            <span
+              style={{
+                fontSize: 22,
+                fontWeight: 700,
+                color: C.brown
+              }}
+            >
+              {config.currency || "S/."} {product.price.toFixed(2)}
+            </span>
+
+            {product.oldPrice && (
+              <span
+                style={{
+                  marginLeft: 10,
+                  textDecoration: "line-through",
+                  color: C.faint
+                }}
+              >
+                S/. {product.oldPrice.toFixed(2)}
+              </span>
+            )}
+          </div>
+
+          {/* Stock */}
+          <div style={{ marginBottom: 20, fontSize: 13 }}>
+            {product.stock > 0 ? (
+              <span style={{ color: C.success }}>
+                ✅ Stock disponible ({product.stock})
+              </span>
+            ) : (
+              <span style={{ color: C.danger }}>
+                ❌ Sin stock
+              </span>
+            )}
+          </div>
+
+          {/* Botones */}
+          <div style={{ display: "flex", gap: 10 }}>
+            <button
+              onClick={() => onAddCart(product)}
+              disabled={product.stock === 0}
+              style={{
+                flex: 2,
+                padding: "14px",
+                borderRadius: 100,
+                border: "none",
+                background:
+                  product.stock === 0
+                    ? C.beigeDark
+                    : `linear-gradient(135deg, ${C.roseDeep}, ${C.sand})`,
+                color: "white",
+                fontWeight: 700,
+                cursor: product.stock === 0 ? "not-allowed" : "pointer"
+              }}
+            >
+              🛒 Añadir al carrito
+            </button>
+
+            <button
+              onClick={() => onWishlist(product.id)}
+              style={{
+                flex: 1,
+                padding: "14px",
+                borderRadius: 100,
+                border: `1.5px solid ${C.beigeDark}`,
+                background: "transparent",
+                cursor: "pointer",
+                color: inWish ? C.roseDeep : C.muted
+              }}
+            >
+              ❤️
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </Modal>
+  );
+}
+``
 function Storefront({ products, categories, config, coupons, cart, setCart, wishlist, setWishlist, orders, setOrders }) {
   const toast = useToast();
   const [cartOpen, setCartOpen] = useState(false);
@@ -655,6 +804,7 @@ function Storefront({ products, categories, config, coupons, cart, setCart, wish
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("featured");
   const productsRef = useRef(null);
+  const [detailProduct, setDetailProduct] = useState(null);
 
   const cartCount = cart.reduce((s, i) => s + i.qty, 0);
 
