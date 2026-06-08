@@ -655,7 +655,6 @@ function Storefront({ products, categories, config, coupons, cart, setCart, wish
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("featured");
   const productsRef = useRef(null);
-  const [detailProduct, setDetailProduct] = useState(null);
 
   const cartCount = cart.reduce((s, i) => s + i.qty, 0);
 
