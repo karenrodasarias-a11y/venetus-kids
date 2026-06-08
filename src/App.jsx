@@ -49,13 +49,16 @@ const Icons = {
 
 // ─── DESIGN TOKENS ─────────────────────────────────────────────────────────
 const C = {
-  cream: "#FAF6F0", beige: "#F0E8DC", beigeDark: "#E2D5C3",
-  rose: "#F2C4C4", roseLight: "#FAE8E8", roseDeep: "#D4898A",
-  sky: "#C8DEE8", skyLight: "#E8F3F8",
-  sand: "#C9A97A", sandLight: "#E8D5B7",
-  brown: "#8B6E52", brownMid: "#6B5744", brownDark: "#2D2218",
-  white: "#FFFFFF", success: "#34C759", warning: "#FF9500", danger: "#FF3B30",
+  cream:"#FAFAF8",beige:"#F3EFE9",beigeDark:"#E5DDD4",
+  rose:"#D4B8B5",roseLight:"#F5EEEC",roseDeep:"#9E7470",
+  sky:"#B8C8C0",skyLight:"#EDF3F0",sand:"#B8A898",sandLight:"#E8E0D8",
+  brown:"#7A6A5C",brownMid:"#5C5048",brownDark:"#2E2820",
+  white:"#FFFFFF",success:"#6A9E78",warning:"#C8A860",danger:"#C07070",
+  sage:"#899180",sageDark:"#6B7264",sageLight:"#C4C9BE",sagePale:"#EDF0EC",
+  linen:"#F5F2EE",linen2:"#EDE8E2",linen3:"#D8D0C8",
+  charcoal:"#3D3830",muted:"#7A7068",faint:"#A89888",
 };
+const FONT = { serif:'"Cormorant Garamond","Georgia",serif', sans:'"DM Sans",system-ui,sans-serif' };
 
 // ─── INITIAL DATA ──────────────────────────────────────────────────────────
 const INIT_CONFIG = {
@@ -72,29 +75,19 @@ const INIT_CONFIG = {
   primaryColor: "#D4898A", accentColor: "#8B6E52",
   stripeKey: "", mpKey: "", paypalId: "",
   stripeEnabled: false, mpEnabled: false, paypalEnabled: false,
-  heroImage: "",
-sectionImages: {
-  about: "",
-  promo: "",
- banner: ""
-},
-texts: {
-  about: "",
-  testimonials: ""
-}
 };
 
 const INIT_CATEGORIES = [
   { id: "cat1", name: "Recién nacidos", slug: "recien-nacidos", emoji: "👼", color: "#FAE8E8", count: 3 },
-  { id: "cat2", name: "Conjuntos & Outfits", slug: "conjuntos", image: "" ``, color: "#D4E8F0", count: 2 },
+  { id: "cat2", name: "Conjuntos & Outfits", slug: "conjuntos", emoji: "👕", color: "#D4E8F0", count: 2 },
   { id: "cat3", name: "Accesorios", slug: "accesorios", emoji: "🎀", color: "#F0E8D4", count: 2 },
   { id: "cat4", name: "Zapatos para bebé", slug: "zapatos", emoji: "👟", color: "#EDE8F5", count: 1 },
   { id: "cat5", name: "Mantas & Esenciales", slug: "mantas", emoji: "🧸", color: "#E8F5E8", count: 1 },
   { id: "cat6", name: "Regalos Baby Shower", slug: "baby-shower", emoji: "🎁", color: "#F5F0D4", count: 1 },
 ];
 
-const INIT_PRODUCTS = [   {     id: "p1",     name: "Set Bodysuit Algodón",     slug: "set-bodysuit",     desc: "Pack de 3 bodys ultra suaves",     price: 89.9,     stock: 50,     categoryId: "cat1",     badge: "nuevo",     images: [],     thumbnail: "",     featured: true,     active: true,     rating: 5,     reviews: 124,     createdAt: Date.now()   } ];   {     id: "p1",     name: "Set Bodysuit Algodón",     slug: "set-bodysuit",     desc: "Pack de 3 bodys ultra suaves",     price: 89.9,     stock: 50,     categoryId: "cat1",     badge: "nuevo",     images: [],     thumbnail: "",     featured: true,     active: true,     rating: 5,     reviews: 124,     createdAt: Date.now()   } ];   {     id: "p1",     name: "Set Bodysuit Algodón",     slug: "set-bodysuit",     desc: "Pack de 3 bodys ultra suaves",     price: 89.9,     stock: 50,     categoryId: "cat1",     badge: "nuevo",     images: [],     thumbnail: "",     featured: true,     active: true,     rating: 5,     reviews: 124,     createdAt: Date.now()   } ];   {     id: "p1",     name: "Set Bodysuit Algodón",     slug: "set-bodysuit",     desc: "Pack de 3 bodys ultra suaves",     price: 89.9,     stock: 50,     categoryId: "cat1",     badge: "nuevo",     images: [],     thumbnail: "",     featured: true,     active: true,     rating: 5,     reviews: 124,     createdAt: Date.now()   } ];
-  { id: "p1", name: "Set Bodysuit Algodón", slug: "set-bodysuit", desc: "Pack de 3 bodys ultra suaves de algodón orgánico 100% hipoalergénico. Ideales para los primeros meses.", price: 89.90, oldPrice: null, stock: 50, categoryId: "cat1", badge: "nuevo", images: [], // array de imágenes thumbnail: "", // imagen principal featured: true, active: true, rating: 5, reviews: 124, createdAt: Date.now() - 86400000 * 5 },
+const INIT_PRODUCTS = [
+  { id: "p1", name: "Set Bodysuit Algodón", slug: "set-bodysuit", desc: "Pack de 3 bodys ultra suaves de algodón orgánico 100% hipoalergénico. Ideales para los primeros meses.", price: 89.90, oldPrice: null, stock: 50, categoryId: "cat1", badge: "nuevo", emoji: "👶", bg: "#FAE8E8", featured: true, active: true, rating: 5, reviews: 124, createdAt: Date.now() - 86400000 * 5 },
   { id: "p2", name: "Conjunto Floral Niña", slug: "conjunto-floral", desc: "Blusa + shorts florales para niñas de 3 a 24 meses. Tela fresca y cómoda para todo el día.", price: 125.00, oldPrice: 160.00, stock: 30, categoryId: "cat2", badge: "oferta", emoji: "👗", bg: "#F2C4C4", featured: true, active: true, rating: 5, reviews: 87, createdAt: Date.now() - 86400000 * 4 },
   { id: "p3", name: "Gorro de Punto Suave", slug: "gorro-punto", desc: "Gorro tejido a mano de acrílico premium, suave y transpirable. Disponible en múltiples colores.", price: 45.00, oldPrice: null, stock: 80, categoryId: "cat3", badge: "mas_vendido", emoji: "🧢", bg: "#D4E8F0", featured: true, active: true, rating: 4.8, reviews: 56, createdAt: Date.now() - 86400000 * 3 },
   { id: "p4", name: "Zapatos Gateo Cuero", slug: "zapatos-gateo", desc: "Primeros zapatos de cuero natural. Suela antideslizante y cierre fácil. Cuida el desarrollo del pie.", price: 79.90, oldPrice: null, stock: 40, categoryId: "cat4", badge: "mas_vendido", emoji: "👟", bg: "#EDE8F5", featured: true, active: true, rating: 4.9, reviews: 203, createdAt: Date.now() - 86400000 * 2 },
@@ -139,7 +132,7 @@ function Toast() {
       <AnimatePresence>
         {toasts.map(t => (
           <motion.div key={t.id} initial={{ opacity: 0, y: 20, scale: 0.9 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: 10, scale: 0.9 }}
-            style={{ background: t.type === "error" ? C.danger : C.brownDark, color: C.cream, padding: "12px 24px", borderRadius: 100, fontSize: 13, fontWeight: 500, whiteSpace: "nowrap", boxShadow: "0 8px 32px rgba(0,0,0,0.2)" }}>
+            style={{ background: t.type === "error" ? C.danger : C.charcoal, color: C.cream, padding: "12px 24px", borderRadius: 100, fontSize: 13, fontWeight: 500, whiteSpace: "nowrap", boxShadow: "0 8px 32px rgba(0,0,0,0.2)" }}>
             {t.msg}
           </motion.div>
         ))}
@@ -159,7 +152,7 @@ function Modal({ open, onClose, title, children, width = 600 }) {
         <motion.div initial={{ scale: 0.9, opacity: 0, y: 20 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.9, opacity: 0 }}
           style={{ background: C.white, borderRadius: 24, width: "100%", maxWidth: width, maxHeight: "90vh", overflowY: "auto", boxShadow: "0 32px 80px rgba(0,0,0,0.25)" }}>
           <div style={{ padding: "28px 32px", borderBottom: `1px solid ${C.beige}`, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <h3 style={{ fontFamily: "serif", fontSize: 22, color: C.brownDark, margin: 0 }}>{title}</h3>
+            <h3 style={{ fontFamily: "serif", fontSize: 22, color: C.charcoal, margin: 0 }}>{title}</h3>
             <button onClick={onClose} style={{ background: C.beige, border: "none", borderRadius: "50%", width: 36, height: 36, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: C.brownMid }}>
               <Icon d={Icons.x} size={16} />
             </button>
@@ -175,7 +168,7 @@ function Modal({ open, onClose, title, children, width = 600 }) {
 function ConfirmDialog({ open, onClose, onConfirm, title, message, danger }) {
   return (
     <Modal open={open} onClose={onClose} title={title} width={420}>
-      <p style={{ color: C.brownMid, marginBottom: 24, lineHeight: 1.6 }}>{message}</p>
+      <p style={{ color: C.muted, marginBottom: 24, lineHeight: 1.6 }}>{message}</p>
       <div style={{ display: "flex", gap: 12 }}>
         <button onClick={onClose} style={{ flex: 1, padding: "12px", borderRadius: 100, border: `1.5px solid ${C.beigeDark}`, background: "transparent", cursor: "pointer", fontWeight: 600, color: C.brownMid }}>Cancelar</button>
         <button onClick={() => { onConfirm(); onClose(); }} style={{ flex: 1, padding: "12px", borderRadius: 100, border: "none", background: danger ? C.danger : C.roseDeep, color: "white", cursor: "pointer", fontWeight: 600 }}>Confirmar</button>
@@ -188,46 +181,28 @@ function ConfirmDialog({ open, onClose, onConfirm, title, message, danger }) {
 function Field({ label, children, required }) {
   return (
     <div style={{ marginBottom: 18 }}>
-      <label style={{ display: "block", fontSize: 11, fontWeight: 700, color: C.brownMid, textTransform: "uppercase", letterSpacing: "1px", marginBottom: 6 }}>{label}{required && " *"}</label>
+      <label style={{ display: "block", fontSize: 11, fontWeight: 700, color: C.muted, textTransform: "uppercase", letterSpacing: "1px", marginBottom: 6 }}>{label}{required && " *"}</label>
       {children}
     </div>
   );
 }
-const inputStyle = { width: "100%", padding: "11px 16px", borderRadius: 14, border: `1.5px solid ${C.beigeDark}`, background: C.cream, color: C.brownDark, fontSize: 14, fontFamily: "inherit", outline: "none", boxSizing: "border-box", transition: "border-color 0.2s" };
+const inputStyle = { width: "100%", padding: "11px 16px", borderRadius: 14, border: `1.5px solid ${C.beigeDark}`, background: C.cream, color: C.charcoal, fontSize: 14, fontFamily: "inherit", outline: "none", boxSizing: "border-box", transition: "border-color 0.2s" };
 const selectStyle = { ...inputStyle, cursor: "pointer" };
 
 // ─── STAT CARD ─────────────────────────────────────────────────────────────
-function StatCard({ icon, label, value, sub, color = C.roseDeep, trend }) {
-  return (
-    <motion.div whileHover={{ y: -4 }}
-      style={{ background: C.white, borderRadius: 20, padding: "24px", boxShadow: "0 4px 24px rgba(139,110,82,0.08)", display: "flex", flexDirection: "column", gap: 12 }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-        <div style={{ width: 44, height: 44, borderRadius: 14, background: color + "20", display: "flex", alignItems: "center", justifyContent: "center", color }}>
-          <Icon d={icon} size={20} />
-        </div>
-        {trend !== undefined && (
-          <span style={{ fontSize: 12, fontWeight: 700, color: trend >= 0 ? C.success : C.danger, background: (trend >= 0 ? C.success : C.danger) + "15", padding: "4px 10px", borderRadius: 100 }}>
-            {trend >= 0 ? "↑" : "↓"} {Math.abs(trend)}%
-          </span>
-        )}
-      </div>
-      <div>
-        <div style={{ fontSize: 28, fontWeight: 700, color: C.brownDark, fontFamily: "serif", lineHeight: 1 }}>{value}</div>
-        <div style={{ fontSize: 13, color: C.brownMid, marginTop: 4 }}>{label}</div>
-        {sub && <div style={{ fontSize: 12, color: C.roseDeep, marginTop: 2 }}>{sub}</div>}
-      </div>
-    </motion.div>
-  );
+function StatCard({icon,label,value,sub,color=C.sage,trend}){
+  return(<motion.div whileHover={{y:-2}} style={{background:C.white,borderRadius:4,padding:"20px 22px",border:`1px solid ${C.linen2}`,display:"flex",flexDirection:"column",gap:12}}>
+    <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
+      <div style={{width:40,height:40,borderRadius:3,background:color+"18",display:"flex",alignItems:"center",justifyContent:"center",color}}><Icon d={icon} size={17} strokeWidth={1.5}/></div>
+      {trend!==undefined&&<span style={{fontSize:10,fontWeight:600,color:trend>=0?C.success:C.danger,background:(trend>=0?C.success:C.danger)+"14",padding:"3px 8px",borderRadius:2,fontFamily:FONT.sans}}>{trend>=0?"↑":"↓"} {Math.abs(trend)}%</span>}
+    </div>
+    <div>
+      <div style={{fontSize:24,fontWeight:600,color:C.charcoal,fontFamily:FONT.serif,lineHeight:1}}>{value}</div>
+      <div style={{fontSize:12,color:C.muted,marginTop:3,fontFamily:FONT.sans}}>{label}</div>
+      {sub&&<div style={{fontSize:11,color:C.sage,marginTop:2,fontFamily:FONT.sans}}>{sub}</div>}
+    </div>
+  </motion.div>);
 }
-
-// ─── BADGE COMPONENT ───────────────────────────────────────────────────────
-const badgeColors = {
-  nuevo: { bg: "#E8F3F8", text: "#2A6A8A" },
-  oferta: { bg: "#FFF0E8", text: "#C45000" },
-  mas_vendido: { bg: C.roseLight, text: C.roseDeep },
-  favorito: { bg: C.sandLight, text: C.brown },
-};
-const badgeLabels = { nuevo: "Nuevo", oferta: "Oferta", mas_vendido: "Más vendido", favorito: "Favorito" };
 function Badge({ badge }) {
   if (!badge || !badgeColors[badge]) return null;
   const { bg, text } = badgeColors[badge];
@@ -264,8 +239,7 @@ function Stars({ rating, size = 13 }) {
 // ════════════════════════════════════════════════════════════════════════════
 
 // ─── PRODUCT CARD (store) ──────────────────────────────────────────────────
-function ProductCard({ product, onAddCart, setSelectedProduct }) {   return (     <div       onClick={() => setSelectedProduct(product)}       style={{         background: "#fff",         borderRadius: 16,         overflow: "hidden",         cursor: "pointer"       }}     >       <div style={{ height: 220, background: "#eee" }}>         {product.thumbnail ? (           <img             src={product.thumbnail}             style={{ width: "100%", height: "100%", objectFit: "cover" }}           />         ) : (           <div style={{ textAlign: "center", paddingTop: 80 }}>Sin imagen</div>         )}       </div>        <div style={{ padding: 16 }}>         <h4>{product.name}</h4>         <p>S/. {product.price}</p>          <button           onClick={(e) => {             e.stopPropagation();             onAddCart(product);           }}         >           Añadir         </button>       </div>     </div>   ); }({ product, categories, onAddCart, onWishlist, wishlist = [] }) {
-  onClick={() => setSelectedProduct(product)}
+function ProductCard({ product, categories, onAddCart, onWishlist, wishlist = [] }) {
   const [hover, setHover] = useState(false);
   const cat = categories.find(c => c.id === product.categoryId);
   const inWish = wishlist.includes(product.id);
@@ -284,13 +258,13 @@ function ProductCard({ product, onAddCart, setSelectedProduct }) {   return (   
         )}
         {product.stock === 0 && (
           <div style={{ position: "absolute", inset: 0, background: "rgba(255,255,255,0.7)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <span style={{ background: C.brownDark, color: "white", padding: "8px 20px", borderRadius: 100, fontSize: 12, fontWeight: 700 }}>Sin stock</span>
+            <span style={{ background: C.charcoal, color: "white", padding: "8px 20px", borderRadius: 100, fontSize: 12, fontWeight: 700 }}>Sin stock</span>
           </div>
         )}
       </div>
       <div style={{ padding: 18 }}>
         <div style={{ fontSize: 11, color: C.roseDeep, textTransform: "uppercase", letterSpacing: "1px", marginBottom: 4 }}>{cat?.name}</div>
-        <div style={{ fontFamily: "serif", fontSize: 18, fontWeight: 600, color: C.brownDark, marginBottom: 8, lineHeight: 1.3 }}>{product.name}</div>
+        <div style={{ fontFamily: "serif", fontSize: 18, fontWeight: 600, color: C.charcoal, marginBottom: 8, lineHeight: 1.3 }}>{product.name}</div>
         <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 12 }}>
           <Stars rating={product.rating} />
           <span style={{ fontSize: 11, color: C.brownMid }}>({product.reviews})</span>
@@ -298,7 +272,7 @@ function ProductCard({ product, onAddCart, setSelectedProduct }) {   return (   
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div>
             <span style={{ fontWeight: 700, fontSize: 18, color: C.brown }}>{C.currency || "S/."} {product.price.toFixed(2)}</span>
-            {product.oldPrice && <span style={{ fontSize: 12, color: C.brownMid, textDecoration: "line-through", marginLeft: 8 }}>S/. {product.oldPrice.toFixed(2)}</span>}
+            {product.oldPrice && <span style={{ fontSize: 12, color: C.muted, textDecoration: "line-through", marginLeft: 8 }}>S/. {product.oldPrice.toFixed(2)}</span>}
           </div>
           <motion.button whileTap={{ scale: 0.95 }} onClick={() => onAddCart(product)} disabled={product.stock === 0}
             style={{ background: product.stock === 0 ? C.beigeDark : `linear-gradient(135deg, ${C.roseDeep}, ${C.sand})`, color: "white", border: "none", padding: "8px 16px", borderRadius: 100, fontSize: 12, fontWeight: 600, cursor: product.stock === 0 ? "not-allowed" : "pointer", display: "flex", alignItems: "center", gap: 6 }}>
@@ -325,7 +299,7 @@ function CartSidebar({ open, onClose, cart, setCart, config, onCheckout }) {
       <motion.div initial={{ x: "100%" }} animate={{ x: open ? 0 : "100%" }} transition={{ type: "spring", damping: 28, stiffness: 280 }}
         style={{ position: "fixed", top: 0, right: 0, width: 420, height: "100vh", background: C.cream, zIndex: 801, display: "flex", flexDirection: "column", padding: 32, overflowY: "auto" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 28 }}>
-          <h2 style={{ fontFamily: "serif", fontSize: 24, color: C.brownDark, margin: 0 }}>Mi carrito 🛒</h2>
+          <h2 style={{ fontFamily: "serif", fontSize: 24, color: C.charcoal, margin: 0 }}>Mi carrito 🛒</h2>
           <button onClick={onClose} style={{ background: C.beige, border: "none", borderRadius: "50%", width: 38, height: 38, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: C.brownMid }}>
             <Icon d={Icons.x} size={16} />
           </button>
@@ -333,8 +307,8 @@ function CartSidebar({ open, onClose, cart, setCart, config, onCheckout }) {
         {cart.length === 0 ? (
           <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 16 }}>
             <span style={{ fontSize: 64 }}>🛍️</span>
-            <p style={{ fontFamily: "serif", fontSize: 20, color: C.brownDark, margin: 0 }}>Tu carrito está vacío</p>
-            <p style={{ fontSize: 14, color: C.brownMid, margin: 0 }}>¡Agrega productos para comenzar!</p>
+            <p style={{ fontFamily: "serif", fontSize: 20, color: C.charcoal, margin: 0 }}>Tu carrito está vacío</p>
+            <p style={{ fontSize: 14, color: C.muted, margin: 0 }}>¡Agrega productos para comenzar!</p>
             <button onClick={onClose} style={{ marginTop: 8, padding: "12px 28px", borderRadius: 100, background: `linear-gradient(135deg, ${C.roseDeep}, ${C.sand})`, color: "white", border: "none", fontWeight: 600, cursor: "pointer", fontSize: 14 }}>Ver productos</button>
           </div>
         ) : (
@@ -344,15 +318,15 @@ function CartSidebar({ open, onClose, cart, setCart, config, onCheckout }) {
                 <div key={item.id} style={{ display: "flex", gap: 14, padding: "16px 0", borderBottom: `1px solid ${C.beige}` }}>
                   <div style={{ width: 64, height: 64, borderRadius: 14, background: item.bg || C.roseLight, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 28, flexShrink: 0 }}>{item.emoji}</div>
                   <div style={{ flex: 1 }}>
-                    <div style={{ fontWeight: 600, fontSize: 14, color: C.brownDark, marginBottom: 3 }}>{item.name}</div>
-                    <div style={{ fontSize: 13, color: C.brownMid, marginBottom: 8 }}>S/. {item.price.toFixed(2)} c/u</div>
+                    <div style={{ fontWeight: 600, fontSize: 14, color: C.charcoal, marginBottom: 3 }}>{item.name}</div>
+                    <div style={{ fontSize: 13, color: C.muted, marginBottom: 8 }}>S/. {item.price.toFixed(2)} c/u</div>
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                       <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                         <button onClick={() => setCart(c => c.map(x => x.id === item.id ? { ...x, qty: Math.max(1, x.qty - 1) } : x))}
                           style={{ width: 28, height: 28, borderRadius: "50%", border: `1.5px solid ${C.beigeDark}`, background: "transparent", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: C.brownMid }}>
                           <Icon d={Icons.minus} size={12} />
                         </button>
-                        <span style={{ fontSize: 14, fontWeight: 700, color: C.brownDark, minWidth: 20, textAlign: "center" }}>{item.qty}</span>
+                        <span style={{ fontSize: 14, fontWeight: 700, color: C.charcoal, minWidth: 20, textAlign: "center" }}>{item.qty}</span>
                         <button onClick={() => setCart(c => c.map(x => x.id === item.id ? { ...x, qty: x.qty + 1 } : x))}
                           style={{ width: 28, height: 28, borderRadius: "50%", border: `1.5px solid ${C.beigeDark}`, background: "transparent", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: C.brownMid }}>
                           <Icon d={Icons.plus} size={12} />
@@ -369,12 +343,12 @@ function CartSidebar({ open, onClose, cart, setCart, config, onCheckout }) {
             </div>
             <div style={{ marginTop: 24, paddingTop: 20, borderTop: `1px solid ${C.beige}` }}>
               <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
-                <span style={{ color: C.brownMid, fontSize: 14 }}>Subtotal</span>
-                <span style={{ color: C.brownDark, fontWeight: 600 }}>S/. {subtotal.toFixed(2)}</span>
+                <span style={{ color: C.muted, fontSize: 14 }}>Subtotal</span>
+                <span style={{ color: C.charcoal, fontWeight: 600 }}>S/. {subtotal.toFixed(2)}</span>
               </div>
               <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16 }}>
-                <span style={{ color: C.brownMid, fontSize: 14 }}>Envío</span>
-                <span style={{ color: shipping === 0 ? C.success : C.brownDark, fontWeight: 600 }}>{shipping === 0 ? "¡GRATIS! 🎉" : `S/. ${shipping.toFixed(2)}`}</span>
+                <span style={{ color: C.muted, fontSize: 14 }}>Envío</span>
+                <span style={{ color: shipping === 0 ? C.success : C.charcoal, fontWeight: 600 }}>{shipping === 0 ? "¡GRATIS! 🎉" : `S/. ${shipping.toFixed(2)}`}</span>
               </div>
               {shipping > 0 && <div style={{ background: C.roseLight, padding: "10px 14px", borderRadius: 12, fontSize: 12, color: C.roseDeep, marginBottom: 16 }}>🚚 Agrega S/. {(config.freeShipping - subtotal).toFixed(2)} más para envío gratis</div>}
               <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 20, fontWeight: 700, fontSize: 18 }}>
@@ -384,7 +358,7 @@ function CartSidebar({ open, onClose, cart, setCart, config, onCheckout }) {
               <button onClick={onCheckout} style={{ width: "100%", padding: "15px", borderRadius: 100, background: `linear-gradient(135deg, ${C.roseDeep}, ${C.sand})`, color: "white", border: "none", fontWeight: 700, fontSize: 15, cursor: "pointer", boxShadow: "0 8px 24px rgba(212,137,138,0.35)", marginBottom: 10 }}>
                 Ir al pago ✨
               </button>
-              <button onClick={onClose} style={{ width: "100%", padding: "13px", borderRadius: 100, background: "transparent", color: C.brownMid, border: `1.5px solid ${C.beigeDark}`, fontWeight: 600, fontSize: 14, cursor: "pointer" }}>
+              <button onClick={onClose} style={{ width: "100%", padding: "13px", borderRadius: 100, background: "transparent", color: C.muted, border: `1.5px solid ${C.beigeDark}`, fontWeight: 600, fontSize: 14, cursor: "pointer" }}>
                 Seguir comprando
               </button>
             </div>
@@ -463,9 +437,9 @@ function CheckoutModal({ open, onClose, cart, config, products, coupons, onCompl
     <Modal open title="¡Pedido confirmado! 🎉" onClose={() => { onClose(); setStep(0); }}>
       <div style={{ textAlign: "center", padding: "20px 0" }}>
         <div style={{ fontSize: 72, marginBottom: 20 }}>🎀</div>
-        <h3 style={{ fontFamily: "serif", fontSize: 26, color: C.brownDark, marginBottom: 12 }}>¡Gracias por tu compra!</h3>
-        <p style={{ color: C.brownMid, lineHeight: 1.7, marginBottom: 8 }}>Hemos recibido tu pedido. En breve recibirás una confirmación a <strong>{form.email}</strong>.</p>
-        <p style={{ color: C.brownMid, fontSize: 14, marginBottom: 28 }}>Total pagado: <strong style={{ color: C.roseDeep }}>S/. {total.toFixed(2)}</strong></p>
+        <h3 style={{ fontFamily: "serif", fontSize: 26, color: C.charcoal, marginBottom: 12 }}>¡Gracias por tu compra!</h3>
+        <p style={{ color: C.muted, lineHeight: 1.7, marginBottom: 8 }}>Hemos recibido tu pedido. En breve recibirás una confirmación a <strong>{form.email}</strong>.</p>
+        <p style={{ color: C.muted, fontSize: 14, marginBottom: 28 }}>Total pagado: <strong style={{ color: C.roseDeep }}>S/. {total.toFixed(2)}</strong></p>
         <button onClick={() => { onClose(); setStep(0); }} style={{ padding: "14px 36px", borderRadius: 100, background: `linear-gradient(135deg, ${C.roseDeep}, ${C.sand})`, color: "white", border: "none", fontWeight: 700, cursor: "pointer", fontSize: 15 }}>Volver a la tienda</button>
       </div>
     </Modal>
@@ -538,7 +512,7 @@ function CheckoutModal({ open, onClose, cart, config, products, coupons, onCompl
       {step === 2 && (
         <div>
           <div style={{ marginBottom: 24 }}>
-            <div style={{ fontSize: 13, fontWeight: 700, color: C.brownMid, textTransform: "uppercase", letterSpacing: "1px", marginBottom: 12 }}>Método de pago</div>
+            <div style={{ fontSize: 13, fontWeight: 700, color: C.muted, textTransform: "uppercase", letterSpacing: "1px", marginBottom: 12 }}>Método de pago</div>
             {[
               { id: "yape", label: "💜 Yape / Plin", desc: "Pago inmediato al número: " + config.whatsapp, always: true },
               { id: "transfer", label: "🏦 Transferencia bancaria", desc: "BCP / Interbank / BBVA", always: true },
@@ -551,7 +525,7 @@ function CheckoutModal({ open, onClose, cart, config, products, coupons, onCompl
                   {payMethod === m.id && <Icon d={Icons.check} size={11} className="" style={{ color: "white" }} />}
                 </div>
                 <div>
-                  <div style={{ fontWeight: 700, fontSize: 14, color: C.brownDark, marginBottom: 2 }}>{m.label}</div>
+                  <div style={{ fontWeight: 700, fontSize: 14, color: C.charcoal, marginBottom: 2 }}>{m.label}</div>
                   <div style={{ fontSize: 12, color: C.brownMid }}>{m.desc}</div>
                 </div>
               </div>
@@ -595,87 +569,36 @@ function CheckoutModal({ open, onClose, cart, config, products, coupons, onCompl
 }
 
 // ─── HERO SECTION ──────────────────────────────────────────────────────────
-function HeroSection({ config, onShop }) {
-  const [time, setTime] = useState({ h: 8, m: 45, s: 32 });
-  useEffect(() => {
-    const t = setInterval(() => setTime(t => {
-      let { h, m, s } = t;
-      s--; if (s < 0) { s = 59; m--; } if (m < 0) { m = 59; h--; } if (h < 0) { h = 23; }
-      return { h, m, s };
-    }), 1000);
-    return () => clearInterval(t);
-  }, []);
-  const pad = n => String(n).padStart(2, "0");
-
-  return (
-    <div style={{ minHeight: "92vh", display: "grid", gridTemplateColumns: "1fr 1fr", background: C.cream, overflow: "hidden", position: "relative" }}>
-      {/* Content */}
-      <div style={{ padding: "80px 60px 80px 80px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
-          style={{ display: "inline-flex", alignItems: "center", gap: 8, background: C.roseLight, color: C.roseDeep, padding: "8px 18px", borderRadius: 100, fontSize: 11, fontWeight: 700, letterSpacing: "1.5px", textTransform: "uppercase", marginBottom: 28, width: "fit-content" }}>
-          ✨ Nueva Colección Primavera 2025
-        </motion.div>
-        <motion.h1 initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
-          style={{ fontFamily: "serif", fontSize: "clamp(38px,4vw,62px)", fontWeight: 400, lineHeight: 1.15, color: C.brownDark, marginBottom: 20, margin: "0 0 20px" }}>
-          {config.heroTitle.split("\n").map((line, i) => (
-            <span key={i}>{i === 1 ? <em style={{ color: C.roseDeep }}>{line}</em> : line}<br /></span>
-          ))}
-        </motion.h1>
-        <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
-          style={{ fontSize: 16, lineHeight: 1.7, color: "#9B8878", maxWidth: 420, margin: "0 0 36px" }}>
-          {config.heroSubtitle}
-        </motion.p>
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
-          <button onClick={onShop} style={{ background: `linear-gradient(135deg, ${C.roseDeep}, ${C.sand})`, color: "white", padding: "14px 32px", borderRadius: 100, fontSize: 14, fontWeight: 600, border: "none", cursor: "pointer", boxShadow: "0 8px 24px rgba(212,137,138,0.35)" }}>✨ Comprar ahora</button>
-          <button onClick={onShop} style={{ background: "transparent", color: C.brown, padding: "13px 30px", borderRadius: 100, fontSize: 14, fontWeight: 600, border: `1.5px solid ${C.beigeDark}`, cursor: "pointer" }}>Ver colección →</button>
-        </motion.div>
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }} style={{ display: "flex", gap: 32, marginTop: 48 }}>
-          {[["5K+", "Mamás felices"], ["200+", "Productos premium"], ["4.9★", "Calificación"]].map(([num, lbl]) => (
-            <div key={lbl}>
-              <div style={{ fontFamily: "serif", fontSize: 30, fontWeight: 700, color: C.brown, lineHeight: 1 }}>{num}</div>
-              <div style={{ fontSize: 12, color: "#9B8878", marginTop: 4 }}>{lbl}</div>
-            </div>
-          ))}
-        </motion.div>
-        {/* Countdown */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }}
-          style={{ display: "flex", alignItems: "center", gap: 16, marginTop: 40, padding: "16px 24px", background: C.roseLight, borderRadius: 20, width: "fit-content", flexWrap: "wrap" }}>
-          <span style={{ fontSize: 13, fontWeight: 600, color: C.roseDeep }}>⏰ Oferta termina en:</span>
-          <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-            {[pad(time.h), pad(time.m), pad(time.s)].map((v, i) => (
-              <span key={i} style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                <span style={{ background: C.roseDeep, color: "white", padding: "6px 12px", borderRadius: 10, fontFamily: "serif", fontSize: 22, fontWeight: 700 }}>{v}</span>
-                <span style={{ fontSize: 9, color: C.roseDeep, marginTop: 2 }}>{["H", "M", "S"][i]}</span>
-              </span>
-            )).flatMap((el, i, arr) => i < arr.length - 1 ? [el, <span key={`sep${i}`} style={{ color: C.roseDeep, fontWeight: 700, fontSize: 20, marginBottom: 14 }}>:</span>] : [el])}
-          </div>
-        </motion.div>
-      </div>
-      {/* Visual */}
-      <div style={{ position: "relative", overflow: "hidden", background: `linear-gradient(145deg, #F8E8DE 0%, #EDD5C8 30%, #E8C5C5 60%, #D4B8C8 80%, #C8D4E0 100%)` }}>
-        <div style={{ position: "absolute", width: 300, height: 300, background: C.rose, borderRadius: "50%", top: "10%", right: "10%", filter: "blur(60px)", opacity: 0.5, animation: "blobFloat 8s ease-in-out infinite" }} />
-        <div style={{ position: "absolute", width: 200, height: 200, background: C.sky, borderRadius: "50%", bottom: "20%", left: "10%", filter: "blur(60px)", opacity: 0.5, animation: "blobFloat 8s ease-in-out infinite 3s" }} />
-        <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <motion.span animate={{ y: [0, -16, 0] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }} style={{ fontSize: 120, userSelect: "none", filter: "drop-shadow(0 20px 40px rgba(0,0,0,0.1))" }}>👶🏻</motion.span>
-        </div>
-        {/* Floating cards */}
-        <motion.div animate={{ y: [0, -10, 0] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-          style={{ position: "absolute", bottom: "25%", right: "8%", background: "rgba(255,255,255,0.85)", backdropFilter: "blur(16px)", borderRadius: 20, padding: "14px 18px", boxShadow: "0 8px 32px rgba(0,0,0,0.1)", display: "flex", alignItems: "center", gap: 12 }}>
-          <span style={{ fontSize: 28 }}>🛍️</span>
-          <div><div style={{ fontSize: 12, fontWeight: 700, color: C.brownDark }}>Pedido enviado</div><div style={{ fontSize: 10, color: "#9B8878" }}>Valeria M. — hace 2 min</div></div>
-        </motion.div>
-        <motion.div animate={{ y: [0, -10, 0] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 2.5 }}
-          style={{ position: "absolute", top: "20%", left: "8%", background: "rgba(255,255,255,0.85)", backdropFilter: "blur(16px)", borderRadius: 20, padding: "14px 18px", boxShadow: "0 8px 32px rgba(0,0,0,0.1)", display: "flex", alignItems: "center", gap: 12 }}>
-          <span style={{ fontSize: 28 }}>⭐</span>
-          <div><div style={{ fontSize: 12, fontWeight: 700, color: C.brownDark }}>¡Calidad increíble!</div><div style={{ fontSize: 10, color: "#9B8878" }}>Sofía R. — Mamá primeriza</div></div>
-        </motion.div>
-      </div>
-      <style>{`@keyframes blobFloat { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(15px,-15px) scale(1.05)} }`}</style>
+function HeroSection({config,onShop}){
+  const pc=config.primaryColor||C.sage;
+  return(<div style={{maxWidth:1280,margin:"0 auto",padding:"0 48px",display:"grid",gridTemplateColumns:"1fr 1fr",minHeight:"88vh",alignItems:"center",gap:64}}>
+    <div>
+      <motion.p initial={{opacity:0,y:10}} animate={{opacity:1,y:0}} transition={{delay:0.1}} style={{fontSize:10,color:pc,textTransform:"uppercase",letterSpacing:"2.5px",margin:"0 0 18px",fontWeight:600,fontFamily:FONT.sans}}>{config.heroBadgeText||"Nueva Colección"}</motion.p>
+      <motion.h1 initial={{opacity:0,y:14}} animate={{opacity:1,y:0}} transition={{delay:0.2}} style={{fontFamily:FONT.serif,fontSize:"clamp(36px,3.8vw,56px)",fontWeight:300,lineHeight:1.15,color:C.charcoal,margin:"0 0 20px",letterSpacing:"0.3px"}}>
+        {(config.heroTitle||"").split("\n").map((l,i)=><span key={i}>{l}<br/></span>)}
+      </motion.h1>
+      <motion.p initial={{opacity:0,y:10}} animate={{opacity:1,y:0}} transition={{delay:0.3}} style={{fontSize:15,lineHeight:1.8,color:C.muted,maxWidth:420,margin:"0 0 36px",fontFamily:FONT.sans}}>{config.heroSubtitle}</motion.p>
+      <motion.div initial={{opacity:0,y:10}} animate={{opacity:1,y:0}} transition={{delay:0.4}} style={{display:"flex",gap:14,alignItems:"center"}}>
+        <button onClick={onShop} style={{padding:"13px 28px",borderRadius:2,background:pc,color:"white",border:"none",fontWeight:600,fontSize:13,cursor:"pointer",letterSpacing:"0.4px",fontFamily:FONT.sans}}>{config.heroBtn1||"Ver colección"}</button>
+        <button onClick={onShop} style={{padding:"13px 20px",borderRadius:2,background:"transparent",color:C.charcoal,border:`1px solid ${C.linen3}`,fontWeight:400,fontSize:13,cursor:"pointer",letterSpacing:"0.3px",fontFamily:FONT.sans}}>{config.heroBtn2||"Nuestra historia"}</button>
+      </motion.div>
+      <motion.div initial={{opacity:0}} animate={{opacity:1}} transition={{delay:0.7}} style={{display:"flex",gap:36,marginTop:52,paddingTop:32,borderTop:`1px solid ${C.linen2}`}}>
+        {[["5K+","Familias"],["200+","Productos"],["4.9","Valoración"]].map(([n,l])=><div key={l}><p style={{fontFamily:FONT.serif,fontSize:26,fontWeight:300,color:C.charcoal,margin:"0 0 3px"}}>{n}</p><p style={{fontSize:11,color:C.faint,margin:0,fontFamily:FONT.sans,letterSpacing:"0.3px"}}>{l}</p></div>)}
+      </motion.div>
     </div>
-  );
+    <motion.div initial={{opacity:0,scale:0.98}} animate={{opacity:1,scale:1}} transition={{delay:0.15,duration:0.7}} style={{height:"75vh",borderRadius:3,overflow:"hidden",position:"relative"}}>
+      {config.heroImage?<img src={config.heroImage} alt="Hero" style={{width:"100%",height:"100%",objectFit:"cover"}}/>
+      :<div style={{width:"100%",height:"100%",background:`linear-gradient(160deg,${C.rosePale||C.roseLight},${C.linen},${C.sagePale||C.skyLight})`,display:"flex",alignItems:"center",justifyContent:"center"}}>
+        <div style={{textAlign:"center"}}><div style={{fontSize:90,marginBottom:12}}>👶🏻</div><p style={{fontFamily:FONT.serif,fontSize:18,color:C.muted,fontWeight:300,letterSpacing:"0.5px"}}>{config.storeName}</p></div>
+      </div>}
+      <motion.div animate={{y:[0,-8,0]}} transition={{duration:5,repeat:Infinity,ease:"easeInOut"}} style={{position:"absolute",bottom:24,left:24,background:"rgba(255,255,255,0.93)",backdropFilter:"blur(10px)",borderRadius:3,padding:"11px 15px",boxShadow:"0 4px 20px rgba(0,0,0,0.08)",display:"flex",alignItems:"center",gap:10}}>
+        <div style={{width:34,height:34,borderRadius:"50%",background:C.sagePale||C.skyLight,display:"flex",alignItems:"center",justifyContent:"center",fontSize:14}}>⭐</div>
+        <div><p style={{fontSize:11,fontWeight:600,color:C.charcoal,margin:"0 0 1px",fontFamily:FONT.sans}}>+500 reseñas verificadas</p><p style={{fontSize:10,color:C.faint,margin:0,fontFamily:FONT.sans}}>Calificación 4.9 / 5</p></div>
+      </motion.div>
+    </motion.div>
+  </div>);
 }
 
-// ─── STOREFRONT ─────────────────────────────────────────────────────────────
 function Storefront({ products, categories, config, coupons, cart, setCart, wishlist, setWishlist, orders, setOrders }) {
   const toast = useToast();
   const [cartOpen, setCartOpen] = useState(false);
@@ -684,7 +607,6 @@ function Storefront({ products, categories, config, coupons, cart, setCart, wish
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("featured");
   const productsRef = useRef(null);
-  const [selectedProduct, setSelectedProduct] = useState(null);
 
   const cartCount = cart.reduce((s, i) => s + i.qty, 0);
 
@@ -747,8 +669,8 @@ function Storefront({ products, categories, config, coupons, cart, setCart, wish
       <div style={{ position: "sticky", top: 0, zIndex: 100, background: "rgba(250,246,240,0.92)", backdropFilter: "blur(20px)", borderBottom: `1px solid ${C.beige}`, padding: "0 40px", height: 64, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <span style={{ fontFamily: "serif", fontSize: 22, fontWeight: 600, color: C.brown }}>Venetus <span style={{ color: C.roseDeep }}>Kids</span> ✨</span>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <button onClick={() => productsRef.current?.scrollIntoView({ behavior: "smooth" })} style={{ background: "none", border: "none", cursor: "pointer", color: "#9B8878", fontSize: 13, fontWeight: 500, padding: "8px 12px" }}>Productos</button>
-          <button onClick={() => setCartOpen(true)} style={{ position: "relative", background: "none", border: "none", cursor: "pointer", color: C.brownMid, padding: 8, display: "flex", alignItems: "center" }}>
+          <button onClick={() => productsRef.current?.scrollIntoView({ behavior: "smooth" })} style={{ background: "none", border: "none", cursor: "pointer", color: C.faint, fontSize: 13, fontWeight: 500, padding: "8px 12px" }}>Productos</button>
+          <button onClick={() => setCartOpen(true)} style={{ position: "relative", background: "none", border: "none", cursor: "pointer", color: C.muted, padding: 8, display: "flex", alignItems: "center" }}>
             <Icon d={Icons.cart} size={20} />
             {cartCount > 0 && <span style={{ position: "absolute", top: 2, right: 2, background: C.roseDeep, color: "white", fontSize: 9, fontWeight: 700, width: 16, height: 16, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>{cartCount}</span>}
           </button>
@@ -762,7 +684,7 @@ function Storefront({ products, categories, config, coupons, cart, setCart, wish
       <section style={{ padding: "80px", background: C.beige }}>
         <div style={{ textAlign: "center", marginBottom: 48 }}>
           <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "3px", textTransform: "uppercase", color: C.roseDeep, marginBottom: 12 }}>Explorar</div>
-          <h2 style={{ fontFamily: "serif", fontSize: 40, color: C.brownDark, fontWeight: 400, marginBottom: 8 }}>Todo lo que tu bebé <em style={{ color: C.roseDeep }}>necesita</em> 🌸</h2>
+          <h2 style={{ fontFamily: "serif", fontSize: 40, color: C.charcoal, fontWeight: 400, marginBottom: 8 }}>Todo lo que tu bebé <em style={{ color: C.roseDeep }}>necesita</em> 🌸</h2>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
           {categories.map((cat, i) => (
@@ -781,17 +703,19 @@ function Storefront({ products, categories, config, coupons, cart, setCart, wish
         </div>
       </section>
 
-      {/* Products */}
+      </div></section>
+
+    {/* Products */}
       <section ref={productsRef} style={{ padding: "80px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 40, flexWrap: "wrap", gap: 20 }}>
           <div>
             <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "3px", textTransform: "uppercase", color: C.roseDeep, marginBottom: 10 }}>Lo más amado</div>
-            <h2 style={{ fontFamily: "serif", fontSize: 40, color: C.brownDark, fontWeight: 400, margin: 0 }}>Productos <em style={{ color: C.roseDeep }}>destacados</em> ⭐</h2>
+            <h2 style={{ fontFamily: "serif", fontSize: 40, color: C.charcoal, fontWeight: 400, margin: 0 }}>Productos <em style={{ color: C.roseDeep }}>destacados</em> ⭐</h2>
           </div>
           <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
             <div style={{ position: "relative" }}>
               <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Buscar..." style={{ ...inputStyle, paddingLeft: 36, width: 200 }} />
-              <Icon d={Icons.search} size={15} style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", color: "#9B8878" }} />
+              <Icon d={Icons.search} size={15} style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", color: C.faint }} />
             </div>
             <select value={sort} onChange={e => setSort(e.target.value)} style={{ ...selectStyle, width: 160 }}>
               <option value="featured">Destacados</option>
@@ -804,7 +728,7 @@ function Storefront({ products, categories, config, coupons, cart, setCart, wish
         {/* Category filter */}
         <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 36 }}>
           {[{ id: "all", name: "Todos" }, ...categories].map(cat => (
-            <button key={cat.id} onClick={() => setFilterCat(cat.id)} style={{ padding: "9px 20px", borderRadius: 100, border: `1.5px solid ${filterCat === cat.id ? C.brown : C.beigeDark}`, background: filterCat === cat.id ? C.brown : "transparent", color: filterCat === cat.id ? "white" : C.brownMid, fontSize: 13, fontWeight: 500, cursor: "pointer", transition: "all 0.2s" }}>
+            <button key={cat.id} onClick={() => setFilterCat(cat.id)} style={{ padding: "9px 20px", borderRadius: 100, border: `1.5px solid ${filterCat === cat.id ? C.brown : C.beigeDark}`, background: filterCat === cat.id ? C.brown : "transparent", color: filterCat === cat.id ? "white" : C.muted, fontSize: 13, fontWeight: 500, cursor: "pointer", transition: "all 0.2s" }}>
               {cat.emoji ? cat.emoji + " " : ""}{cat.name}
             </button>
           ))}
@@ -819,7 +743,7 @@ function Storefront({ products, categories, config, coupons, cart, setCart, wish
           </AnimatePresence>
         </div>
         {filtered.length === 0 && (
-          <div style={{ textAlign: "center", padding: "60px 0", color: "#9B8878" }}>
+          <div style={{ textAlign: "center", padding: "60px 0", color: C.faint }}>
             <div style={{ fontSize: 48, marginBottom: 16 }}>🔍</div>
             <p style={{ fontFamily: "serif", fontSize: 20 }}>No encontramos productos con esa búsqueda</p>
           </div>
@@ -830,8 +754,8 @@ function Storefront({ products, categories, config, coupons, cart, setCart, wish
       <section style={{ padding: "80px", background: `linear-gradient(135deg, ${C.roseLight} 0%, ${C.skyLight} 100%)`, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
         <div>
           <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "3px", textTransform: "uppercase", color: C.roseDeep, marginBottom: 16 }}>Nuestra historia</div>
-          <p style={{ fontFamily: "serif", fontSize: 36, fontWeight: 300, fontStyle: "italic", color: C.brownDark, lineHeight: 1.5, marginBottom: 24 }}>"Porque cada detalle importa cuando se trata de tu bebé..."</p>
-          <p style={{ fontSize: 15, color: "#9B8878", lineHeight: 1.8, marginBottom: 32 }}>Somos mamás que entendemos la alegría inmensa y el amor sin límites que sientes al sostener a tu bebé. Por eso creamos {config.storeName}: para que cada prenda sea un abrazo suave, cada accesorio sea seguro, y cada momento con tu pequeño sea aún más especial.</p>
+          <p style={{ fontFamily: "serif", fontSize: 36, fontWeight: 300, fontStyle: "italic", color: C.charcoal, lineHeight: 1.5, marginBottom: 24 }}>"Porque cada detalle importa cuando se trata de tu bebé..."</p>
+          <p style={{ fontSize: 15, color: C.faint, lineHeight: 1.8, marginBottom: 32 }}>Somos mamás que entendemos la alegría inmensa y el amor sin límites que sientes al sostener a tu bebé. Por eso creamos {config.storeName}: para que cada prenda sea un abrazo suave, cada accesorio sea seguro, y cada momento con tu pequeño sea aún más especial.</p>
           <p style={{ fontFamily: "serif", fontSize: 20, fontStyle: "italic", color: C.roseDeep }}>— Con amor, el equipo {config.storeName} 💛</p>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
@@ -845,7 +769,7 @@ function Storefront({ products, categories, config, coupons, cart, setCart, wish
       <section style={{ padding: "80px" }}>
         <div style={{ textAlign: "center", marginBottom: 48 }}>
           <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "3px", textTransform: "uppercase", color: C.roseDeep, marginBottom: 12 }}>Lo que dicen las mamás</div>
-          <h2 style={{ fontFamily: "serif", fontSize: 40, color: C.brownDark, fontWeight: 400 }}>Historias que <em style={{ color: C.roseDeep }}>nos llenan el corazón</em> 💌</h2>
+          <h2 style={{ fontFamily: "serif", fontSize: 40, color: C.charcoal, fontWeight: 400 }}>Historias que <em style={{ color: C.roseDeep }}>nos llenan el corazón</em> 💌</h2>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24 }}>
           {[
@@ -857,10 +781,10 @@ function Storefront({ products, categories, config, coupons, cart, setCart, wish
               style={{ background: C.white, borderRadius: 24, padding: 32, boxShadow: "0 4px 24px rgba(139,110,82,0.08)", position: "relative" }}>
               <span style={{ fontFamily: "serif", fontSize: 64, color: C.roseLight, position: "absolute", top: 20, right: 24, lineHeight: 1 }}>"</span>
               <div style={{ color: "#F5A623", fontSize: 14, marginBottom: 16 }}>★★★★★</div>
-              <p style={{ fontSize: 14, lineHeight: 1.75, color: C.brownMid, fontStyle: "italic", marginBottom: 24 }}>{t.text}</p>
+              <p style={{ fontSize: 14, lineHeight: 1.75, color: C.muted, fontStyle: "italic", marginBottom: 24 }}>{t.text}</p>
               <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                 <div style={{ width: 46, height: 46, borderRadius: "50%", background: t.bg, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>{t.avatar}</div>
-                <div><div style={{ fontWeight: 700, fontSize: 14, color: C.brownDark }}>{t.name}</div><div style={{ fontSize: 12, color: "#9B8878" }}>{t.role}</div></div>
+                <div><div style={{ fontWeight: 700, fontSize: 14, color: C.brownDark }}>{t.name}</div><div style={{ fontSize: 12, color: C.faint }}>{t.role}</div></div>
               </div>
             </motion.div>
           ))}
@@ -893,7 +817,7 @@ function Storefront({ products, categories, config, coupons, cart, setCart, wish
       </section>
 
       {/* Footer */}
-      <footer style={{ background: C.brownDark, padding: "60px 80px 40px", color: C.cream }}>
+      <footer style={{ background: C.charcoal, padding: "60px 80px 40px", color: C.cream }}>
         <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1.5fr", gap: 40, marginBottom: 40 }}>
           <div>
             <div style={{ fontFamily: "serif", fontSize: 24, fontWeight: 600, marginBottom: 14 }}>Venetus <span style={{ color: C.rose }}>Kids</span> ✨</div>
@@ -967,8 +891,8 @@ function AdminDashboard({ products, orders, categories, config }) {
   return (
     <div>
       <div style={{ marginBottom: 28 }}>
-        <h2 style={{ fontFamily: "serif", fontSize: 28, color: C.brownDark, margin: "0 0 4px" }}>Bienvenida de nuevo 👋</h2>
-        <p style={{ color: C.brownMid, fontSize: 14, margin: 0 }}>Aquí está el resumen de tu tienda hoy.</p>
+        <h2 style={{ fontFamily: "serif", fontSize: 28, color: C.charcoal, margin: "0 0 4px" }}>Bienvenida de nuevo 👋</h2>
+        <p style={{ color: C.muted, fontSize: 14, margin: 0 }}>Aquí está el resumen de tu tienda hoy.</p>
       </div>
 
       {/* Stats grid */}
@@ -982,9 +906,9 @@ function AdminDashboard({ products, orders, categories, config }) {
       <div style={{ display: "grid", gridTemplateColumns: "1.5fr 1fr", gap: 24 }}>
         {/* Recent orders */}
         <div style={{ background: C.white, borderRadius: 20, padding: 24, boxShadow: "0 4px 24px rgba(139,110,82,0.08)" }}>
-          <h3 style={{ fontFamily: "serif", fontSize: 20, color: C.brownDark, margin: "0 0 20px" }}>Pedidos recientes</h3>
+          <h3 style={{ fontFamily: "serif", fontSize: 20, color: C.charcoal, margin: "0 0 20px" }}>Pedidos recientes</h3>
           <table style={{ width: "100%", borderCollapse: "collapse" }}>
-            <thead><tr>{["Pedido", "Cliente", "Total", "Estado"].map(h => <th key={h} style={{ fontSize: 11, fontWeight: 700, color: "#9B8878", textTransform: "uppercase", letterSpacing: "1px", padding: "8px 12px", textAlign: "left", borderBottom: `1px solid ${C.beige}` }}>{h}</th>)}</tr></thead>
+            <thead><tr>{["Pedido", "Cliente", "Total", "Estado"].map(h => <th key={h} style={{ fontSize: 11, fontWeight: 700, color: C.faint, textTransform: "uppercase", letterSpacing: "1px", padding: "8px 12px", textAlign: "left", borderBottom: `1px solid ${C.beige}` }}>{h}</th>)}</tr></thead>
             <tbody>
               {orders.slice(0, 6).map(o => (
                 <tr key={o.id} style={{ borderBottom: `1px solid ${C.beige}` }}>
@@ -1001,14 +925,14 @@ function AdminDashboard({ products, orders, categories, config }) {
         <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
           {/* Top products */}
           <div style={{ background: C.white, borderRadius: 20, padding: 24, boxShadow: "0 4px 24px rgba(139,110,82,0.08)" }}>
-            <h3 style={{ fontFamily: "serif", fontSize: 18, color: C.brownDark, margin: "0 0 16px" }}>Top productos ⭐</h3>
+            <h3 style={{ fontFamily: "serif", fontSize: 18, color: C.charcoal, margin: "0 0 16px" }}>Top productos ⭐</h3>
             {products.slice(0, 4).map((p, i) => (
               <div key={p.id} style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 0", borderBottom: i < 3 ? `1px solid ${C.beige}` : "none" }}>
-                <span style={{ fontSize: 11, fontWeight: 700, color: "#9B8878", width: 20 }}>#{i+1}</span>
+                <span style={{ fontSize: 11, fontWeight: 700, color: C.faint, width: 20 }}>#{i+1}</span>
                 <div style={{ width: 36, height: 36, borderRadius: 10, background: p.bg, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, flexShrink: 0 }}>{p.emoji}</div>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontSize: 13, fontWeight: 600, color: C.brownDark, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{p.name}</div>
-                  <div style={{ fontSize: 11, color: "#9B8878" }}>Stock: {p.stock}</div>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: C.charcoal, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{p.name}</div>
+                  <div style={{ fontSize: 11, color: C.faint }}>Stock: {p.stock}</div>
                 </div>
                 <div style={{ fontSize: 13, fontWeight: 700, color: C.brown }}>S/. {p.price.toFixed(2)}</div>
               </div>
@@ -1068,8 +992,8 @@ function AdminProducts({ products, setProducts, categories }) {
         <Field label="Stock" required><input type="number" value={form.stock || ""} onChange={e => setForm(f => ({ ...f, stock: e.target.value }))} style={inputStyle} placeholder="0" /></Field>
         <Field label="Categoría"><select value={form.categoryId || ""} onChange={e => setForm(f => ({ ...f, categoryId: e.target.value }))} style={selectStyle}>{categories.map(c => <option key={c.id} value={c.id}>{c.emoji} {c.name}</option>)}</select></Field>
         <Field label="Badge / Etiqueta"><select value={form.badge || ""} onChange={e => setForm(f => ({ ...f, badge: e.target.value }))} style={selectStyle}><option value="">Sin etiqueta</option><option value="nuevo">Nuevo</option><option value="oferta">Oferta</option><option value="mas_vendido">Más vendido</option><option value="favorito">Favorito</option></select></Field>
-        <Field label="Imágenes del producto">   <input     type="file"     multiple     accept="image/*"     onChange={(e) => {       const files = Array.from(e.target.files);        const readers = files.map(         (file) =>           new Promise((res) => {             const reader = new FileReader();             reader.onload = (ev) => res(ev.target.result);             reader.readAsDataURL(file);           })       );        Promise.all(readers).then((imgs) => {         setForm((f) => ({           ...f,           images: [...(f.images || []), ...imgs],           thumbnail: imgs[0]         }));       });     }}   /> </Field><input value={form.emoji || ""} onChange={e => setForm(f => ({ ...f, emoji: e.target.value }))} style={inputStyle} placeholder="👶" /></Field>
-        <Field label="Color de fondo"><Field label="Color (HEX)">   <input     value={form.bg || ""}     onChange={e => setForm(f => ({ ...f, bg: e.target.value }))}     placeholder="#FAE8E8"     style={inputStyle}   /> </Field> value={form.bg || "#FAE8E8"} onChange={e => setForm(f => ({ ...f, bg: e.target.value }))} style={{ ...inputStyle, padding: 6, height: 44, cursor: "pointer" }} /></Field>
+        <Field label="Emoji del producto"><input value={form.emoji || ""} onChange={e => setForm(f => ({ ...f, emoji: e.target.value }))} style={inputStyle} placeholder="👶" /></Field>
+        <Field label="Color de fondo"><input type="color" value={form.bg || "#FAE8E8"} onChange={e => setForm(f => ({ ...f, bg: e.target.value }))} style={{ ...inputStyle, padding: 6, height: 44, cursor: "pointer" }} /></Field>
         <div style={{ display: "flex", gap: 20, alignItems: "center", gridColumn: "1/-1" }}>
           <label style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer", fontSize: 14, color: C.brownMid }}>
             <input type="checkbox" checked={!!form.featured} onChange={e => setForm(f => ({ ...f, featured: e.target.checked }))} style={{ width: 18, height: 18, accentColor: C.roseDeep }} /> Producto destacado
@@ -1092,8 +1016,8 @@ function AdminProducts({ products, setProducts, categories }) {
     <div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 28 }}>
         <div>
-          <h2 style={{ fontFamily: "serif", fontSize: 28, color: C.brownDark, margin: "0 0 4px" }}>Productos</h2>
-          <p style={{ color: C.brownMid, fontSize: 14, margin: 0 }}>{products.filter(p => p.active).length} activos · {products.length} total</p>
+          <h2 style={{ fontFamily: "serif", fontSize: 28, color: C.charcoal, margin: "0 0 4px" }}>Productos</h2>
+          <p style={{ color: C.muted, fontSize: 14, margin: 0 }}>{products.filter(p => p.active).length} activos · {products.length} total</p>
         </div>
         <button onClick={openNew} style={{ display: "flex", alignItems: "center", gap: 8, padding: "12px 24px", borderRadius: 100, background: `linear-gradient(135deg, ${C.roseDeep}, ${C.sand})`, color: "white", border: "none", fontWeight: 600, cursor: "pointer", fontSize: 14 }}>
           <Icon d={Icons.plus} size={16} /> Nuevo producto
@@ -1101,11 +1025,11 @@ function AdminProducts({ products, setProducts, categories }) {
       </div>
       <div style={{ position: "relative", marginBottom: 20 }}>
         <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Buscar productos..." style={{ ...inputStyle, paddingLeft: 40 }} />
-        <Icon d={Icons.search} size={15} style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", color: "#9B8878" }} />
+        <Icon d={Icons.search} size={15} style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", color: C.faint }} />
       </div>
       <div style={{ background: C.white, borderRadius: 20, boxShadow: "0 4px 24px rgba(139,110,82,0.08)", overflow: "hidden" }}>
         <table style={{ width: "100%", borderCollapse: "collapse" }}>
-          <thead><tr style={{ background: "#F7F3EE" }}>{["Producto", "Categoría", "Precio", "Stock", "Estado", "Etiqueta", "Acciones"].map(h => <th key={h} style={{ fontSize: 11, fontWeight: 700, color: "#9B8878", textTransform: "uppercase", letterSpacing: "1px", padding: "14px 16px", textAlign: "left" }}>{h}</th>)}</tr></thead>
+          <thead><tr style={{ background: "#F7F3EE" }}>{["Producto", "Categoría", "Precio", "Stock", "Estado", "Etiqueta", "Acciones"].map(h => <th key={h} style={{ fontSize: 11, fontWeight: 700, color: C.faint, textTransform: "uppercase", letterSpacing: "1px", padding: "14px 16px", textAlign: "left" }}>{h}</th>)}</tr></thead>
           <tbody>
             {filtered.map(p => {
               const cat = categories.find(c => c.id === p.categoryId);
@@ -1118,7 +1042,7 @@ function AdminProducts({ products, setProducts, categories }) {
                   <td style={{ padding: "14px 16px", fontSize: 13, color: C.brownMid }}>{cat?.emoji} {cat?.name}</td>
                   <td style={{ padding: "14px 16px" }}>
                     <div style={{ fontWeight: 700, fontSize: 14, color: C.brown }}>S/. {p.price.toFixed(2)}</div>
-                    {p.oldPrice && <div style={{ fontSize: 11, color: "#9B8878", textDecoration: "line-through" }}>S/. {p.oldPrice.toFixed(2)}</div>}
+                    {p.oldPrice && <div style={{ fontSize: 11, color: C.faint, textDecoration: "line-through" }}>S/. {p.oldPrice.toFixed(2)}</div>}
                   </td>
                   <td style={{ padding: "14px 16px" }}>
                     <span style={{ fontSize: 14, fontWeight: 700, color: p.stock <= 5 ? C.warning : C.brownDark }}>{p.stock}</span>
@@ -1182,8 +1106,8 @@ function AdminOrders({ orders, setOrders }) {
     <div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 28 }}>
         <div>
-          <h2 style={{ fontFamily: "serif", fontSize: 28, color: C.brownDark, margin: "0 0 4px" }}>Pedidos</h2>
-          <p style={{ color: C.brownMid, fontSize: 14, margin: 0 }}>{orders.length} pedidos · {orders.filter(o => o.status === "PENDING").length} pendientes</p>
+          <h2 style={{ fontFamily: "serif", fontSize: 28, color: C.charcoal, margin: "0 0 4px" }}>Pedidos</h2>
+          <p style={{ color: C.muted, fontSize: 14, margin: 0 }}>{orders.length} pedidos · {orders.filter(o => o.status === "PENDING").length} pendientes</p>
         </div>
         <button onClick={exportCSV} style={{ display: "flex", alignItems: "center", gap: 8, padding: "11px 20px", borderRadius: 100, background: C.beige, border: "none", fontWeight: 600, cursor: "pointer", fontSize: 13, color: C.brownMid }}>
           <Icon d={Icons.download} size={15} /> Exportar CSV
@@ -1191,16 +1115,16 @@ function AdminOrders({ orders, setOrders }) {
       </div>
       <div style={{ display: "flex", gap: 12, marginBottom: 20, flexWrap: "wrap" }}>
         {[["all","Todos"], ["PENDING","Pendientes"], ["CONFIRMED","Confirmados"], ["PREPARING","Preparando"], ["SHIPPED","Enviados"], ["DELIVERED","Entregados"]].map(([v, l]) => (
-          <button key={v} onClick={() => setFilter(v)} style={{ padding: "8px 18px", borderRadius: 100, border: `1.5px solid ${filter === v ? C.brown : C.beigeDark}`, background: filter === v ? C.brown : "transparent", color: filter === v ? "white" : C.brownMid, fontSize: 13, fontWeight: 500, cursor: "pointer" }}>{l}</button>
+          <button key={v} onClick={() => setFilter(v)} style={{ padding: "8px 18px", borderRadius: 100, border: `1.5px solid ${filter === v ? C.brown : C.beigeDark}`, background: filter === v ? C.brown : "transparent", color: filter === v ? "white" : C.muted, fontSize: 13, fontWeight: 500, cursor: "pointer" }}>{l}</button>
         ))}
         <div style={{ marginLeft: "auto", position: "relative" }}>
           <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Buscar pedido..." style={{ ...inputStyle, paddingLeft: 36, width: 220 }} />
-          <Icon d={Icons.search} size={14} style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", color: "#9B8878" }} />
+          <Icon d={Icons.search} size={14} style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", color: C.faint }} />
         </div>
       </div>
       <div style={{ background: C.white, borderRadius: 20, boxShadow: "0 4px 24px rgba(139,110,82,0.08)", overflow: "hidden" }}>
         <table style={{ width: "100%", borderCollapse: "collapse" }}>
-          <thead><tr style={{ background: "#F7F3EE" }}>{["Pedido", "Fecha", "Cliente", "Items", "Total", "Estado", "Pago", "Acciones"].map(h => <th key={h} style={{ fontSize: 11, fontWeight: 700, color: "#9B8878", textTransform: "uppercase", letterSpacing: "1px", padding: "14px 16px", textAlign: "left" }}>{h}</th>)}</tr></thead>
+          <thead><tr style={{ background: "#F7F3EE" }}>{["Pedido", "Fecha", "Cliente", "Items", "Total", "Estado", "Pago", "Acciones"].map(h => <th key={h} style={{ fontSize: 11, fontWeight: 700, color: C.faint, textTransform: "uppercase", letterSpacing: "1px", padding: "14px 16px", textAlign: "left" }}>{h}</th>)}</tr></thead>
           <tbody>
             {filtered.map(o => (
               <tr key={o.id} style={{ borderTop: `1px solid ${C.beige}` }}>
@@ -1208,14 +1132,14 @@ function AdminOrders({ orders, setOrders }) {
                 <td style={{ padding: "14px 16px", fontSize: 13, color: C.brownMid }}>{new Date(o.createdAt).toLocaleDateString("es-PE")}</td>
                 <td style={{ padding: "14px 16px" }}>
                   <div style={{ fontSize: 13, fontWeight: 600, color: C.brownDark }}>{o.customerName}</div>
-                  <div style={{ fontSize: 11, color: "#9B8878" }}>{o.customerEmail}</div>
+                  <div style={{ fontSize: 11, color: C.faint }}>{o.customerEmail}</div>
                 </td>
                 <td style={{ padding: "14px 16px", fontSize: 13, color: C.brownMid }}>{o.items.map(i => i.emoji).join(" ")} ({o.items.length})</td>
                 <td style={{ padding: "14px 16px", fontWeight: 700, color: C.brown }}>S/. {o.total.toFixed(2)}</td>
                 <td style={{ padding: "14px 16px" }}><StatusBadge status={o.status} /></td>
                 <td style={{ padding: "14px 16px" }}><StatusBadge status={o.paymentStatus} /></td>
                 <td style={{ padding: "14px 16px" }}>
-                  <button onClick={() => setDetail(o)} style={{ padding: "7px 14px", borderRadius: 100, border: `1.5px solid ${C.beigeDark}`, background: "transparent", cursor: "pointer", fontSize: 12, color: C.brownMid, fontWeight: 600 }}>
+                  <button onClick={() => setDetail(o)} style={{ padding: "7px 14px", borderRadius: 100, border: `1.5px solid ${C.beigeDark}`, background: "transparent", cursor: "pointer", fontSize: 12, color: C.muted, fontWeight: 600 }}>
                     <Icon d={Icons.eye} size={13} style={{ display: "inline", marginRight: 4 }} />Ver
                   </button>
                 </td>
@@ -1223,81 +1147,49 @@ function AdminOrders({ orders, setOrders }) {
             ))}
           </tbody>
         </table>
-        {filtered.length === 0 && <div style={{ padding: "40px", textAlign: "center", color: "#9B8878" }}>No hay pedidos con ese filtro</div>}
+        {filtered.length === 0 && <div style={{ padding: "40px", textAlign: "center", color: C.faint }}>No hay pedidos con ese filtro</div>}
       </div>
 
       {/* Detail modal */}
-      <Modal
-  open={!!selectedProduct}
-  onClose={() => setSelectedProduct(null)}
-  title={selectedProduct?.name}
-  width={800}
->
-  {selectedProduct && (
-    <div>
-      {/* GALERÍA */}
-      <div style={{ display: "flex", gap: 10 }}>
-        {selectedProduct.images?.map((img, i) => (
-          <img
-            key={i}
-            src={img}
-            style={{ width: 120, borderRadius: 10 }}
-          />
-        ))}
-      </div>
-
-      {/* DESCRIPCIÓN */}
-      <p>{selectedProduct.desc}</p>
-
-      {/* PRECIO */}
-      <h2>S/. {selectedProduct.price}</h2>
-
-      {/* BOTÓN */}
-      <button onClick={() => addToCart(selectedProduct)}>
-        Añadir al carrito
-      </button>
-    </div>
-  )}
-</Modal>
       <Modal open={!!detail} onClose={() => setDetail(null)} title={`Pedido ${detail?.orderNumber}`} width={680}>
         {detail && (
           <div>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginBottom: 24 }}>
               <div style={{ background: C.beige, borderRadius: 16, padding: 18 }}>
-                <div style={{ fontSize: 11, fontWeight: 700, color: "#9B8878", textTransform: "uppercase", letterSpacing: "1px", marginBottom: 12 }}>Cliente</div>
-                <div style={{ fontWeight: 700, color: C.brownDark, marginBottom: 4 }}>{detail.customerName}</div>
-                <div style={{ fontSize: 13, color: C.brownMid, marginBottom: 2 }}>📧 {detail.customerEmail}</div>
-                <div style={{ fontSize: 13, color: C.brownMid, marginBottom: 2 }}>📱 {detail.customerPhone}</div>
+                <div style={{ fontSize: 11, fontWeight: 700, color: C.faint, textTransform: "uppercase", letterSpacing: "1px", marginBottom: 12 }}>Cliente</div>
+                <div style={{ fontWeight: 700, color: C.charcoal, marginBottom: 4 }}>{detail.customerName}</div>
+                <div style={{ fontSize: 13, color: C.muted, marginBottom: 2 }}>📧 {detail.customerEmail}</div>
+                <div style={{ fontSize: 13, color: C.muted, marginBottom: 2 }}>📱 {detail.customerPhone}</div>
                 <div style={{ fontSize: 13, color: C.brownMid }}>📍 {detail.address}</div>
               </div>
               <div style={{ background: C.beige, borderRadius: 16, padding: 18 }}>
-                <div style={{ fontSize: 11, fontWeight: 700, color: "#9B8878", textTransform: "uppercase", letterSpacing: "1px", marginBottom: 12 }}>Resumen</div>
-                <div style={{ fontSize: 13, color: C.brownMid, marginBottom: 4 }}>Subtotal: <strong>S/. {detail.subtotal?.toFixed(2)}</strong></div>
-                {detail.discount > 0 && <div style={{ fontSize: 13, color: C.brownMid, marginBottom: 4 }}>Descuento: <strong style={{ color: C.success }}>-S/. {detail.discount.toFixed(2)}</strong></div>}
-                <div style={{ fontSize: 13, color: C.brownMid, marginBottom: 8 }}>Envío: <strong>{detail.shipping === 0 ? "Gratis" : "S/. " + detail.shipping?.toFixed(2)}</strong></div>
+                <div style={{ fontSize: 11, fontWeight: 700, color: C.faint, textTransform: "uppercase", letterSpacing: "1px", marginBottom: 12 }}>Resumen</div>
+                <div style={{ fontSize: 13, color: C.muted, marginBottom: 4 }}>Subtotal: <strong>S/. {detail.subtotal?.toFixed(2)}</strong></div>
+                {detail.discount > 0 && <div style={{ fontSize: 13, color: C.muted, marginBottom: 4 }}>Descuento: <strong style={{ color: C.success }}>-S/. {detail.discount.toFixed(2)}</strong></div>}
+                <div style={{ fontSize: 13, color: C.muted, marginBottom: 8 }}>Envío: <strong>{detail.shipping === 0 ? "Gratis" : "S/. " + detail.shipping?.toFixed(2)}</strong></div>
                 <div style={{ fontWeight: 800, fontSize: 16, color: C.brown }}>Total: S/. {detail.total.toFixed(2)}</div>
                 {detail.coupon && <div style={{ fontSize: 12, color: C.roseDeep, marginTop: 6 }}>🎟️ Cupón: {detail.coupon}</div>}
-                {detail.paymentMethod && <div style={{ fontSize: 12, color: C.brownMid, marginTop: 4 }}>💳 {detail.paymentMethod}</div>}
+                {detail.paymentMethod && <div style={{ fontSize: 12, color: C.muted, marginTop: 4 }}>💳 {detail.paymentMethod}</div>}
               </div>
             </div>
             <div style={{ marginBottom: 24 }}>
-              <div style={{ fontSize: 11, fontWeight: 700, color: "#9B8878", textTransform: "uppercase", letterSpacing: "1px", marginBottom: 12 }}>Productos</div>
+              <div style={{ fontSize: 11, fontWeight: 700, color: C.faint, textTransform: "uppercase", letterSpacing: "1px", marginBottom: 12 }}>Productos</div>
               {detail.items.map((item, i) => (
                 <div key={i} style={{ display: "flex", gap: 14, padding: "10px 0", borderBottom: i < detail.items.length - 1 ? `1px solid ${C.beige}` : "none" }}>
                   <span style={{ fontSize: 28 }}>{item.emoji}</span>
                   <div style={{ flex: 1 }}>
                     <div style={{ fontWeight: 600, fontSize: 13, color: C.brownDark }}>{item.name}</div>
-                    <div style={{ fontSize: 12, color: "#9B8878" }}>x{item.qty} · S/. {item.price.toFixed(2)} c/u</div>
+                    <div style={{ fontSize: 12, color: C.faint }}>x{item.qty} · S/. {item.price.toFixed(2)} c/u</div>
                   </div>
                   <div style={{ fontWeight: 700, color: C.brown }}>S/. {(item.price * item.qty).toFixed(2)}</div>
                 </div>
               ))}
             </div>
             <div>
-              <div style={{ fontSize: 11, fontWeight: 700, color: "#9B8878", textTransform: "uppercase", letterSpacing: "1px", marginBottom: 12 }}>Cambiar estado del pedido</div>
+              <div style={{ fontSize: 11, fontWeight: 700, color: C.faint, textTransform: "uppercase", letterSpacing: "1px", marginBottom: 12 }}>Cambiar estado del pedido</div>
               <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
                 {["PENDING","CONFIRMED","PREPARING","SHIPPED","DELIVERED","CANCELLED"].map(s => (
-                  <button key={s} onClick={() => updateStatus(detail.id, s)} style={{ padding: "8px 16px", borderRadius: 100, border: `2px solid ${detail.status === s ? C.roseDeep : C.beigeDark}`, background: detail.status === s ? C.roseLight : "transparent", color: detail.status === s ? C.roseDeep : C.brownMid, fontWeight: 600, fontSize: 12, cursor: "pointer" }}>
+                  <button key={s} onClick={() => updateStatus(detail.id, s)} style={{ padding: "8px 16px", borderRadius: 100, border: `2px solid ${detail.status === s ? C.roseDeep : C.beigeDark}`, background: detail.status === s ? C.roseLight : "transparent", color: detail.status === s ? C.roseDeep : C.muted, fontWeight: 600, fontSize: 12, cursor: "pointer" }}>
                     {statusConfig[s]?.label}
                   </button>
                 ))}
@@ -1327,7 +1219,7 @@ function AdminCategories({ categories, setCategories, products }) {
   return (
     <div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 28 }}>
-        <h2 style={{ fontFamily: "serif", fontSize: 28, color: C.brownDark, margin: 0 }}>Categorías</h2>
+        <h2 style={{ fontFamily: "serif", fontSize: 28, color: C.charcoal, margin: 0 }}>Categorías</h2>
         <button onClick={() => { setForm({ name: "", emoji: "🎀", color: "#FAE8E8" }); setModal("new"); }} style={{ display: "flex", alignItems: "center", gap: 8, padding: "12px 24px", borderRadius: 100, background: `linear-gradient(135deg, ${C.roseDeep}, ${C.sand})`, color: "white", border: "none", fontWeight: 600, cursor: "pointer" }}>
           <Icon d={Icons.plus} size={16} /> Nueva categoría
         </button>
@@ -1338,7 +1230,7 @@ function AdminCategories({ categories, setCategories, products }) {
             <div style={{ width: 56, height: 56, borderRadius: 16, background: cat.color || C.roseLight, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 28, flexShrink: 0 }}>{cat.emoji}</div>
             <div style={{ flex: 1 }}>
               <div style={{ fontWeight: 700, fontSize: 16, color: C.brownDark }}>{cat.name}</div>
-              <div style={{ fontSize: 13, color: "#9B8878" }}>{products.filter(p => p.categoryId === cat.id && p.active).length} productos</div>
+              <div style={{ fontSize: 13, color: C.faint }}>{products.filter(p => p.categoryId === cat.id && p.active).length} productos</div>
             </div>
             <div style={{ display: "flex", gap: 8 }}>
               <button onClick={() => { setForm({ ...cat }); setModal(cat); }} style={{ width: 34, height: 34, borderRadius: 10, border: `1.5px solid ${C.beigeDark}`, background: "transparent", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: C.brownMid }}>
@@ -1354,7 +1246,7 @@ function AdminCategories({ categories, setCategories, products }) {
       <Modal open={!!modal} onClose={() => setModal(null)} title={modal === "new" ? "Nueva categoría" : "Editar categoría"} width={480}>
         <Field label="Nombre" required><input value={form.name || ""} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} style={inputStyle} placeholder="Ej: Recién nacidos" /></Field>
         <Field label="Emoji"><input value={form.emoji || ""} onChange={e => setForm(f => ({ ...f, emoji: e.target.value }))} style={inputStyle} placeholder="👼" /></Field>
-        <Field label="Color de fondo"><Field label="Color (HEX)">   <input     value={form.bg || ""}     onChange={e => setForm(f => ({ ...f, bg: e.target.value }))}     placeholder="#FAE8E8"     style={inputStyle}   /> </Field> value={form.color || "#FAE8E8"} onChange={e => setForm(f => ({ ...f, color: e.target.value }))} style={{ ...inputStyle, padding: 6, height: 44, cursor: "pointer" }} /></Field>
+        <Field label="Color de fondo"><input type="color" value={form.color || "#FAE8E8"} onChange={e => setForm(f => ({ ...f, color: e.target.value }))} style={{ ...inputStyle, padding: 6, height: 44, cursor: "pointer" }} /></Field>
         <div style={{ display: "flex", gap: 12, marginTop: 8 }}>
           <button onClick={() => setModal(null)} style={{ flex: 1, padding: "12px", borderRadius: 100, border: `1.5px solid ${C.beigeDark}`, background: "transparent", cursor: "pointer", fontWeight: 600, color: C.brownMid }}>Cancelar</button>
           <button onClick={save} style={{ flex: 2, padding: "12px", borderRadius: 100, background: `linear-gradient(135deg, ${C.roseDeep}, ${C.sand})`, color: "white", border: "none", fontWeight: 700, cursor: "pointer" }}>Guardar</button>
@@ -1382,7 +1274,7 @@ function AdminCoupons({ coupons, setCoupons }) {
   return (
     <div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 28 }}>
-        <h2 style={{ fontFamily: "serif", fontSize: 28, color: C.brownDark, margin: 0 }}>Cupones de descuento</h2>
+        <h2 style={{ fontFamily: "serif", fontSize: 28, color: C.charcoal, margin: 0 }}>Cupones de descuento</h2>
         <button onClick={() => { setForm({ code: "", type: "percent", value: "", minAmount: "", maxUses: "", active: true }); setModal("new"); }} style={{ display: "flex", alignItems: "center", gap: 8, padding: "12px 24px", borderRadius: 100, background: `linear-gradient(135deg, ${C.roseDeep}, ${C.sand})`, color: "white", border: "none", fontWeight: 600, cursor: "pointer" }}>
           <Icon d={Icons.plus} size={16} /> Nuevo cupón
         </button>
@@ -1392,8 +1284,8 @@ function AdminCoupons({ coupons, setCoupons }) {
           <div key={c.id} style={{ background: C.white, borderRadius: 20, padding: 24, boxShadow: "0 4px 24px rgba(139,110,82,0.08)", borderLeft: `4px solid ${c.active ? C.roseDeep : C.beigeDark}` }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16 }}>
               <div>
-                <div style={{ fontFamily: "serif", fontSize: 22, fontWeight: 700, color: C.brownDark, letterSpacing: "1px" }}>{c.code}</div>
-                <div style={{ fontSize: 13, color: "#9B8878", marginTop: 2 }}>
+                <div style={{ fontFamily: "serif", fontSize: 22, fontWeight: 700, color: C.charcoal, letterSpacing: "1px" }}>{c.code}</div>
+                <div style={{ fontSize: 13, color: C.faint, marginTop: 2 }}>
                   {c.type === "percent" ? `${c.value}% de descuento` : `S/. ${c.value} de descuento`}
                   {c.minAmount ? ` · Mín. S/. ${c.minAmount}` : ""}
                 </div>
@@ -1402,7 +1294,7 @@ function AdminCoupons({ coupons, setCoupons }) {
                 {c.active ? "Activo" : "Inactivo"}
               </button>
             </div>
-            <div style={{ display: "flex", gap: 20, fontSize: 12, color: "#9B8878", marginBottom: 16 }}>
+            <div style={{ display: "flex", gap: 20, fontSize: 12, color: C.faint, marginBottom: 16 }}>
               <span>Usados: <strong>{c.used || 0}</strong>{c.maxUses ? ` / ${c.maxUses}` : ""}</span>
               {c.expires && <span>Vence: <strong>{c.expires}</strong></span>}
             </div>
@@ -1425,7 +1317,7 @@ function AdminCoupons({ coupons, setCoupons }) {
           <Field label="Compra mínima (S/.)"><input type="number" value={form.minAmount || ""} onChange={e => setForm(f => ({ ...f, minAmount: e.target.value }))} style={inputStyle} placeholder="100" /></Field>
           <Field label="Máximo de usos"><input type="number" value={form.maxUses || ""} onChange={e => setForm(f => ({ ...f, maxUses: e.target.value }))} style={inputStyle} placeholder="Sin límite" /></Field>
         </div>
-        <label style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer", fontSize: 14, color: C.brownMid, marginBottom: 20 }}>
+        <label style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer", fontSize: 14, color: C.muted, marginBottom: 20 }}>
           <input type="checkbox" checked={!!form.active} onChange={e => setForm(f => ({ ...f, active: e.target.checked }))} style={{ width: 18, height: 18, accentColor: C.roseDeep }} /> Cupón activo
         </label>
         <div style={{ display: "flex", gap: 12 }}>
@@ -1446,32 +1338,18 @@ function AdminSettings({ config, setConfig }) {
   const save = () => { setConfig({ ...form }); toast("✅ Configuración guardada"); };
 
   const tabs = [["general", "🏪 General"], ["contact", "📱 Contacto y RRSS"], ["payments", "💳 Pasarelas de pago"], ["content", "🎨 Contenido y diseño"]];
-<Field label="Imagen Hero">
-  <input type="file" onChange={handleUpload("heroImage")} />
-</Field>
 
-<Field label="Texto sección historia">
-  <textarea
-    value={config.texts?.about || ""}
-    onChange={e =>
-      setConfig(c => ({
-        ...c,
-        texts: { ...c.texts, about: e.target.value }
-      }))
-    }
-  />
-</Field>
   return (
     <div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 28 }}>
-        <h2 style={{ fontFamily: "serif", fontSize: 28, color: C.brownDark, margin: 0 }}>Configuración</h2>
+        <h2 style={{ fontFamily: "serif", fontSize: 28, color: C.charcoal, margin: 0 }}>Configuración</h2>
         <button onClick={save} style={{ display: "flex", alignItems: "center", gap: 8, padding: "12px 28px", borderRadius: 100, background: `linear-gradient(135deg, ${C.roseDeep}, ${C.sand})`, color: "white", border: "none", fontWeight: 700, cursor: "pointer" }}>
           <Icon d={Icons.save} size={15} /> Guardar cambios
         </button>
       </div>
       <div style={{ display: "flex", gap: 8, marginBottom: 28, borderBottom: `1px solid ${C.beige}`, paddingBottom: 0 }}>
         {tabs.map(([id, label]) => (
-          <button key={id} onClick={() => setActiveTab(id)} style={{ padding: "10px 20px", borderRadius: "12px 12px 0 0", border: "none", background: activeTab === id ? C.white : "transparent", cursor: "pointer", fontSize: 13, fontWeight: 600, color: activeTab === id ? C.roseDeep : C.brownMid, borderBottom: activeTab === id ? "2px solid " + C.roseDeep : "2px solid transparent", marginBottom: -1 }}>
+          <button key={id} onClick={() => setActiveTab(id)} style={{ padding: "10px 20px", borderRadius: "12px 12px 0 0", border: "none", background: activeTab === id ? C.white : "transparent", cursor: "pointer", fontSize: 13, fontWeight: 600, color: activeTab === id ? C.roseDeep : C.muted, borderBottom: activeTab === id ? "2px solid " + C.roseDeep : "2px solid transparent", marginBottom: -1 }}>
             {label}
           </button>
         ))}
@@ -1504,26 +1382,17 @@ function AdminSettings({ config, setConfig }) {
             <Field label="TikTok (URL completa)"><input value={form.tiktok} onChange={e => setForm(f => ({ ...f, tiktok: e.target.value }))} style={inputStyle} placeholder="https://tiktok.com/@..." /></Field>
             <Field label="Facebook (URL completa)"><input value={form.facebook} onChange={e => setForm(f => ({ ...f, facebook: e.target.value }))} style={inputStyle} placeholder="https://facebook.com/..." /></Field>
             <div style={{ gridColumn: "1/-1", background: C.beige, borderRadius: 16, padding: 20 }}>
-              <div style={{ fontSize: 13, fontWeight: 600, color: C.brownMid, marginBottom: 8 }}>Vista previa del botón de WhatsApp:</div>
-              <div style={{ fontSize: 13, color: "#9B8878" }}>El botón flotante de WhatsApp en la tienda usará el número: <strong style={{ color: C.brownDark }}>{form.whatsapp}</strong></div>
+              <div style={{ fontSize: 13, fontWeight: 600, color: C.muted, marginBottom: 8 }}>Vista previa del botón de WhatsApp:</div>
+              <div style={{ fontSize: 13, color: C.faint }}>El botón flotante de WhatsApp en la tienda usará el número: <strong style={{ color: C.brownDark }}>{form.whatsapp}</strong></div>
             </div>
           </div>
         )}
 
-const handleUpload = key => e => {
-  const file = e.target.files[0];
-  const reader = new FileReader();
-  reader.onload = ev => {
-    setConfig(c => ({ ...c, [key]: ev.target.result }));
-  };
-  reader.readAsDataURL(file);
-};
-
         {activeTab === "payments" && (
           <div>
             <div style={{ background: C.skyLight, borderRadius: 16, padding: 20, marginBottom: 28 }}>
-              <div style={{ fontWeight: 700, color: C.brownDark, marginBottom: 8 }}>💡 Cómo configurar las pasarelas de pago</div>
-              <p style={{ fontSize: 13, color: C.brownMid, lineHeight: 1.7, margin: 0 }}>Para activar pagos reales, obtén tus claves API de cada plataforma e ingrésalas abajo. Yape y transferencia bancaria siempre están disponibles sin configuración.</p>
+              <div style={{ fontWeight: 700, color: C.charcoal, marginBottom: 8 }}>💡 Cómo configurar las pasarelas de pago</div>
+              <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.7, margin: 0 }}>Para activar pagos reales, obtén tus claves API de cada plataforma e ingrésalas abajo. Yape y transferencia bancaria siempre están disponibles sin configuración.</p>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 24 }}>
               {[
@@ -1535,7 +1404,7 @@ const handleUpload = key => e => {
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
                     <div>
                       <div style={{ fontWeight: 700, fontSize: 16, color: C.brownDark }}>{gw.label}</div>
-                      <div style={{ fontSize: 13, color: "#9B8878", marginTop: 2 }}>{gw.desc}</div>
+                      <div style={{ fontSize: 13, color: C.faint, marginTop: 2 }}>{gw.desc}</div>
                     </div>
                     <label style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer" }}>
                       <span style={{ fontSize: 13, color: C.brownMid }}>{form[gw.key + "Enabled"] ? "Activado" : "Desactivado"}</span>
@@ -1567,18 +1436,18 @@ const handleUpload = key => e => {
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
             <Field label="Color principal (botones, badges)">
               <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-                <Field label="Color (HEX)">   <input     value={form.bg || ""}     onChange={e => setForm(f => ({ ...f, bg: e.target.value }))}     placeholder="#FAE8E8"     style={inputStyle}   /> </Field> value={form.primaryColor} onChange={e => setForm(f => ({ ...f, primaryColor: e.target.value }))} style={{ width: 50, height: 50, borderRadius: 12, border: `1.5px solid ${C.beigeDark}`, cursor: "pointer", padding: 4 }} />
+                <input type="color" value={form.primaryColor} onChange={e => setForm(f => ({ ...f, primaryColor: e.target.value }))} style={{ width: 50, height: 50, borderRadius: 12, border: `1.5px solid ${C.beigeDark}`, cursor: "pointer", padding: 4 }} />
                 <input value={form.primaryColor} onChange={e => setForm(f => ({ ...f, primaryColor: e.target.value }))} style={{ ...inputStyle, flex: 1 }} />
               </div>
             </Field>
             <Field label="Color de acento (textos, detalles)">
               <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-                <Field label="Color (HEX)">   <input     value={form.bg || ""}     onChange={e => setForm(f => ({ ...f, bg: e.target.value }))}     placeholder="#FAE8E8"     style={inputStyle}   /> </Field> value={form.accentColor} onChange={e => setForm(f => ({ ...f, accentColor: e.target.value }))} style={{ width: 50, height: 50, borderRadius: 12, border: `1.5px solid ${C.beigeDark}`, cursor: "pointer", padding: 4 }} />
+                <input type="color" value={form.accentColor} onChange={e => setForm(f => ({ ...f, accentColor: e.target.value }))} style={{ width: 50, height: 50, borderRadius: 12, border: `1.5px solid ${C.beigeDark}`, cursor: "pointer", padding: 4 }} />
                 <input value={form.accentColor} onChange={e => setForm(f => ({ ...f, accentColor: e.target.value }))} style={{ ...inputStyle, flex: 1 }} />
               </div>
             </Field>
             <div style={{ gridColumn: "1/-1", background: C.beige, borderRadius: 16, padding: 20 }}>
-              <div style={{ fontSize: 13, fontWeight: 600, color: C.brownMid, marginBottom: 12 }}>Vista previa de colores:</div>
+              <div style={{ fontSize: 13, fontWeight: 600, color: C.muted, marginBottom: 12 }}>Vista previa de colores:</div>
               <div style={{ display: "flex", gap: 12 }}>
                 <div style={{ padding: "10px 24px", borderRadius: 100, background: form.primaryColor, color: "white", fontWeight: 700, fontSize: 14 }}>Botón principal</div>
                 <div style={{ padding: "10px 24px", borderRadius: 100, background: "transparent", border: `2px solid ${form.accentColor}`, color: form.accentColor, fontWeight: 700, fontSize: 14 }}>Botón secundario</div>
@@ -1586,7 +1455,7 @@ const handleUpload = key => e => {
             </div>
             <div style={{ gridColumn: "1/-1", background: "#FFF9F0", border: `1.5px solid ${C.sandLight}`, borderRadius: 16, padding: 20 }}>
               <div style={{ fontSize: 13, fontWeight: 700, color: C.brown, marginBottom: 8 }}>🚀 Próximamente</div>
-              <div style={{ fontSize: 13, color: C.brownMid, lineHeight: 1.7 }}>
+              <div style={{ fontSize: 13, color: C.muted, lineHeight: 1.7 }}>
                 • Subida de imágenes y banners personalizados<br />
                 • Editor de testimonios desde el panel<br />
                 • Personalización del footer y secciones<br />
@@ -1647,16 +1516,16 @@ function AdminClients({ orders, setOrders }) {
     <div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 28 }}>
         <div>
-          <h2 style={{ fontFamily: "serif", fontSize: 28, color: C.brownDark, margin: "0 0 4px" }}>Clientes</h2>
-          <p style={{ color: C.brownMid, fontSize: 14, margin: 0 }}>{clients.length} registrados · {blockedCount > 0 ? `${blockedCount} bloqueados` : "ninguno bloqueado"}</p>
+          <h2 style={{ fontFamily: "serif", fontSize: 28, color: C.charcoal, margin: "0 0 4px" }}>Clientes</h2>
+          <p style={{ color: C.muted, fontSize: 14, margin: 0 }}>{clients.length} registrados · {blockedCount > 0 ? `${blockedCount} bloqueados` : "ninguno bloqueado"}</p>
         </div>
         <div style={{ display: "flex", gap: 10 }}>
           {blockedCount > 0 && (
-            <button onClick={() => setShowBlocked(v => !v)} style={{ padding: "10px 20px", borderRadius: 100, border: `1.5px solid ${C.beigeDark}`, background: showBlocked ? C.brownDark : "transparent", color: showBlocked ? "white" : C.brownMid, fontSize: 13, fontWeight: 600, cursor: "pointer" }}>
+            <button onClick={() => setShowBlocked(v => !v)} style={{ padding: "10px 20px", borderRadius: 100, border: `1.5px solid ${C.beigeDark}`, background: showBlocked ? C.brownDark : "transparent", color: showBlocked ? "white" : C.muted, fontSize: 13, fontWeight: 600, cursor: "pointer" }}>
               {showBlocked ? "Ocultar bloqueados" : `Ver bloqueados (${blockedCount})`}
             </button>
           )}
-          <div style={{ background: C.beige, padding: "10px 20px", borderRadius: 100, fontSize: 13, color: C.brownMid, fontWeight: 600 }}>{clients.length} clientes</div>
+          <div style={{ background: C.beige, padding: "10px 20px", borderRadius: 100, fontSize: 13, color: C.muted, fontWeight: 600 }}>{clients.length} clientes</div>
         </div>
       </div>
 
@@ -1677,7 +1546,7 @@ function AdminClients({ orders, setOrders }) {
           <thead>
             <tr style={{ background: "#F7F3EE" }}>
               {["#", "Cliente", "Email", "Teléfono", "Pedidos", "Total gastado", "Último pedido", "Acciones"].map(h => (
-                <th key={h} style={{ fontSize: 11, fontWeight: 700, color: "#9B8878", textTransform: "uppercase", letterSpacing: "1px", padding: "14px 16px", textAlign: "left" }}>{h}</th>
+                <th key={h} style={{ fontSize: 11, fontWeight: 700, color: C.faint, textTransform: "uppercase", letterSpacing: "1px", padding: "14px 16px", textAlign: "left" }}>{h}</th>
               ))}
             </tr>
           </thead>
@@ -1688,7 +1557,7 @@ function AdminClients({ orders, setOrders }) {
                 <tr key={c.email} style={{ borderTop: `1px solid ${C.beige}`, background: isBlocked ? "#FFF5F5" : "transparent", opacity: isBlocked ? 0.75 : 1 }}>
                   <td style={{ padding: "14px 16px" }}>
                     {i < 3 && !isBlocked && <span style={{ fontSize: 18 }}>{["🥇","🥈","🥉"][i]}</span>}
-                    {(i >= 3 || isBlocked) && <span style={{ fontSize: 14, color: "#9B8878", fontWeight: 700 }}>#{i+1}</span>}
+                    {(i >= 3 || isBlocked) && <span style={{ fontSize: 14, color: C.faint, fontWeight: 700 }}>#{i+1}</span>}
                   </td>
                   <td style={{ padding: "14px 16px" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
@@ -1707,7 +1576,7 @@ function AdminClients({ orders, setOrders }) {
                     <span style={{ background: C.roseLight, color: C.roseDeep, padding: "4px 12px", borderRadius: 100, fontSize: 13, fontWeight: 700 }}>{c.orders}</span>
                   </td>
                   <td style={{ padding: "14px 16px", fontWeight: 700, color: C.brown }}>S/. {c.spent.toFixed(2)}</td>
-                  <td style={{ padding: "14px 16px", fontSize: 13, color: "#9B8878" }}>{new Date(c.lastOrder).toLocaleDateString("es-PE")}</td>
+                  <td style={{ padding: "14px 16px", fontSize: 13, color: C.faint }}>{new Date(c.lastOrder).toLocaleDateString("es-PE")}</td>
                   <td style={{ padding: "14px 16px" }}>
                     <div style={{ display: "flex", gap: 8 }}>
                       {/* Block / Unblock */}
@@ -1732,7 +1601,7 @@ function AdminClients({ orders, setOrders }) {
           </tbody>
         </table>
         {visibleClients.length === 0 && (
-          <div style={{ padding: "40px", textAlign: "center", color: "#9B8878" }}>No hay clientes para mostrar</div>
+          <div style={{ padding: "40px", textAlign: "center", color: C.faint }}>No hay clientes para mostrar</div>
         )}
       </div>
 
@@ -1772,7 +1641,7 @@ function AdminReviews({ products }) {
 
   return (
     <div>
-      <h2 style={{ fontFamily: "serif", fontSize: 28, color: C.brownDark, margin: "0 0 28px" }}>Reseñas de clientes</h2>
+      <h2 style={{ fontFamily: "serif", fontSize: 28, color: C.charcoal, margin: "0 0 28px" }}>Reseñas de clientes</h2>
       <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
         {reviews.map(r => (
           <div key={r.id} style={{ background: C.white, borderRadius: 20, padding: 24, boxShadow: "0 4px 24px rgba(139,110,82,0.08)", display: "flex", gap: 20, alignItems: "flex-start", borderLeft: `4px solid ${r.approved ? C.success : C.warning}` }}>
@@ -1781,14 +1650,14 @@ function AdminReviews({ products }) {
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 8 }}>
                 <div>
                   <span style={{ fontWeight: 700, fontSize: 14, color: C.brownDark }}>{r.author}</span>
-                  <span style={{ fontSize: 12, color: "#9B8878", marginLeft: 10 }}>en <strong>{r.productName}</strong></span>
+                  <span style={{ fontSize: 12, color: C.faint, marginLeft: 10 }}>en <strong>{r.productName}</strong></span>
                 </div>
                 <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
                   <Stars rating={r.rating} />
-                  <span style={{ fontSize: 11, color: "#9B8878" }}>{new Date(r.date).toLocaleDateString("es-PE")}</span>
+                  <span style={{ fontSize: 11, color: C.faint }}>{new Date(r.date).toLocaleDateString("es-PE")}</span>
                 </div>
               </div>
-              <p style={{ fontSize: 14, color: C.brownMid, lineHeight: 1.6, margin: "0 0 12px" }}>"{r.text}"</p>
+              <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.6, margin: "0 0 12px" }}>"{r.text}"</p>
               <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
                 <span style={{ fontSize: 11, fontWeight: 700, padding: "4px 12px", borderRadius: 100, background: r.approved ? "#D4EDDA" : "#FFF3CD", color: r.approved ? "#155724" : "#856404" }}>
                   {r.approved ? "✅ Aprobada" : "⏳ Pendiente"}
@@ -1832,8 +1701,8 @@ function AdminLogin({ onLogin }) {
       <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} style={{ background: C.white, borderRadius: 28, padding: 48, width: "100%", maxWidth: 440, boxShadow: "0 32px 80px rgba(139,110,82,0.15)" }}>
         <div style={{ textAlign: "center", marginBottom: 36 }}>
           <div style={{ fontSize: 48, marginBottom: 12 }}>🔐</div>
-          <h1 style={{ fontFamily: "serif", fontSize: 32, color: C.brownDark, margin: "0 0 8px" }}>Panel Admin</h1>
-          <p style={{ color: "#9B8878", fontSize: 14, margin: 0 }}>Venetus Kids — Acceso administrativo</p>
+          <h1 style={{ fontFamily: "serif", fontSize: 32, color: C.charcoal, margin: "0 0 8px" }}>Panel Admin</h1>
+          <p style={{ color: C.faint, fontSize: 14, margin: 0 }}>Venetus Kids — Acceso administrativo</p>
         </div>
         <form onSubmit={submit}>
           <Field label="Correo electrónico"><input type="email" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} style={inputStyle} placeholder="admin@venetuskids.pe" /></Field>
@@ -1844,7 +1713,7 @@ function AdminLogin({ onLogin }) {
             💡 Demo: usa cualquier email y contraseña <strong>admin123</strong>
           </div>
           <button type="submit" disabled={loading} style={{ width: "100%", padding: "15px", borderRadius: 100, background: loading ? C.brownMid : `linear-gradient(135deg, ${C.roseDeep}, ${C.sand})`, color: "white", border: "none", fontWeight: 700, fontSize: 15, cursor: loading ? "not-allowed" : "pointer", boxShadow: "0 8px 24px rgba(212,137,138,0.35)" }}>
-            {loading ? "Verificando..." : "🔐 Ingresar al panel"}
+            {loading ? "Verificando..." : "Iniciar sesión"}
           </button>
         </form>
       </motion.div>
@@ -1870,7 +1739,7 @@ function AdminPanel({ products, setProducts, categories, setCategories, orders, 
   return (
     <div style={{ display: "flex", minHeight: "100vh", background: "#F7F3EE" }}>
       {/* Sidebar */}
-      <aside style={{ width: 240, background: C.brownDark, display: "flex", flexDirection: "column", position: "sticky", top: 0, height: "100vh", flexShrink: 0 }}>
+      <aside style={{ width: 240, background: C.charcoal, display: "flex", flexDirection: "column", position: "sticky", top: 0, height: "100vh", flexShrink: 0 }}>
         <div style={{ padding: "28px 20px 20px", borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
           <div style={{ fontFamily: "serif", fontSize: 20, fontWeight: 600, color: C.cream }}>Venetus <span style={{ color: C.rose }}>Kids</span></div>
           <div style={{ fontSize: 11, color: "rgba(250,246,240,0.4)", marginTop: 2 }}>Panel Administrador</div>
@@ -1988,7 +1857,7 @@ export default function App() {
       {/* Admin button (floating, store only) */}
       {view === "store" && (
         <motion.button initial={{ opacity: 0 }} animate={{ opacity: 1 }} onClick={() => setView("admin-login")}
-          style={{ position: "fixed", bottom: 32, left: 32, zIndex: 600, background: C.brownDark, color: "white", border: "none", borderRadius: 100, padding: "12px 22px", fontSize: 13, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", gap: 8, boxShadow: "0 8px 24px rgba(0,0,0,0.2)" }}>
+          style={{ position: "fixed", bottom: 32, left: 32, zIndex: 600, background: C.charcoal, color: "white", border: "none", borderRadius: 100, padding: "12px 22px", fontSize: 13, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", gap: 8, boxShadow: "0 8px 24px rgba(0,0,0,0.2)" }}>
           <Icon d={Icons.settings} size={15} /> Panel Admin
         </motion.button>
       )}
@@ -2002,7 +1871,7 @@ export default function App() {
         {view === "admin-login" && (
           <motion.div key="login" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
             <AdminLogin onLogin={() => setView("admin")} />
-            <button onClick={() => setView("store")} style={{ position: "fixed", top: 20, left: 20, background: "rgba(255,255,255,0.8)", border: "none", borderRadius: 100, padding: "10px 20px", cursor: "pointer", fontSize: 13, fontWeight: 600, color: C.brownMid, backdropFilter: "blur(10px)" }}>← Volver a la tienda</button>
+            <button onClick={() => setView("store")} style={{ position: "fixed", top: 20, left: 20, background: "rgba(255,255,255,0.8)", border: "none", borderRadius: 100, padding: "10px 20px", cursor: "pointer", fontSize: 13, fontWeight: 600, color: C.muted, backdropFilter: "blur(10px)" }}>← Volver a la tienda</button>
           </motion.div>
         )}
         {view === "admin" && (
@@ -2011,33 +1880,29 @@ export default function App() {
           </motion.div>
         )}
       </AnimatePresence>
-      <Modal
-  open={!!selectedProduct}
-  onClose={() => setSelectedProduct(null)}
-  title={selectedProduct?.name}
-  width={800}
->
-  {selectedProduct && (
-    <div>
-      {/* Galería */}
-      <div style={{ display: "flex", gap: 10 }}>
-        {selectedProduct.images?.map((img, i) => (
-          <img key={i} src={img} style={{ width: 120 }} />
-        ))}
-      </div>
-
-      <p>{selectedProduct.desc}</p>
-
-      <h3>S/. {selectedProduct.price}</h3>
-
-      <button onClick={() => addToCart(selectedProduct)}>
-        Añadir al carrito
-      </button>
-    </div>
-  )}
-</Modal>
 
       <Toast />
     </div>
   );
-}
+}const inputStyle={width:"100%",padding:"10px 13px",borderRadius:3,border:`1px solid ${C.linen3}`,background:C.white,color:C.charcoal,fontSize:13,fontFamily:FONT.sans,outline:"none",boxSizing:"border-box",transition:"border-color 0.15s"};
+const selectStyle={...inputStyle,cursor:"pointer"};return(<div style={{background:C.white,fontFamily:FONT.sans}}>
+    {config.promoActive&&<div style={{background:C.charcoal,color:"rgba(245,242,238,0.8)",textAlign:"center",padding:"9px 20px",fontSize:11,fontWeight:400,letterSpacing:"0.3px",fontFamily:FONT.sans}}>{config.promoBanner}</div>}
+    <nav style={{position:"sticky",top:0,zIndex:200,background:"rgba(250,250,248,0.96)",backdropFilter:"blur(14px)",borderBottom:`1px solid ${C.linen2}`}}>
+      <div style={{maxWidth:1280,margin:"0 auto",padding:"0 48px",height:62,display:"flex",alignItems:"center",justifyContent:"space-between"}}>
+        <div style={{fontFamily:FONT.serif,fontSize:20,fontWeight:300,color:C.charcoal,letterSpacing:"1px"}}>{config.storeName}</div>
+        <div style={{display:"flex",alignItems:"center",gap:28}}>
+          {categories.slice(0,4).map(cat=><button key={cat.id} onClick={()=>{setFilterCat(cat.id);productsRef.current?.scrollIntoView({behavior:"smooth"});}} style={{background:"none",border:"none",cursor:"pointer",fontSize:12,fontFamily:FONT.sans,color:filterCat===cat.id?pc:C.muted,fontWeight:filterCat===cat.id?500:400,letterSpacing:"0.2px",borderBottom:`1px solid ${filterCat===cat.id?pc:"transparent"}`,padding:"4px 0",transition:"all 0.15s"}}>{cat.name}</button>)}
+        </div>
+        <div style={{display:"flex",alignItems:"center",gap:14}}>
+          <button onClick={()=>setCartOpen(true)} style={{position:"relative",background:"none",border:"none",cursor:"pointer",color:C.muted,display:"flex",padding:4}}>
+            <Icon d={Icons.cart} size={19} strokeWidth={1.4}/>
+            {cartCount>0&&<span style={{position:"absolute",top:1,right:1,background:pc,color:"white",fontSize:8,fontWeight:700,width:13,height:13,borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center",fontFamily:FONT.sans}}>{cartCount}</span>}
+          </button>
+        </div>
+      </div>
+    </nav>
+    <div style={{maxWidth:1280,margin:"0 auto"}}>
+    {/* Hero */}
+    <HeroSection config={config} onShop={()=>productsRef.current?.scrollIntoView({behavior:"smooth"})}/>
+    </div>
+
