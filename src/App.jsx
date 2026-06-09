@@ -75,7 +75,7 @@ const INIT_CONFIG = {
   promoBanner: "🎀 ENVÍO GRATIS en compras mayores a S/. 150 · Usa el código VENETUS20 para 20% OFF",
   promoActive: true,
   // Contacto
-  whatsapp: "51999999999", instagram: "https://instagram.com/venetuskids.pe",
+  whatsapp: "51940467097", instagram: "https://instagram.com/venetuskids.pe",
   tiktok: "https://tiktok.com/@venetuskids", facebook: "https://facebook.com/venetuskids",
   email: "hola@venetuskids.pe", address: "Lima, Perú",
   freeShipping: 150, currency: "S/.",
