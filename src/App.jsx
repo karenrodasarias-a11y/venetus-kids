@@ -63,39 +63,111 @@ const FONT = { serif: '"Cormorant Garamond","Georgia",serif', sans: '"DM Sans",s
 
 // ─── INITIAL DATA ──────────────────────────────────────────────────────────
 const INIT_CONFIG = {
+  // Identidad
   storeName: "Venetus Kids", tagline: "Pequeños momentos, grandes recuerdos 💛",
+  logoImage: "",
+  // Hero
   heroTitle: "Para los primeros momentos\nde tu bebé",
   heroSubtitle: "Ropa y accesorios cómodos, seguros y adorables para acompañar cada etapa de tu bebé.",
+  heroImage: "", heroBadgeText: "Nueva Colección · Primavera 2025",
+  heroBtn1: "Ver colección", heroBtn2: "Nuestra historia",
+  // Promo
   promoBanner: "🎀 ENVÍO GRATIS en compras mayores a S/. 150 · Usa el código VENETUS20 para 20% OFF",
-  promoActive: true, whatsapp: "51999999999",
-  instagram: "https://instagram.com/venetuskids.pe",
-  tiktok: "https://tiktok.com/@venetuskids",
-  facebook: "https://facebook.com/venetuskids",
-  email: "hola@venetuskids.pe",
-  address: "Lima, Perú", freeShipping: 150, currency: "S/.",
+  promoActive: true,
+  // Contacto
+  whatsapp: "51999999999", instagram: "https://instagram.com/venetuskids.pe",
+  tiktok: "https://tiktok.com/@venetuskids", facebook: "https://facebook.com/venetuskids",
+  email: "hola@venetuskids.pe", address: "Lima, Perú",
+  freeShipping: 150, currency: "S/.",
+  // Colores
   primaryColor: "#899180", accentColor: "#B5A99A",
+  buttonColor: "#899180", buttonTextColor: "#FFFFFF",
+  headingColor: "#3D3830", textColor: "#7A7068",
+  bgColor: "#FAFAF8",
+  // Tipografía
+  fontHeading: "Cormorant Garamond", fontBody: "DM Sans",
+  // Secciones
+  categoriesSectionTitle: "Todo lo que tu bebé necesita",
+  productsSectionTitle: "Productos destacados",
+  aboutTitle: "Porque cada detalle importa cuando se trata de tu bebé.",
+  aboutText: "Somos mamás que entienden la alegría de cada pequeño momento. Por eso creamos Venetus Kids: productos seguros, suaves y adorables para acompañar a tu bebé desde el primer día.",
+  aboutImage: "",
+  testimonials: [
+    { name: "María F.", role: "Mamá de Valentina, 4 meses", text: "La calidad es increíble. Todo llegó perfectamente presentado y mi bebé ama cada prenda.", avatar: "M", bg: "#F5EEEC" },
+    { name: "Luciana P.", role: "Mamá primeriza de Mateo", text: "El kit de baby shower superó todas mis expectativas. Una presentación preciosa y materiales de primera.", avatar: "L", bg: "#EDF0EC" },
+    { name: "Camila R.", role: "Mamá de Isabella, 8 meses", text: "La manta muslina es lo mejor que he comprado. Ultra suave y la llevamos a todos lados.", avatar: "C", bg: "#F0EBE6" },
+  ],
+  benefits: [
+    { icon: "🌿", title: "Materiales seguros", desc: "Certificados y testeados dermatológicamente" },
+    { icon: "🚀", title: "Envíos rápidos", desc: "24-48 horas a todo el Perú" },
+    { icon: "💬", title: "Atención cercana", desc: "WhatsApp 7 días a la semana" },
+    { icon: "↩️", title: "Cambios fáciles", desc: "Sin costo adicional en 15 días" },
+  ],
+  newsletterTitle: "Únete a nuestra comunidad",
+  newsletterText: "Novedades, descuentos exclusivos y consejos de crianza directo a tu correo.",
+  // Pagos
   stripeKey: "", mpKey: "", paypalId: "",
   stripeEnabled: false, mpEnabled: false, paypalEnabled: false,
 };
 
 const INIT_CATEGORIES = [
-  { id: "cat1", name: "Recién nacidos", slug: "recien-nacidos", emoji: "👼", color: "#FAE8E8", count: 3 },
-  { id: "cat2", name: "Conjuntos & Outfits", slug: "conjuntos", emoji: "👕", color: "#D4E8F0", count: 2 },
-  { id: "cat3", name: "Accesorios", slug: "accesorios", emoji: "🎀", color: "#F0E8D4", count: 2 },
-  { id: "cat4", name: "Zapatos para bebé", slug: "zapatos", emoji: "👟", color: "#EDE8F5", count: 1 },
-  { id: "cat5", name: "Mantas & Esenciales", slug: "mantas", emoji: "🧸", color: "#E8F5E8", count: 1 },
-  { id: "cat6", name: "Regalos Baby Shower", slug: "baby-shower", emoji: "🎁", color: "#F5F0D4", count: 1 },
+  { id: "cat1", name: "Recién nacidos", slug: "recien-nacidos", emoji: "👼", image: "", color: "#FAE8E8" },
+  { id: "cat2", name: "Conjuntos & Outfits", slug: "conjuntos", emoji: "👕", image: "", color: "#D4E8F0" },
+  { id: "cat3", name: "Accesorios", slug: "accesorios", emoji: "🎀", image: "", color: "#F0E8D4" },
+  { id: "cat4", name: "Zapatos para bebé", slug: "zapatos", emoji: "👟", image: "", color: "#EDE8F5" },
+  { id: "cat5", name: "Mantas & Esenciales", slug: "mantas", emoji: "🧸", image: "", color: "#E8F5E8" },
+  { id: "cat6", name: "Regalos Baby Shower", slug: "baby-shower", emoji: "🎁", image: "", color: "#F5F0D4" },
 ];
 
 const INIT_PRODUCTS = [
-  { id: "p1", name: "Set Bodysuit Algodón", slug: "set-bodysuit", desc: "Pack de 3 bodys ultra suaves de algodón orgánico 100% hipoalergénico. Ideales para los primeros meses.", price: 89.90, oldPrice: null, stock: 50, categoryId: "cat1", badge: "nuevo", emoji: "👶", bg: "#FAE8E8", featured: true, active: true, rating: 5, reviews: 124, createdAt: Date.now() - 86400000 * 5 },
-  { id: "p2", name: "Conjunto Floral Niña", slug: "conjunto-floral", desc: "Blusa + shorts florales para niñas de 3 a 24 meses. Tela fresca y cómoda para todo el día.", price: 125.00, oldPrice: 160.00, stock: 30, categoryId: "cat2", badge: "oferta", emoji: "👗", bg: "#F2C4C4", featured: true, active: true, rating: 5, reviews: 87, createdAt: Date.now() - 86400000 * 4 },
-  { id: "p3", name: "Gorro de Punto Suave", slug: "gorro-punto", desc: "Gorro tejido a mano de acrílico premium, suave y transpirable. Disponible en múltiples colores.", price: 45.00, oldPrice: null, stock: 80, categoryId: "cat3", badge: "mas_vendido", emoji: "🧢", bg: "#D4E8F0", featured: true, active: true, rating: 4.8, reviews: 56, createdAt: Date.now() - 86400000 * 3 },
-  { id: "p4", name: "Zapatos Gateo Cuero", slug: "zapatos-gateo", desc: "Primeros zapatos de cuero natural. Suela antideslizante y cierre fácil. Cuida el desarrollo del pie.", price: 79.90, oldPrice: null, stock: 40, categoryId: "cat4", badge: "mas_vendido", emoji: "👟", bg: "#EDE8F5", featured: true, active: true, rating: 4.9, reviews: 203, createdAt: Date.now() - 86400000 * 2 },
-  { id: "p5", name: "Manta Muslina Premium", slug: "manta-muslina", desc: "Manta de muslina 100% algodón orgánico certificado. Doble capa, ultra suave y transpirable.", price: 69.90, oldPrice: 89.90, stock: 60, categoryId: "cat5", badge: "mas_vendido", emoji: "🧸", bg: "#E8F5E8", featured: true, active: true, rating: 5, reviews: 341, createdAt: Date.now() - 86400000 },
-  { id: "p6", name: "Kit Baby Shower Lujo", slug: "kit-baby-shower", desc: "Set regalo premium: body, gorro, manoplas, medias y manta en caja de regalo con lazo.", price: 199.00, oldPrice: 250.00, stock: 20, categoryId: "cat6", badge: "oferta", emoji: "🎁", bg: "#F5F0D4", featured: true, active: true, rating: 5, reviews: 68, createdAt: Date.now() - 3600000 * 5 },
-  { id: "p7", name: "Pelele Estampado Oso", slug: "pelele-oso", desc: "Pelele de algodón suavísimo con estampado de osito. Con botones a presión para fácil cambio.", price: 55.00, oldPrice: null, stock: 3, categoryId: "cat1", badge: "nuevo", emoji: "🐻", bg: "#FAE8E8", featured: false, active: true, rating: 4.7, reviews: 92, createdAt: Date.now() - 3600000 * 2 },
-  { id: "p8", name: "Vincha Lazos Artesanal", slug: "vincha-lazos", desc: "Vincha hecha a mano con lazo de tela. Sin caucho, no aprieta ni irrita el cuero cabelludo.", price: 28.00, oldPrice: null, stock: 100, categoryId: "cat3", badge: "mas_vendido", emoji: "🎀", bg: "#F2C4C4", featured: false, active: true, rating: 4.9, reviews: 178, createdAt: Date.now() - 3600000 },
+  { id: "p1", name: "Set Bodysuit Algodón", slug: "set-bodysuit",
+    desc: "Pack de 3 bodys ultra suaves de algodón orgánico 100% hipoalergénico.",
+    details: "• Material: 100% algodón orgánico certificado\n• Tallas: 0-3m, 3-6m, 6-9m, 9-12m\n• Colores: blanco, rosado, celeste\n• Cierre: botones a presión\n• Lavable a máquina 30°C",
+    price: 89.90, oldPrice: null, stock: 50, categoryId: "cat1", badge: "nuevo",
+    emoji: "👶", images: [], colors: ["#FFFFFF", "#F5EEEC", "#C8DEE8"], bg: "#FAE8E8",
+    featured: true, active: true, rating: 5, reviews: 124, createdAt: Date.now() - 86400000 * 5 },
+  { id: "p2", name: "Conjunto Floral Niña", slug: "conjunto-floral",
+    desc: "Blusa + shorts florales para niñas de 3 a 24 meses. Tela fresca y cómoda para todo el día.",
+    details: "• Composición: 95% algodón, 5% elastano\n• Tallas: 3-6m, 6-12m, 12-18m, 18-24m\n• Estampado: flores tropicales\n• Incluye: blusa + short con elástico",
+    price: 125.00, oldPrice: 160.00, stock: 30, categoryId: "cat2", badge: "oferta",
+    emoji: "👗", images: [], colors: ["#F2C4C4", "#FFFFFF"], bg: "#F2C4C4",
+    featured: true, active: true, rating: 5, reviews: 87, createdAt: Date.now() - 86400000 * 4 },
+  { id: "p3", name: "Gorro de Punto Suave", slug: "gorro-punto",
+    desc: "Gorro tejido a mano de acrílico premium, suave y transpirable.",
+    details: "• Material: acrílico premium antialérgico\n• Tallas: 0-6m, 6-12m\n• Colores: blanco, rosado, beige, azul, lila\n• Tejido a mano",
+    price: 45.00, oldPrice: null, stock: 80, categoryId: "cat3", badge: "mas_vendido",
+    emoji: "🧢", images: [], colors: ["#FFFFFF", "#F2C4C4", "#D4E8F0", "#E8D5B7", "#EDE8F5"], bg: "#D4E8F0",
+    featured: true, active: true, rating: 4.8, reviews: 56, createdAt: Date.now() - 86400000 * 3 },
+  { id: "p4", name: "Zapatos Gateo Cuero", slug: "zapatos-gateo",
+    desc: "Primeros zapatos de cuero natural. Suela antideslizante y cierre fácil.",
+    details: "• Material: cuero natural 100%\n• Suela: goma antideslizante ultrafina\n• Cierre: velcro ajustable\n• Tallas: 11, 12, 13 cm de pie",
+    price: 79.90, oldPrice: null, stock: 40, categoryId: "cat4", badge: "mas_vendido",
+    emoji: "👟", images: [], colors: ["#C9A97A", "#8B6E52"], bg: "#EDE8F5",
+    featured: true, active: true, rating: 4.9, reviews: 203, createdAt: Date.now() - 86400000 * 2 },
+  { id: "p5", name: "Manta Muslina Premium", slug: "manta-muslina",
+    desc: "100% algodón orgánico GOTS. Doble capa ultra suave, transpirable y termorreguladora.",
+    details: "• Material: muslina 100% algodón GOTS\n• Dimensiones: 120cm x 120cm\n• Doble capa, transpirable\n• Usos: arrullo, cobertor, lactancia",
+    price: 69.90, oldPrice: 89.90, stock: 60, categoryId: "cat5", badge: "mas_vendido",
+    emoji: "🧸", images: [], colors: ["#FFFFFF", "#F5EEEC", "#EDF0EC"], bg: "#E8F5E8",
+    featured: true, active: true, rating: 5, reviews: 341, createdAt: Date.now() - 86400000 },
+  { id: "p6", name: "Kit Baby Shower Lujo", slug: "kit-baby-shower",
+    desc: "Set regalo premium en caja kraft con lazo. Body, gorro, manoplas, medias y manta.",
+    details: "• Incluye: body + gorro + manoplas + medias + manta\n• Presentación: caja kraft con lazo\n• Talla: 0-3 meses\n• Personalizable con tarjeta",
+    price: 199.00, oldPrice: 250.00, stock: 20, categoryId: "cat6", badge: "oferta",
+    emoji: "🎁", images: [], colors: ["#F5EEEC", "#EDF0EC", "#FFFFFF"], bg: "#F5F0D4",
+    featured: true, active: true, rating: 5, reviews: 68, createdAt: Date.now() - 3600000 * 5 },
+  { id: "p7", name: "Pelele Estampado Oso", slug: "pelele-oso",
+    desc: "Pelele de algodón suavísimo con estampado de osito. Con botones a presión.",
+    details: "• Material: 100% algodón\n• Estampado: oso bordado\n• Botones a presión\n• Tallas: 0-3m, 3-6m, 6-9m",
+    price: 55.00, oldPrice: null, stock: 3, categoryId: "cat1", badge: "nuevo",
+    emoji: "🐻", images: [], colors: ["#FAE8E8", "#FFFFFF"], bg: "#FAE8E8",
+    featured: false, active: true, rating: 4.7, reviews: 92, createdAt: Date.now() - 3600000 * 2 },
+  { id: "p8", name: "Vincha Lazos Artesanal", slug: "vincha-lazos",
+    desc: "Hecha a mano con lazo de tela. Sin caucho, no aprieta ni irrita el cuero cabelludo.",
+    details: "• Material: tela algodón + goma suave\n• Sin caucho duro\n• Tamaño único ajustable\n• 12 colores disponibles",
+    price: 28.00, oldPrice: null, stock: 100, categoryId: "cat3", badge: "mas_vendido",
+    emoji: "🎀", images: [], colors: ["#F2C4C4", "#D4E8F0", "#FFFFFF", "#EDE8F5"], bg: "#F2C4C4",
+    featured: false, active: true, rating: 4.9, reviews: 178, createdAt: Date.now() - 3600000 },
 ];
 
 const INIT_COUPONS = [
@@ -191,6 +263,122 @@ const inputStyle = { width: "100%", padding: "11px 16px", borderRadius: 14, bord
 const selectStyle = { ...inputStyle, cursor: "pointer" };
 
 // ─── STAT CARD ─────────────────────────────────────────────────────────────
+// ─── IMAGE UPLOADER ─────────────────────────────────────────────────────────
+function ImageUploader({ images = [], onChange, maxImages = 6, label = "Fotos del producto" }) {
+  const ref = useRef();
+  const handleFiles = (e) => {
+    const files = Array.from(e.target.files).slice(0, maxImages - images.length);
+    files.forEach(file => {
+      if (file.size > 2097152) { alert("Máx. 2MB por imagen"); return; }
+      const reader = new FileReader();
+      reader.onload = ev => onChange(prev => [...(prev || []), ev.target.result]);
+      reader.readAsDataURL(file);
+    });
+    e.target.value = "";
+  };
+  const remove = (i) => onChange(images.filter((_, j) => j !== i));
+  const move = (i, dir) => {
+    const arr = [...images]; const j = i + dir;
+    if (j < 0 || j >= arr.length) return;
+    [arr[i], arr[j]] = [arr[j], arr[i]]; onChange(arr);
+  };
+  return (
+    <div style={{ marginBottom: 16 }}>
+      <label style={{ display: "block", fontSize: 11, fontWeight: 700, color: "#7A7068", textTransform: "uppercase", letterSpacing: "1px", marginBottom: 8 }}>{label}</label>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8, marginBottom: 8 }}>
+        {images.map((img, i) => (
+          <div key={i} style={{ position: "relative", aspectRatio: "1/1", borderRadius: 8, overflow: "hidden", border: i === 0 ? "2px solid #899180" : "2px solid #E5DDD4", background: "#F5F2EE" }}>
+            <img src={img} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+            {i === 0 && <div style={{ position: "absolute", top: 4, left: 4, background: "#899180", color: "white", fontSize: 8, fontWeight: 700, padding: "2px 6px", borderRadius: 10, letterSpacing: "0.5px" }}>PRINCIPAL</div>}
+            <div style={{ position: "absolute", bottom: 3, right: 3, display: "flex", gap: 2 }}>
+              {i > 0 && <button onClick={() => move(i, -1)} style={{ width: 20, height: 20, borderRadius: "50%", background: "rgba(255,255,255,0.92)", border: "none", cursor: "pointer", fontSize: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>←</button>}
+              {i < images.length - 1 && <button onClick={() => move(i, 1)} style={{ width: 20, height: 20, borderRadius: "50%", background: "rgba(255,255,255,0.92)", border: "none", cursor: "pointer", fontSize: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>→</button>}
+              <button onClick={() => remove(i)} style={{ width: 20, height: 20, borderRadius: "50%", background: "rgba(220,50,50,0.85)", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}><Icon d={Icons.x} size={10} /></button>
+            </div>
+          </div>
+        ))}
+        {images.length < maxImages && (
+          <button onClick={() => ref.current?.click()} style={{ aspectRatio: "1/1", borderRadius: 8, border: "2px dashed #D8D0C8", background: "#FAFAF8", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 6, color: "#A89888" }}>
+            <Icon d={Icons.upload} size={20} />
+            <span style={{ fontSize: 10, fontWeight: 600 }}>Subir foto</span>
+          </button>
+        )}
+      </div>
+      <input ref={ref} type="file" accept="image/*" multiple onChange={handleFiles} style={{ display: "none" }} />
+      <p style={{ fontSize: 10, color: "#A89888", margin: 0 }}>Máx. {maxImages} fotos · 2MB c/u · La primera es la imagen principal · Usa ← → para reordenar</p>
+    </div>
+  );
+}
+
+// ─── SINGLE IMAGE UPLOADER ───────────────────────────────────────────────────
+function SingleImageUploader({ image, onChange, label = "Imagen", placeholder = "Haz clic para subir" }) {
+  const ref = useRef();
+  const handleFile = (e) => {
+    const file = e.target.files[0]; if (!file) return;
+    if (file.size > 3145728) { alert("Máx. 3MB"); return; }
+    const reader = new FileReader();
+    reader.onload = ev => onChange(ev.target.result);
+    reader.readAsDataURL(file); e.target.value = "";
+  };
+  return (
+    <div style={{ marginBottom: 16 }}>
+      <label style={{ display: "block", fontSize: 11, fontWeight: 700, color: "#7A7068", textTransform: "uppercase", letterSpacing: "1px", marginBottom: 8 }}>{label}</label>
+      <div onClick={() => ref.current?.click()} style={{ borderRadius: 8, overflow: "hidden", border: "2px dashed #D8D0C8", background: "#FAFAF8", minHeight: 100, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", position: "relative" }}>
+        {image
+          ? <><img src={image} alt="" style={{ width: "100%", height: 150, objectFit: "cover" }} /><button onClick={e => { e.stopPropagation(); onChange(""); }} style={{ position: "absolute", top: 8, right: 8, width: 28, height: 28, borderRadius: "50%", background: "rgba(220,50,50,0.85)", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}><Icon d={Icons.x} size={12} /></button></>
+          : <div style={{ textAlign: "center", padding: 20, color: "#A89888" }}><Icon d={Icons.upload} size={24} /><p style={{ margin: "6px 0 2px", fontSize: 12, fontWeight: 500 }}>{placeholder}</p><p style={{ margin: 0, fontSize: 10 }}>JPG, PNG · Máx. 3MB</p></div>
+        }
+      </div>
+      <input ref={ref} type="file" accept="image/*" onChange={handleFile} style={{ display: "none" }} />
+    </div>
+  );
+}
+
+// ─── COLOR SWATCH INPUT ──────────────────────────────────────────────────────
+function ColorSwatchInput({ colors = [], onChange, label = "Colores disponibles" }) {
+  const [input, setInput] = useState("");
+  const addColor = () => {
+    const hex = input.trim();
+    if (!hex.match(/^#[0-9A-Fa-f]{6}$/)) { alert("Ingresa un código HEX válido (ej: #FF5733)"); return; }
+    if (!colors.includes(hex)) onChange([...colors, hex]);
+    setInput("");
+  };
+  const remove = (i) => onChange(colors.filter((_, j) => j !== i));
+  return (
+    <div style={{ marginBottom: 16 }}>
+      <label style={{ display: "block", fontSize: 11, fontWeight: 700, color: "#7A7068", textTransform: "uppercase", letterSpacing: "1px", marginBottom: 8 }}>{label}</label>
+      <div style={{ display: "flex", gap: 8, marginBottom: 10, flexWrap: "wrap" }}>
+        {colors.map((c, i) => (
+          <div key={i} title={c} onClick={() => remove(i)} style={{ width: 32, height: 32, borderRadius: "50%", background: c, border: "2px solid #E5DDD4", cursor: "pointer", position: "relative", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <span style={{ opacity: 0, transition: "opacity 0.15s", fontSize: 12, color: "white" }}>✕</span>
+          </div>
+        ))}
+      </div>
+      <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+        <input type="color" value={input || "#899180"} onChange={e => setInput(e.target.value)} style={{ width: 40, height: 36, borderRadius: 6, border: "1.5px solid #D8D0C8", cursor: "pointer", padding: 2 }} />
+        <input value={input} onChange={e => setInput(e.target.value)} placeholder="#899180" maxLength={7} style={{ flex: 1, padding: "8px 12px", borderRadius: 8, border: "1.5px solid #D8D0C8", background: "#FAFAF8", fontSize: 13, fontFamily: "monospace", letterSpacing: "1px", outline: "none" }} onKeyDown={e => e.key === "Enter" && addColor()} />
+        <button onClick={addColor} style={{ padding: "8px 14px", borderRadius: 8, background: "#899180", color: "white", border: "none", cursor: "pointer", fontSize: 12, fontWeight: 600, whiteSpace: "nowrap" }}>Agregar</button>
+      </div>
+      <p style={{ fontSize: 10, color: "#A89888", margin: "6px 0 0" }}>Haz clic en un color para eliminarlo · Presiona Enter o Agregar</p>
+    </div>
+  );
+}
+
+// ─── COLOR INPUT (simple hex + picker) ─────────────────────────────────────
+function ColorInput({ label, value, onChange }) {
+  return (
+    <div style={{ marginBottom: 14 }}>
+      <label style={{ display: "block", fontSize: 11, fontWeight: 700, color: "#7A7068", textTransform: "uppercase", letterSpacing: "1px", marginBottom: 6 }}>{label}</label>
+      <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+        <input type="color" value={value || "#899180"} onChange={e => onChange(e.target.value)} style={{ width: 42, height: 38, borderRadius: 8, border: "1.5px solid #D8D0C8", cursor: "pointer", padding: 2 }} />
+        <input value={value || ""} onChange={e => onChange(e.target.value)} placeholder="#899180" maxLength={7} style={{ flex: 1, padding: "8px 12px", borderRadius: 8, border: "1.5px solid #D8D0C8", background: "#FAFAF8", fontSize: 13, fontFamily: "monospace", letterSpacing: "1px", outline: "none" }} />
+        <div style={{ width: 38, height: 38, borderRadius: 8, background: value || "#899180", border: "1.5px solid #D8D0C8", flexShrink: 0 }} />
+      </div>
+    </div>
+  );
+}
+
+
 function StatCard({ icon, label, value, sub, color = C.roseDeep, trend }) {
   return (
     <motion.div whileHover={{ y: -4 }}
@@ -258,52 +446,68 @@ function Stars({ rating, size = 13 }) {
 // ════════════════════════════════════════════════════════════════════════════
 
 // ─── PRODUCT CARD (store) ──────────────────────────────────────────────────
-function ProductCard({ product, categories, onAddCart, onWishlist, wishlist = [] }) {
-  const [hover, setHover] = useState(false);
+function ProductCard({ product, categories, onAddCart, onWishlist, wishlist = [], onDetail, config }) {
+  const [hovered, setHovered] = useState(false);
   const cat = categories.find(c => c.id === product.categoryId);
   const inWish = wishlist.includes(product.id);
+  const thumb = product.images && product.images[0];
+  const pc = config?.primaryColor || "#899180";
+
   return (
-    <motion.div whileHover={{ y: -8 }} onClick={() => onDetail(product)} onHoverStart={() => setHover(true)} onHoverEnd={() => setHover(false)}
-      style={{ background: C.white, borderRadius: 24, overflow: "hidden", boxShadow: "0 4px 20px rgba(139,110,82,0.08)", cursor: "pointer", position: "relative" }}>
-      <div style={{ position: "relative", aspectRatio: "1/1.1", background: product.bg || C.roseLight, display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
-        <motion.span animate={{ scale: hover ? 1.1 : 1 }} transition={{ duration: 0.4 }} style={{ fontSize: 72, userSelect: "none" }}>{product.emoji}</motion.span>
-        {product.badge && <div style={{ position: "absolute", top: 12, left: 12 }}><Badge badge={product.badge} /></div>}
-        <motion.button animate={{ opacity: hover ? 1 : 0, scale: hover ? 1 : 0.8 }} onClick={e => { e.stopPropagation(); onWishlist(product.id); }}
-          style={{ position: "absolute", top: 12, right: 12, width: 36, height: 36, borderRadius: "50%", background: "white", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 2px 12px rgba(0,0,0,0.1)", color: inWish ? C.roseDeep : C.muted }}>
-          <Icon d={Icons.heart} size={16} />
+    <motion.div whileHover={{ y: -6 }} onHoverStart={() => setHovered(true)} onHoverEnd={() => setHovered(false)}
+      style={{ background: "white", borderRadius: 16, overflow: "hidden", boxShadow: "0 2px 16px rgba(61,56,50,0.07)", cursor: "pointer" }}
+      onClick={() => onDetail(product)}>
+      <div style={{ position: "relative", aspectRatio: "1/1.1", background: product.bg || "#F5EEEC", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
+        {thumb
+          ? <motion.img src={thumb} alt={product.name} animate={{ scale: hovered ? 1.06 : 1 }} transition={{ duration: 0.4 }} style={{ width: "100%", height: "100%", objectFit: "cover", position: "absolute", inset: 0 }} />
+          : <motion.span animate={{ scale: hovered ? 1.1 : 1 }} transition={{ duration: 0.4 }} style={{ fontSize: 66, userSelect: "none" }}>{product.emoji || "🎁"}</motion.span>
+        }
+        {product.badge && <div style={{ position: "absolute", top: 10, left: 10 }}><Badge badge={product.badge} /></div>}
+        <motion.button animate={{ opacity: hovered || inWish ? 1 : 0 }}
+          onClick={e => { e.stopPropagation(); onWishlist(product.id); }}
+          style={{ position: "absolute", top: 10, right: 10, width: 33, height: 33, borderRadius: "50%", background: "rgba(255,255,255,0.92)", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 2px 8px rgba(0,0,0,0.1)", color: inWish ? "#9E7470" : "#7A7068" }}>
+          <Icon d={Icons.heart} size={14} />
         </motion.button>
+        {product.images && product.images.length > 1 && (
+          <div style={{ position: "absolute", bottom: 8, right: 8, background: "rgba(61,56,50,0.55)", color: "white", fontSize: 9, fontWeight: 700, padding: "2px 7px", borderRadius: 10 }}>📸 {product.images.length}</div>
+        )}
+        {product.colors && product.colors.length > 0 && (
+          <motion.div animate={{ opacity: hovered ? 1 : 0 }} style={{ position: "absolute", bottom: 8, left: 8, display: "flex", gap: 4 }}>
+            {product.colors.slice(0, 5).map((c, i) => <div key={i} style={{ width: 14, height: 14, borderRadius: "50%", background: c, border: "1.5px solid rgba(255,255,255,0.8)" }} />)}
+          </motion.div>
+        )}
         {product.stock <= 5 && product.stock > 0 && (
-          <div style={{ position: "absolute", bottom: 10, left: "50%", transform: "translateX(-50%)", background: C.warning, color: "white", padding: "3px 10px", borderRadius: 100, fontSize: 10, fontWeight: 700, whiteSpace: "nowrap" }}>⚡ ¡Últimas {product.stock}!</div>
+          <div style={{ position: "absolute", bottom: 8, left: "50%", transform: "translateX(-50%)", background: "#C8A860", color: "white", padding: "2px 9px", borderRadius: 20, fontSize: 9, fontWeight: 700, whiteSpace: "nowrap" }}>⚡ ¡Últimas {product.stock}!</div>
         )}
         {product.stock === 0 && (
-          <div style={{ position: "absolute", inset: 0, background: "rgba(255,255,255,0.7)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <span style={{ background: C.charcoal, color: "white", padding: "8px 20px", borderRadius: 100, fontSize: 12, fontWeight: 700 }}>Sin stock</span>
+          <div style={{ position: "absolute", inset: 0, background: "rgba(255,255,255,0.65)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <span style={{ background: "#3D3830", color: "white", padding: "7px 16px", borderRadius: 20, fontSize: 11, fontWeight: 700 }}>Agotado</span>
           </div>
         )}
+        <motion.div animate={{ opacity: hovered && product.stock > 0 ? 1 : 0, y: hovered && product.stock > 0 ? 0 : 8 }}
+          style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "8px 10px", background: "rgba(255,255,255,0.95)" }}
+          onClick={e => { e.stopPropagation(); onAddCart(product); }}>
+          <button style={{ width: "100%", padding: "9px", background: pc, color: "white", border: "none", borderRadius: 8, fontSize: 12, fontWeight: 600, cursor: "pointer" }}>Añadir al carrito</button>
+        </motion.div>
       </div>
-      <div style={{ padding: 18 }}>
-        <div style={{ fontSize: 11, color: C.roseDeep, textTransform: "uppercase", letterSpacing: "1px", marginBottom: 4 }}>{cat?.name}</div>
-        <div style={{ fontFamily: FONT.serif, fontSize: 18, fontWeight: 600, color: C.charcoal, marginBottom: 8, lineHeight: 1.3 }}>{product.name}</div>
-        <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 12 }}>
-          <Stars rating={product.rating} />
-          <span style={{ fontSize: 11, color: C.muted }}>({product.reviews})</span>
+      <div style={{ padding: "13px 14px 14px" }}>
+        {cat && <p style={{ fontSize: 10, color: pc, textTransform: "uppercase", letterSpacing: "1.2px", margin: "0 0 4px", fontWeight: 600 }}>{cat.name}</p>}
+        <p style={{ fontFamily: `"${config?.fontHeading || "Cormorant Garamond"}", serif`, fontSize: 16, fontWeight: 400, color: config?.headingColor || "#3D3830", marginBottom: 6, lineHeight: 1.3 }}>{product.name}</p>
+        <div style={{ display: "flex", alignItems: "center", gap: 5, marginBottom: 8 }}>
+          <Stars rating={product.rating} size={12} />
+          <span style={{ fontSize: 10, color: "#A89888" }}>({product.reviews})</span>
         </div>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div>
-            <span style={{ fontWeight: 700, fontSize: 18, color: C.brown }}>{C.currency || "S/."} {product.price.toFixed(2)}</span>
-            {product.oldPrice && <span style={{ fontSize: 12, color: C.muted, textDecoration: "line-through", marginLeft: 8 }}>S/. {product.oldPrice.toFixed(2)}</span>}
+            <span style={{ fontWeight: 700, fontSize: 16, color: config?.headingColor || "#3D3830" }}>{config?.currency || "S/."} {product.price.toFixed(2)}</span>
+            {product.oldPrice && <span style={{ fontSize: 11, color: "#A89888", textDecoration: "line-through", marginLeft: 6 }}>S/. {product.oldPrice.toFixed(2)}</span>}
           </div>
-          <motion.button whileTap={{ scale: 0.95 }} onClick={() => onAddCart(product)} disabled={product.stock === 0}
-            style={{ background: product.stock === 0 ? C.beigeDark : `linear-gradient(135deg, ${C.roseDeep}, ${C.sand})`, color: "white", border: "none", padding: "8px 16px", borderRadius: 100, fontSize: 12, fontWeight: 600, cursor: product.stock === 0 ? "not-allowed" : "pointer", display: "flex", alignItems: "center", gap: 6 }}>
-            <Icon d={Icons.cart} size={13} /> Añadir
-          </motion.button>
         </div>
       </div>
     </motion.div>
   );
 }
 
-// ─── CART SIDEBAR ──────────────────────────────────────────────────────────
 function CartSidebar({ open, onClose, cart, setCart, config, onCheckout }) {
   const toast = useToast();
   const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
@@ -646,156 +850,125 @@ function HeroSection({ config, onShop }) {
     </div>
   );
 }
-function ProductDetailModal({
-  product,
-  categories,
-  open,
-  onClose,
-  onAddCart,
-  onWishlist,
-  wishlist = [],
-  config
-}) {
-  if (!product) return null;
-
-  const cat = categories.find(c => c.id === product.categoryId);
-  const inWish = wishlist.includes(product.id);
-
+function ProductDetailModal({ product, categories, open, onClose, onAddCart, onWishlist, wishlist = [], config }) {
+  const [curImg, setCurImg] = useState(0);
+  const cat = categories.find(c => c.id === product?.categoryId);
+  const inWish = product && wishlist.includes(product.id);
+  const imgs = product?.images?.length > 0 ? product.images : [];
+  const pc = config?.primaryColor || "#899180";
+  useEffect(() => { setCurImg(0); }, [product?.id]);
+  if (!open || !product) return null;
+  const lines = (product.details || "").split("\n").filter(l => l.trim());
   return (
-    <Modal open={open} onClose={onClose} title={product.name} width={700}>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
-        
-        {/* Imagen (emoji en tu caso) */}
-        <div
-          style={{
-            background: product.bg || C.roseLight,
-            borderRadius: 16,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            aspectRatio: "1/1"
-          }}
-        >
-          <span style={{ fontSize: 80 }}>{product.emoji}</span>
-        </div>
+    <AnimatePresence>
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+        onClick={e => e.target === e.currentTarget && onClose()}
+        style={{ position: "fixed", inset: 0, background: "rgba(61,56,50,0.55)", zIndex: 1100, display: "flex", alignItems: "center", justifyContent: "center", padding: 16, overflowY: "auto" }}>
+        <motion.div initial={{ scale: 0.95, opacity: 0, y: 20 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.95, opacity: 0 }}
+          style={{ background: "#FFFFFF", borderRadius: 16, width: "100%", maxWidth: 860, display: "grid", gridTemplateColumns: "1fr 1fr", boxShadow: "0 24px 80px rgba(0,0,0,0.22)", overflow: "hidden", maxHeight: "92vh" }}>
 
-        {/* Info */}
-        <div>
-          <div style={{ fontSize: 12, color: C.muted, marginBottom: 6 }}>
-            {cat?.name}
-          </div>
-
-          <h2
-            style={{
-              fontFamily: FONT.serif,
-              fontSize: 26,
-              color: C.charcoal,
-              margin: "0 0 10px"
-            }}
-          >
-            {product.name}
-          </h2>
-
-          <div style={{ marginBottom: 12 }}>
-            <Stars rating={product.rating} />
-            <span style={{ fontSize: 12, color: C.muted, marginLeft: 6 }}>
-              ({product.reviews})
-            </span>
-          </div>
-
-          <p
-            style={{
-              fontSize: 14,
-              color: C.muted,
-              lineHeight: 1.6,
-              marginBottom: 16
-            }}
-          >
-            {product.desc}
-          </p>
-
-          {/* Precio */}
-          <div style={{ marginBottom: 20 }}>
-            <span
-              style={{
-                fontSize: 22,
-                fontWeight: 700,
-                color: C.brown
-              }}
-            >
-              {config.currency || "S/."} {product.price.toFixed(2)}
-            </span>
-
-            {product.oldPrice && (
-              <span
-                style={{
-                  marginLeft: 10,
-                  textDecoration: "line-through",
-                  color: C.faint
-                }}
-              >
-                S/. {product.oldPrice.toFixed(2)}
-              </span>
-            )}
-          </div>
-
-          {/* Stock */}
-          <div style={{ marginBottom: 20, fontSize: 13 }}>
-            {product.stock > 0 ? (
-              <span style={{ color: C.success }}>
-                ✅ Stock disponible ({product.stock})
-              </span>
+          {/* Image panel */}
+          <div style={{ position: "relative", background: product.bg || "#F5EEEC", minHeight: 380, display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
+            {imgs.length > 0 ? (
+              <>
+                <img src={imgs[curImg]} alt={product.name} style={{ width: "100%", height: "100%", objectFit: "cover", position: "absolute", inset: 0 }} />
+                {imgs.length > 1 && (
+                  <>
+                    <button onClick={() => setCurImg(i => Math.max(0, i - 1))} disabled={curImg === 0}
+                      style={{ position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)", width: 36, height: 36, borderRadius: "50%", background: "rgba(255,255,255,0.92)", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", opacity: curImg === 0 ? 0.3 : 1, boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}>
+                      <Icon d="M15 18l-6-6 6-6" size={14} />
+                    </button>
+                    <button onClick={() => setCurImg(i => Math.min(imgs.length - 1, i + 1))} disabled={curImg === imgs.length - 1}
+                      style={{ position: "absolute", right: 10, top: "50%", transform: "translateY(-50%)", width: 36, height: 36, borderRadius: "50%", background: "rgba(255,255,255,0.92)", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", opacity: curImg === imgs.length - 1 ? 0.3 : 1, boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}>
+                      <Icon d="M9 18l6-6-6-6" size={14} />
+                    </button>
+                    {/* Thumbnails */}
+                    <div style={{ position: "absolute", bottom: 10, left: 0, right: 0, display: "flex", gap: 6, padding: "0 12px", overflowX: "auto", justifyContent: "center" }}>
+                      {imgs.map((img, i) => (
+                        <div key={i} onClick={() => setCurImg(i)} style={{ width: 48, height: 48, borderRadius: 6, overflow: "hidden", flexShrink: 0, cursor: "pointer", border: `2px solid ${i === curImg ? "white" : "transparent"}`, opacity: i === curImg ? 1 : 0.55, transition: "all 0.2s" }}>
+                          <img src={img} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                )}
+              </>
             ) : (
-              <span style={{ color: C.danger }}>
-                ❌ Sin stock
-              </span>
+              <span style={{ fontSize: 90, userSelect: "none" }}>{product.emoji || "🎁"}</span>
+            )}
+            {product.stock <= 5 && product.stock > 0 && (
+              <div style={{ position: "absolute", top: 12, left: 12, background: "#C8A860", color: "white", padding: "3px 10px", borderRadius: 20, fontSize: 10, fontWeight: 700 }}>⚡ Solo {product.stock}</div>
             )}
           </div>
 
-          {/* Botones */}
-          <div style={{ display: "flex", gap: 10 }}>
-            <button
-              onClick={() => onAddCart(product)}
-              disabled={product.stock === 0}
-              style={{
-                flex: 2,
-                padding: "14px",
-                borderRadius: 100,
-                border: "none",
-                background:
-                  product.stock === 0
-                    ? C.beigeDark
-                    : `linear-gradient(135deg, ${C.roseDeep}, ${C.sand})`,
-                color: "white",
-                fontWeight: 700,
-                cursor: product.stock === 0 ? "not-allowed" : "pointer"
-              }}
-            >
-              🛒 Añadir al carrito
-            </button>
+          {/* Info panel */}
+          <div style={{ padding: "28px 26px", display: "flex", flexDirection: "column", overflowY: "auto", maxHeight: "92vh" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 8 }}>
+              <div style={{ flex: 1, paddingRight: 8 }}>
+                <p style={{ fontSize: 10, color: pc, textTransform: "uppercase", letterSpacing: "1.5px", margin: "0 0 5px", fontWeight: 600 }}>{cat?.name}</p>
+                <h2 style={{ fontFamily: `"${config?.fontHeading || "Cormorant Garamond"}", serif`, fontSize: 22, fontWeight: 400, color: "#3D3830", margin: 0, lineHeight: 1.2 }}>{product.name}</h2>
+              </div>
+              <div style={{ display: "flex", gap: 6 }}>
+                <button onClick={() => onWishlist(product.id)} style={{ width: 36, height: 36, borderRadius: "50%", background: inWish ? "#F5EEEC" : "#F5F2EE", border: `1.5px solid ${inWish ? "#9E7470" : "#D8D0C8"}`, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: inWish ? "#9E7470" : "#7A7068" }}>
+                  <Icon d={Icons.heart} size={14} />
+                </button>
+                <button onClick={onClose} style={{ width: 36, height: 36, borderRadius: "50%", background: "#F5F2EE", border: "1.5px solid #D8D0C8", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "#7A7068" }}>
+                  <Icon d={Icons.x} size={14} />
+                </button>
+              </div>
+            </div>
 
-            <button
-              onClick={() => onWishlist(product.id)}
-              style={{
-                flex: 1,
-                padding: "14px",
-                borderRadius: 100,
-                border: `1.5px solid ${C.beigeDark}`,
-                background: "transparent",
-                cursor: "pointer",
-                color: inWish ? C.roseDeep : C.muted
-              }}
-            >
-              ❤️
-            </button>
+            <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 14 }}>
+              <Stars rating={product.rating} size={12} />
+              <span style={{ fontSize: 11, color: "#A89888" }}>({product.reviews} reseñas)</span>
+            </div>
+
+            <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 14, paddingBottom: 14, borderBottom: "1px solid #EDE8E2" }}>
+              <span style={{ fontFamily: `"${config?.fontHeading || "Cormorant Garamond"}", serif`, fontSize: 28, fontWeight: 600, color: "#3D3830" }}>{config?.currency || "S/."} {product.price.toFixed(2)}</span>
+              {product.oldPrice && <span style={{ fontSize: 14, color: "#A89888", textDecoration: "line-through" }}>S/. {product.oldPrice.toFixed(2)}</span>}
+              {product.oldPrice && <span style={{ fontSize: 10, fontWeight: 700, color: "#6A9E78", background: "#6A9E7818", padding: "2px 7px", borderRadius: 10 }}>-{Math.round((1 - product.price / product.oldPrice) * 100)}%</span>}
+            </div>
+
+            <p style={{ fontSize: 13, lineHeight: 1.8, color: "#7A7068", marginBottom: 14 }}>{product.desc}</p>
+
+            {/* Colors */}
+            {product.colors && product.colors.length > 0 && (
+              <div style={{ marginBottom: 14 }}>
+                <p style={{ fontSize: 11, fontWeight: 700, color: "#7A7068", textTransform: "uppercase", letterSpacing: "1px", margin: "0 0 8px" }}>Colores disponibles</p>
+                <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                  {product.colors.map((c, i) => (
+                    <div key={i} title={c} style={{ width: 28, height: 28, borderRadius: "50%", background: c, border: "2px solid #E5DDD4", boxShadow: "0 1px 4px rgba(0,0,0,0.1)" }} />
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Details / specs */}
+            {lines.length > 0 && (
+              <div style={{ background: "#FAFAF8", borderRadius: 10, padding: "12px 14px", marginBottom: 16, border: "1px solid #EDE8E2" }}>
+                <p style={{ fontSize: 11, fontWeight: 700, color: "#3D3830", textTransform: "uppercase", letterSpacing: "1px", margin: "0 0 10px" }}>Especificaciones</p>
+                {lines.map((l, i) => <p key={i} style={{ fontSize: 12, color: "#7A7068", margin: "0 0 5px", lineHeight: 1.6 }}>{l}</p>)}
+              </div>
+            )}
+
+            <div style={{ marginTop: "auto", paddingTop: 12 }}>
+              {product.stock === 0
+                ? <div style={{ textAlign: "center", padding: 12, background: "#F5F2EE", borderRadius: 10, color: "#7A7068", fontWeight: 600 }}>Sin stock disponible</div>
+                : <button onClick={() => { onAddCart(product); onClose(); }} style={{ width: "100%", padding: "13px", borderRadius: 100, background: pc, color: "white", border: "none", fontWeight: 700, fontSize: 14, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
+                    <Icon d={Icons.cart} size={16} /> Añadir al carrito
+                  </button>
+              }
+              <div style={{ display: "flex", justifyContent: "center", gap: 16, marginTop: 10, fontSize: 11, color: "#A89888" }}>
+                <span>🌿 Material seguro</span><span>🚀 Envío 24-48h</span><span>↩️ Cambio fácil</span>
+              </div>
+            </div>
           </div>
-        </div>
-
-      </div>
-    </Modal>
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
   );
 }
-``
+
 function Storefront({ products, categories, config, coupons, cart, setCart, wishlist, setWishlist, orders, setOrders }) {
   const toast = useToast();
   const [cartOpen, setCartOpen] = useState(false);
@@ -1175,102 +1348,90 @@ function AdminProducts({ products, setProducts, categories }) {
   const [confirm, setConfirm] = useState(null);
   const [form, setForm] = useState({});
 
-  const openNew = () => { setForm({ name: "", desc: "", price: "", oldPrice: "", stock: "", categoryId: categories[0]?.id || "", badge: "", emoji: "👶", bg: C.roseLight, active: true, featured: false }); setModal("new"); };
-  const openEdit = (p) => { setForm({ ...p, price: String(p.price), oldPrice: p.oldPrice ? String(p.oldPrice) : "", stock: String(p.stock) }); setModal(p); };
-
+  const openNew = () => {
+    setForm({ name: "", desc: "", details: "", price: "", oldPrice: "", stock: "", categoryId: categories[0]?.id || "", badge: "", emoji: "🎁", images: [], colors: [], bg: "#F5EEEC", active: true, featured: false });
+    setModal("new");
+  };
+  const openEdit = (p) => {
+    setForm({ ...p, price: String(p.price), oldPrice: p.oldPrice ? String(p.oldPrice) : "", stock: String(p.stock), images: p.images || [], colors: p.colors || [] });
+    setModal(p);
+  };
   const save = () => {
     if (!form.name || !form.price || !form.stock) { toast("Completa nombre, precio y stock", "error"); return; }
-    const data = { ...form, price: parseFloat(form.price), oldPrice: form.oldPrice ? parseFloat(form.oldPrice) : null, stock: parseInt(form.stock), rating: form.rating || 4.8, reviews: form.reviews || 0, createdAt: form.createdAt || Date.now(), slug: form.name.toLowerCase().replace(/[^a-z0-9]+/g, "-"), active: Boolean(form.active), featured: Boolean(form.featured) };
-    if (modal === "new") { setProducts(p => [...p, { ...data, id: "p" + Date.now() }]); toast("✅ Producto creado"); }
-    else { setProducts(p => p.map(x => x.id === modal.id ? { ...x, ...data } : x)); toast("✅ Producto actualizado"); }
+    const data = { ...form, price: parseFloat(form.price), oldPrice: form.oldPrice ? parseFloat(form.oldPrice) : null, stock: parseInt(form.stock), rating: form.rating || 4.8, reviews: form.reviews || 0, createdAt: form.createdAt || Date.now(), slug: form.name.toLowerCase().replace(/[^a-z0-9]+/g, "-"), active: Boolean(form.active), featured: Boolean(form.featured), images: form.images || [], colors: form.colors || [] };
+    if (modal === "new") { setProducts(p => [...p, { ...data, id: "p" + Date.now() }]); toast("✓ Producto creado"); }
+    else { setProducts(p => p.map(x => x.id === modal.id ? { ...x, ...data } : x)); toast("✓ Producto actualizado"); }
     setModal(null);
   };
-
-  const del = (id) => { setProducts(p => p.map(x => x.id === id ? { ...x, active: false } : x)); toast("Producto eliminado"); };
-  const toggleActive = (id) => setProducts(p => p.map(x => x.id === id ? { ...x, active: !x.active } : x));
-
+  const deactivate = (id) => { setProducts(p => p.map(x => x.id === id ? { ...x, active: false } : x)); toast("Producto desactivado"); };
+  const toggle = (id) => setProducts(p => p.map(x => x.id === id ? { ...x, active: !x.active } : x));
   const filtered = products.filter(p => !search || p.name.toLowerCase().includes(search.toLowerCase()));
 
-  const FormModal = (
-    <Modal open={!!modal} onClose={() => setModal(null)} title={modal === "new" ? "Nuevo producto" : "Editar producto"} width={680}>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
-        <div style={{ gridColumn: "1/-1" }}><Field label="Nombre del producto" required><input value={form.name || ""} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} style={inputStyle} placeholder="Ej: Set Bodysuit Algodón" /></Field></div>
-        <div style={{ gridColumn: "1/-1" }}><Field label="Descripción"><textarea value={form.desc || ""} onChange={e => setForm(f => ({ ...f, desc: e.target.value }))} style={{ ...inputStyle, resize: "vertical", minHeight: 80 }} placeholder="Descripción del producto..." /></Field></div>
-        <Field label="Precio (S/.)" required><input type="number" step="0.01" value={form.price || ""} onChange={e => setForm(f => ({ ...f, price: e.target.value }))} style={inputStyle} placeholder="0.00" /></Field>
-        <Field label="Precio anterior (opcional)"><input type="number" step="0.01" value={form.oldPrice || ""} onChange={e => setForm(f => ({ ...f, oldPrice: e.target.value }))} style={inputStyle} placeholder="0.00" /></Field>
-        <Field label="Stock" required><input type="number" value={form.stock || ""} onChange={e => setForm(f => ({ ...f, stock: e.target.value }))} style={inputStyle} placeholder="0" /></Field>
-        <Field label="Categoría"><select value={form.categoryId || ""} onChange={e => setForm(f => ({ ...f, categoryId: e.target.value }))} style={selectStyle}>{categories.map(c => <option key={c.id} value={c.id}>{c.emoji} {c.name}</option>)}</select></Field>
-        <Field label="Badge / Etiqueta"><select value={form.badge || ""} onChange={e => setForm(f => ({ ...f, badge: e.target.value }))} style={selectStyle}><option value="">Sin etiqueta</option><option value="nuevo">Nuevo</option><option value="oferta">Oferta</option><option value="mas_vendido">Más vendido</option><option value="favorito">Favorito</option></select></Field>
-        <Field label="Emoji del producto"><input value={form.emoji || ""} onChange={e => setForm(f => ({ ...f, emoji: e.target.value }))} style={inputStyle} placeholder="👶" /></Field>
-        <Field label="Color de fondo"><input type="color" value={form.bg || "#FAE8E8"} onChange={e => setForm(f => ({ ...f, bg: e.target.value }))} style={{ ...inputStyle, padding: 6, height: 44, cursor: "pointer" }} /></Field>
-        <div style={{ display: "flex", gap: 20, alignItems: "center", gridColumn: "1/-1" }}>
-          <label style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer", fontSize: 14, color: C.muted }}>
-            <input type="checkbox" checked={!!form.featured} onChange={e => setForm(f => ({ ...f, featured: e.target.checked }))} style={{ width: 18, height: 18, accentColor: C.roseDeep }} /> Producto destacado
-          </label>
-          <label style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer", fontSize: 14, color: C.muted }}>
-            <input type="checkbox" checked={!!form.active} onChange={e => setForm(f => ({ ...f, active: e.target.checked }))} style={{ width: 18, height: 18, accentColor: C.roseDeep }} /> Activo (visible en tienda)
-          </label>
-        </div>
-      </div>
-      <div style={{ display: "flex", gap: 12, marginTop: 8 }}>
-        <button onClick={() => setModal(null)} style={{ flex: 1, padding: "13px", borderRadius: 100, border: `1.5px solid ${C.beigeDark}`, background: "transparent", cursor: "pointer", fontWeight: 600, color: C.muted }}>Cancelar</button>
-        <button onClick={save} style={{ flex: 2, padding: "13px", borderRadius: 100, background: C.sage, color: "white", border: "none", fontWeight: 700, cursor: "pointer" }}>
-          <Icon d={Icons.save} size={14} style={{ display: "inline", marginRight: 6 }} />Guardar producto
-        </button>
-      </div>
-    </Modal>
-  );
+  const iS = { width: "100%", padding: "9px 12px", borderRadius: 8, border: "1.5px solid #D8D0C8", background: "#FAFAF8", color: "#3D3830", fontSize: 13, outline: "none", boxSizing: "border-box" };
 
   return (
     <div>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 28 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 22 }}>
         <div>
-          <h2 style={{ fontFamily: FONT.serif, fontSize: 28, color: C.charcoal, margin: "0 0 4px" }}>Productos</h2>
-          <p style={{ color: C.muted, fontSize: 14, margin: 0 }}>{products.filter(p => p.active).length} activos · {products.length} total</p>
+          <h2 style={{ fontFamily: "serif", fontSize: 26, color: "#3D3830", margin: "0 0 3px" }}>Productos</h2>
+          <p style={{ color: "#A89888", fontSize: 12, margin: 0 }}>{products.filter(p => p.active).length} activos · {products.length} total</p>
         </div>
-        <button onClick={openNew} style={{ display: "flex", alignItems: "center", gap: 8, padding: "12px 24px", borderRadius: 100, background: C.sage, color: "white", border: "none", fontWeight: 600, cursor: "pointer", fontSize: 14 }}>
-          <Icon d={Icons.plus} size={16} /> Nuevo producto
+        <button onClick={openNew} style={{ display: "flex", alignItems: "center", gap: 7, padding: "10px 20px", borderRadius: 100, background: "#899180", color: "white", border: "none", fontWeight: 600, cursor: "pointer", fontSize: 13 }}>
+          <Icon d={Icons.plus} size={14} /> Nuevo producto
         </button>
       </div>
-      <div style={{ position: "relative", marginBottom: 20 }}>
-        <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Buscar productos..." style={{ ...inputStyle, paddingLeft: 40 }} />
-        <Icon d={Icons.search} size={15} style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", color: C.faint }} />
+
+      <div style={{ position: "relative", marginBottom: 16 }}>
+        <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Buscar productos..." style={{ ...iS, paddingLeft: 36 }} />
+        <Icon d={Icons.search} size={14} style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", color: "#A89888" }} />
       </div>
-      <div style={{ background: C.white, borderRadius: 20, boxShadow: "0 4px 24px rgba(139,110,82,0.08)", overflow: "hidden" }}>
+
+      <div style={{ background: "white", borderRadius: 12, border: "1px solid #EDE8E2", overflow: "hidden" }}>
         <table style={{ width: "100%", borderCollapse: "collapse" }}>
-          <thead><tr style={{ background: C.linen }}>{["Producto", "Categoría", "Precio", "Stock", "Estado", "Etiqueta", "Acciones"].map(h => <th key={h} style={{ fontSize: 11, fontWeight: 700, color: C.faint, textTransform: "uppercase", letterSpacing: "1px", padding: "14px 16px", textAlign: "left" }}>{h}</th>)}</tr></thead>
+          <thead><tr style={{ background: "#F5F2EE" }}>
+            {["Producto", "Categoría", "Precio", "Stock", "Estado", "Acciones"].map(h => (
+              <th key={h} style={{ fontSize: 10, fontWeight: 700, color: "#A89888", textTransform: "uppercase", letterSpacing: "1px", padding: "12px 14px", textAlign: "left" }}>{h}</th>
+            ))}
+          </tr></thead>
           <tbody>
             {filtered.map(p => {
               const cat = categories.find(c => c.id === p.categoryId);
+              const thumb = p.images && p.images[0];
               return (
-                <tr key={p.id} style={{ borderTop: `1px solid ${C.beige}`, opacity: p.active ? 1 : 0.5 }}>
-                  <td style={{ padding: "14px 16px", display: "flex", alignItems: "center", gap: 12 }}>
-                    <div style={{ width: 44, height: 44, borderRadius: 12, background: p.bg, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, flexShrink: 0 }}>{p.emoji}</div>
-                    <div><div style={{ fontWeight: 600, fontSize: 14, color: C.charcoal }}>{p.name}</div>{p.featured && <span style={{ fontSize: 10, color: C.sand, fontWeight: 700 }}>⭐ Destacado</span>}</div>
+                <tr key={p.id} style={{ borderTop: "1px solid #EDE8E2", opacity: p.active ? 1 : 0.5 }}>
+                  <td style={{ padding: "12px 14px" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                      <div style={{ width: 44, height: 56, borderRadius: 8, overflow: "hidden", background: p.bg || "#F5EEEC", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>
+                        {thumb ? <img src={thumb} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} /> : p.emoji || "🎁"}
+                      </div>
+                      <div>
+                        <p style={{ fontWeight: 600, fontSize: 13, color: "#3D3830", margin: "0 0 2px" }}>{p.name}</p>
+                        <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                          {p.featured && <span style={{ fontSize: 9, color: "#899180" }}>★ Destacado</span>}
+                          {p.images?.length > 0 && <span style={{ fontSize: 9, color: "#B5A99A" }}>📸 {p.images.length}</span>}
+                          {p.colors?.length > 0 && <div style={{ display: "flex", gap: 2 }}>{p.colors.slice(0, 4).map((c, i) => <div key={i} style={{ width: 10, height: 10, borderRadius: "50%", background: c, border: "1px solid #D8D0C8" }} />)}</div>}
+                        </div>
+                      </div>
+                    </div>
                   </td>
-                  <td style={{ padding: "14px 16px", fontSize: 13, color: C.muted }}>{cat?.emoji} {cat?.name}</td>
-                  <td style={{ padding: "14px 16px" }}>
-                    <div style={{ fontWeight: 700, fontSize: 14, color: C.brown }}>S/. {p.price.toFixed(2)}</div>
-                    {p.oldPrice && <div style={{ fontSize: 11, color: C.faint, textDecoration: "line-through" }}>S/. {p.oldPrice.toFixed(2)}</div>}
+                  <td style={{ padding: "12px 14px", fontSize: 12, color: "#7A7068" }}>{cat?.emoji} {cat?.name}</td>
+                  <td style={{ padding: "12px 14px" }}>
+                    <p style={{ fontWeight: 700, fontSize: 13, color: "#3D3830", margin: "0 0 2px" }}>S/. {p.price.toFixed(2)}</p>
+                    {p.oldPrice && <p style={{ fontSize: 11, color: "#A89888", textDecoration: "line-through", margin: 0 }}>S/. {p.oldPrice.toFixed(2)}</p>}
                   </td>
-                  <td style={{ padding: "14px 16px" }}>
-                    <span style={{ fontSize: 14, fontWeight: 700, color: p.stock <= 5 ? C.warning : C.charcoal }}>{p.stock}</span>
-                    {p.stock <= 5 && <span style={{ fontSize: 10, color: C.warning, display: "block" }}>⚠️ Bajo stock</span>}
+                  <td style={{ padding: "12px 14px" }}>
+                    <span style={{ fontSize: 13, fontWeight: 700, color: p.stock <= 5 ? "#C8A860" : "#3D3830" }}>{p.stock}</span>
+                    {p.stock <= 5 && <p style={{ fontSize: 9, color: "#C8A860", margin: 0 }}>stock bajo</p>}
                   </td>
-                  <td style={{ padding: "14px 16px" }}>
-                    <button onClick={() => toggleActive(p.id)} style={{ background: p.active ? "#D4EDDA" : "#F8D7DA", color: p.active ? "#155724" : "#721C24", border: "none", padding: "4px 12px", borderRadius: 100, fontSize: 11, fontWeight: 700, cursor: "pointer" }}>
+                  <td style={{ padding: "12px 14px" }}>
+                    <button onClick={() => toggle(p.id)} style={{ background: p.active ? "#EDF0EC" : "#FBE8E8", color: p.active ? "#6B7264" : "#8A2020", border: "none", padding: "3px 10px", borderRadius: 20, fontSize: 10, fontWeight: 700, cursor: "pointer" }}>
                       {p.active ? "Activo" : "Inactivo"}
                     </button>
                   </td>
-                  <td style={{ padding: "14px 16px" }}><Badge badge={p.badge} /></td>
-                  <td style={{ padding: "14px 16px" }}>
-                    <div style={{ display: "flex", gap: 8 }}>
-                      <button onClick={() => openEdit(p)} style={{ width: 34, height: 34, borderRadius: 10, border: `1.5px solid ${C.beigeDark}`, background: "transparent", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: C.muted }}>
-                        <Icon d={Icons.edit} size={14} />
-                      </button>
-                      <button onClick={() => setConfirm({ id: p.id, name: p.name })} style={{ width: 34, height: 34, borderRadius: 10, border: `1.5px solid #FFCDD2`, background: "transparent", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: C.danger }}>
-                        <Icon d={Icons.trash} size={14} />
-                      </button>
+                  <td style={{ padding: "12px 14px" }}>
+                    <div style={{ display: "flex", gap: 6 }}>
+                      <button onClick={() => openEdit(p)} style={{ width: 30, height: 30, borderRadius: 8, border: "1.5px solid #D8D0C8", background: "transparent", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "#7A7068" }}><Icon d={Icons.edit} size={13} /></button>
+                      <button onClick={() => setConfirm({ id: p.id, name: p.name })} style={{ width: 30, height: 30, borderRadius: 8, border: "1.5px solid #FFCDD2", background: "transparent", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "#C07070" }}><Icon d={Icons.trash} size={13} /></button>
                     </div>
                   </td>
                 </tr>
@@ -1278,14 +1439,91 @@ function AdminProducts({ products, setProducts, categories }) {
             })}
           </tbody>
         </table>
+        {filtered.length === 0 && <p style={{ padding: "32px", textAlign: "center", color: "#A89888", fontSize: 13 }}>No se encontraron productos</p>}
       </div>
-      {FormModal}
-      <ConfirmDialog open={!!confirm} onClose={() => setConfirm(null)} onConfirm={() => del(confirm?.id)} title="Eliminar producto" message={`¿Segura que quieres eliminar "${confirm?.name}"? El producto se ocultará de la tienda.`} danger />
+
+      {/* Product Form Modal */}
+      <Modal open={!!modal} onClose={() => setModal(null)} title={modal === "new" ? "Nuevo producto" : "Editar producto"} width={720}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+          <div style={{ gridColumn: "1/-1" }}>
+            <Field label="Nombre del producto" required>
+              <input value={form.name || ""} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} style={iS} placeholder="Ej: Set Bodysuit Algodón" />
+            </Field>
+          </div>
+          <div style={{ gridColumn: "1/-1" }}>
+            <Field label="Descripción corta">
+              <textarea value={form.desc || ""} onChange={e => setForm(f => ({ ...f, desc: e.target.value }))} style={{ ...iS, resize: "vertical", minHeight: 60 }} placeholder="Descripción breve visible en el catálogo..." />
+            </Field>
+          </div>
+          <div style={{ gridColumn: "1/-1" }}>
+            <Field label="Detalles / Especificaciones (una por línea)">
+              <textarea value={form.details || ""} onChange={e => setForm(f => ({ ...f, details: e.target.value }))} style={{ ...iS, resize: "vertical", minHeight: 90 }} placeholder={"• Material: algodón orgánico\n• Tallas: 0-3m, 3-6m\n• Lavable a máquina"} />
+            </Field>
+          </div>
+          <Field label="Precio (S/.)" required>
+            <input type="number" step="0.01" value={form.price || ""} onChange={e => setForm(f => ({ ...f, price: e.target.value }))} style={iS} placeholder="0.00" />
+          </Field>
+          <Field label="Precio anterior (tachado)">
+            <input type="number" step="0.01" value={form.oldPrice || ""} onChange={e => setForm(f => ({ ...f, oldPrice: e.target.value }))} style={iS} placeholder="0.00" />
+          </Field>
+          <Field label="Stock disponible" required>
+            <input type="number" value={form.stock || ""} onChange={e => setForm(f => ({ ...f, stock: e.target.value }))} style={iS} />
+          </Field>
+          <Field label="Categoría">
+            <select value={form.categoryId || ""} onChange={e => setForm(f => ({ ...f, categoryId: e.target.value }))} style={{ ...iS, cursor: "pointer" }}>
+              {categories.map(c => <option key={c.id} value={c.id}>{c.emoji} {c.name}</option>)}
+            </select>
+          </Field>
+          <Field label="Badge / Etiqueta">
+            <select value={form.badge || ""} onChange={e => setForm(f => ({ ...f, badge: e.target.value }))} style={{ ...iS, cursor: "pointer" }}>
+              <option value="">Sin etiqueta</option>
+              <option value="nuevo">Nuevo</option>
+              <option value="oferta">Oferta</option>
+              <option value="mas_vendido">Más vendido</option>
+              <option value="favorito">Favorito</option>
+            </select>
+          </Field>
+          <Field label="Emoji (respaldo sin fotos)">
+            <input value={form.emoji || ""} onChange={e => setForm(f => ({ ...f, emoji: e.target.value }))} style={iS} placeholder="🎁" />
+          </Field>
+          <div style={{ gridColumn: "1/-1" }}>
+            <ImageUploader
+              images={form.images || []}
+              onChange={imgs => setForm(f => ({ ...f, images: typeof imgs === "function" ? imgs(f.images || []) : imgs }))}
+              maxImages={6}
+              label="📸 Fotos del producto (hasta 6 · la primera es la principal)"
+            />
+          </div>
+          <div style={{ gridColumn: "1/-1" }}>
+            <ColorSwatchInput
+              colors={form.colors || []}
+              onChange={colors => setForm(f => ({ ...f, colors }))}
+              label="🎨 Colores disponibles"
+            />
+          </div>
+          <div style={{ gridColumn: "1/-1" }}>
+            <ColorInput label="Color de fondo de la tarjeta (sin fotos)" value={form.bg || "#F5EEEC"} onChange={v => setForm(f => ({ ...f, bg: v }))} />
+          </div>
+          <div style={{ display: "flex", gap: 20, gridColumn: "1/-1", alignItems: "center" }}>
+            <label style={{ display: "flex", alignItems: "center", gap: 7, cursor: "pointer", fontSize: 13, color: "#7A7068" }}>
+              <input type="checkbox" checked={!!form.featured} onChange={e => setForm(f => ({ ...f, featured: e.target.checked }))} style={{ accentColor: "#899180" }} /> Destacado
+            </label>
+            <label style={{ display: "flex", alignItems: "center", gap: 7, cursor: "pointer", fontSize: 13, color: "#7A7068" }}>
+              <input type="checkbox" checked={!!form.active} onChange={e => setForm(f => ({ ...f, active: e.target.checked }))} style={{ accentColor: "#899180" }} /> Activo en tienda
+            </label>
+          </div>
+        </div>
+        <div style={{ display: "flex", gap: 10, marginTop: 8 }}>
+          <button onClick={() => setModal(null)} style={{ flex: 1, padding: "11px", borderRadius: 100, border: "1.5px solid #D8D0C8", background: "transparent", cursor: "pointer", fontWeight: 600, color: "#7A7068" }}>Cancelar</button>
+          <button onClick={save} style={{ flex: 2, padding: "11px", borderRadius: 100, background: "#899180", color: "white", border: "none", fontWeight: 700, cursor: "pointer" }}>Guardar producto</button>
+        </div>
+      </Modal>
+
+      <ConfirmDialog open={!!confirm} onClose={() => setConfirm(null)} onConfirm={() => deactivate(confirm?.id)} title="Desactivar producto" message={`¿Desactivar "${confirm?.name}"? Puedes reactivarlo después.`} danger />
     </div>
   );
 }
 
-// ─── ADMIN ORDERS ────────────────────────────────────────────────────────────
 function AdminOrders({ orders, setOrders }) {
   const toast = useToast();
   const [filter, setFilter] = useState("all");
@@ -1415,57 +1653,74 @@ function AdminOrders({ orders, setOrders }) {
 function AdminCategories({ categories, setCategories, products }) {
   const toast = useToast();
   const [modal, setModal] = useState(null);
+  const [confirm, setConfirm] = useState(null);
   const [form, setForm] = useState({});
 
+  const iS = { width: "100%", padding: "9px 12px", borderRadius: 8, border: "1.5px solid #D8D0C8", background: "#FAFAF8", color: "#3D3830", fontSize: 13, outline: "none", boxSizing: "border-box" };
+
   const save = () => {
-    if (!form.name) { toast("Escribe el nombre", "error"); return; }
-    if (modal === "new") { setCategories(c => [...c, { ...form, id: "cat" + Date.now(), slug: form.name.toLowerCase().replace(/[^a-z0-9]+/g, "-") }]); toast("✅ Categoría creada"); }
-    else { setCategories(c => c.map(x => x.id === modal.id ? { ...x, ...form } : x)); toast("✅ Categoría actualizada"); }
+    if (!form.name) { toast("Escribe el nombre de la categoría", "error"); return; }
+    const data = { ...form, slug: form.name.toLowerCase().replace(/[^a-z0-9]+/g, "-") };
+    if (modal === "new") { setCategories(c => [...c, { ...data, id: "cat" + Date.now() }]); toast("✓ Categoría creada"); }
+    else { setCategories(c => c.map(x => x.id === modal.id ? { ...x, ...data } : x)); toast("✓ Categoría actualizada"); }
     setModal(null);
   };
   const del = (id) => { setCategories(c => c.filter(x => x.id !== id)); toast("Categoría eliminada"); };
 
   return (
     <div>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 28 }}>
-        <h2 style={{ fontFamily: FONT.serif, fontSize: 28, color: C.charcoal, margin: 0 }}>Categorías</h2>
-        <button onClick={() => { setForm({ name: "", emoji: "🎀", color: "#FAE8E8" }); setModal("new"); }} style={{ display: "flex", alignItems: "center", gap: 8, padding: "12px 24px", borderRadius: 100, background: C.sage, color: "white", border: "none", fontWeight: 600, cursor: "pointer" }}>
-          <Icon d={Icons.plus} size={16} /> Nueva categoría
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 22 }}>
+        <h2 style={{ fontFamily: "serif", fontSize: 26, color: "#3D3830", margin: 0 }}>Categorías</h2>
+        <button onClick={() => { setForm({ name: "", emoji: "🎀", image: "", color: "#F5EEEC" }); setModal("new"); }}
+          style={{ display: "flex", alignItems: "center", gap: 7, padding: "10px 20px", borderRadius: 100, background: "#899180", color: "white", border: "none", fontWeight: 600, cursor: "pointer", fontSize: 13 }}>
+          <Icon d={Icons.plus} size={14} /> Nueva categoría
         </button>
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
         {categories.map(cat => (
-          <div key={cat.id} style={{ background: C.white, borderRadius: 20, padding: 24, boxShadow: "0 4px 24px rgba(139,110,82,0.08)", display: "flex", gap: 16, alignItems: "center" }}>
-            <div style={{ width: 56, height: 56, borderRadius: 16, background: cat.color || C.roseLight, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 28, flexShrink: 0 }}>{cat.emoji}</div>
-            <div style={{ flex: 1 }}>
-              <div style={{ fontWeight: 700, fontSize: 16, color: C.charcoal }}>{cat.name}</div>
-              <div style={{ fontSize: 13, color: C.faint }}>{products.filter(p => p.categoryId === cat.id && p.active).length} productos</div>
+          <div key={cat.id} style={{ background: "white", borderRadius: 12, overflow: "hidden", border: "1px solid #EDE8E2" }}>
+            <div style={{ height: 110, background: cat.color || "#F5EEEC", position: "relative", overflow: "hidden" }}>
+              {cat.image
+                ? <img src={cat.image} alt={cat.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                : <div style={{ height: "100%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 44 }}>{cat.emoji}</div>
+              }
             </div>
-            <div style={{ display: "flex", gap: 8 }}>
-              <button onClick={() => { setForm({ ...cat }); setModal(cat); }} style={{ width: 34, height: 34, borderRadius: 10, border: `1.5px solid ${C.beigeDark}`, background: "transparent", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: C.muted }}>
-                <Icon d={Icons.edit} size={14} />
-              </button>
-              <button onClick={() => del(cat.id)} style={{ width: 34, height: 34, borderRadius: 10, border: "1.5px solid #FFCDD2", background: "transparent", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: C.danger }}>
-                <Icon d={Icons.trash} size={14} />
-              </button>
+            <div style={{ padding: "14px 16px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <div>
+                <p style={{ fontWeight: 600, fontSize: 14, color: "#3D3830", margin: "0 0 2px" }}>{cat.name}</p>
+                <p style={{ fontSize: 11, color: "#A89888", margin: 0 }}>{products.filter(p => p.categoryId === cat.id && p.active).length} productos</p>
+              </div>
+              <div style={{ display: "flex", gap: 6 }}>
+                <button onClick={() => { setForm({ ...cat, image: cat.image || "" }); setModal(cat); }}
+                  style={{ width: 30, height: 30, borderRadius: 8, border: "1.5px solid #D8D0C8", background: "transparent", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "#7A7068" }}><Icon d={Icons.edit} size={13} /></button>
+                <button onClick={() => setConfirm({ id: cat.id, name: cat.name })}
+                  style={{ width: 30, height: 30, borderRadius: 8, border: "1.5px solid #FFCDD2", background: "transparent", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "#C07070" }}><Icon d={Icons.trash} size={13} /></button>
+              </div>
             </div>
           </div>
         ))}
       </div>
-      <Modal open={!!modal} onClose={() => setModal(null)} title={modal === "new" ? "Nueva categoría" : "Editar categoría"} width={480}>
-        <Field label="Nombre" required><input value={form.name || ""} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} style={inputStyle} placeholder="Ej: Recién nacidos" /></Field>
-        <Field label="Emoji"><input value={form.emoji || ""} onChange={e => setForm(f => ({ ...f, emoji: e.target.value }))} style={inputStyle} placeholder="👼" /></Field>
-        <Field label="Color de fondo"><input type="color" value={form.color || "#FAE8E8"} onChange={e => setForm(f => ({ ...f, color: e.target.value }))} style={{ ...inputStyle, padding: 6, height: 44, cursor: "pointer" }} /></Field>
-        <div style={{ display: "flex", gap: 12, marginTop: 8 }}>
-          <button onClick={() => setModal(null)} style={{ flex: 1, padding: "12px", borderRadius: 100, border: `1.5px solid ${C.beigeDark}`, background: "transparent", cursor: "pointer", fontWeight: 600, color: C.muted }}>Cancelar</button>
-          <button onClick={save} style={{ flex: 2, padding: "12px", borderRadius: 100, background: C.sage, color: "white", border: "none", fontWeight: 700, cursor: "pointer" }}>Guardar</button>
+
+      <Modal open={!!modal} onClose={() => setModal(null)} title={modal === "new" ? "Nueva categoría" : "Editar categoría"} width={500}>
+        <Field label="Nombre" required>
+          <input value={form.name || ""} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} style={iS} placeholder="Ej: Recién nacidos" />
+        </Field>
+        <Field label="Emoji (respaldo sin imagen)">
+          <input value={form.emoji || ""} onChange={e => setForm(f => ({ ...f, emoji: e.target.value }))} style={iS} placeholder="👼" />
+        </Field>
+        <ColorInput label="Color de fondo" value={form.color || "#F5EEEC"} onChange={v => setForm(f => ({ ...f, color: v }))} />
+        <SingleImageUploader image={form.image || ""} onChange={img => setForm(f => ({ ...f, image: img }))} label="📸 Imagen de portada de la categoría" placeholder="Sube una imagen representativa" />
+        <div style={{ display: "flex", gap: 10, marginTop: 6 }}>
+          <button onClick={() => setModal(null)} style={{ flex: 1, padding: "10px", borderRadius: 100, border: "1.5px solid #D8D0C8", background: "transparent", cursor: "pointer", fontWeight: 600, color: "#7A7068" }}>Cancelar</button>
+          <button onClick={save} style={{ flex: 2, padding: "10px", borderRadius: 100, background: "#899180", color: "white", border: "none", fontWeight: 700, cursor: "pointer" }}>Guardar</button>
         </div>
       </Modal>
+
+      <ConfirmDialog open={!!confirm} onClose={() => setConfirm(null)} onConfirm={() => del(confirm?.id)} title="Eliminar categoría" message={`¿Eliminar "${confirm?.name}"? Los productos no se eliminarán.`} danger />
     </div>
   );
 }
 
-// ─── ADMIN COUPONS ───────────────────────────────────────────────────────────
 function AdminCoupons({ coupons, setCoupons }) {
   const toast = useToast();
   const [modal, setModal] = useState(null);
@@ -1539,146 +1794,286 @@ function AdminCoupons({ coupons, setCoupons }) {
 }
 
 // ─── ADMIN SETTINGS ──────────────────────────────────────────────────────────
-function AdminSettings({ config, setConfig }) {
+function AdminPageEditor({ config, setConfig }) {
   const toast = useToast();
   const [form, setForm] = useState({ ...config });
-  const [activeTab, setActiveTab] = useState("general");
+  const [tab, setTab] = useState("hero");
 
-  const save = () => { setConfig({ ...form }); toast("✅ Configuración guardada"); };
+  const save = () => { setConfig({ ...form }); toast("✓ Página actualizada — los cambios ya son visibles en la tienda"); };
 
-  const tabs = [["general", "🏪 General"], ["contact", "📱 Contacto y RRSS"], ["payments", "💳 Pasarelas de pago"], ["content", "🎨 Contenido y diseño"]];
+  const tabs = [
+    ["hero", "🏠 Hero"],
+    ["sections", "📝 Secciones"],
+    ["testimonials", "💬 Testimonios"],
+    ["benefits", "⭐ Beneficios"],
+    ["images", "🖼️ Imágenes"],
+    ["contact", "📞 Contacto"],
+  ];
+
+  const iS = { width: "100%", padding: "9px 12px", borderRadius: 8, border: "1.5px solid #D8D0C8", background: "#FAFAF8", color: "#3D3830", fontSize: 13, outline: "none", boxSizing: "border-box" };
+
+  const updTestimonial = (i, k, v) => setForm(f => ({ ...f, testimonials: f.testimonials.map((t, j) => j === i ? { ...t, [k]: v } : t) }));
+  const updBenefit = (i, k, v) => setForm(f => ({ ...f, benefits: f.benefits.map((b, j) => j === i ? { ...b, [k]: v } : b) }));
 
   return (
     <div>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 28 }}>
-        <h2 style={{ fontFamily: FONT.serif, fontSize: 28, color: C.charcoal, margin: 0 }}>Configuración</h2>
-        <button onClick={save} style={{ display: "flex", alignItems: "center", gap: 8, padding: "12px 28px", borderRadius: 100, background: C.sage, color: "white", border: "none", fontWeight: 700, cursor: "pointer" }}>
-          <Icon d={Icons.save} size={15} /> Guardar cambios
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 22 }}>
+        <div>
+          <h2 style={{ fontFamily: "serif", fontSize: 26, color: "#3D3830", margin: "0 0 3px" }}>Editor de Página</h2>
+          <p style={{ color: "#A89888", fontSize: 12, margin: 0 }}>Todos los cambios se reflejan automáticamente en la tienda.</p>
+        </div>
+        <button onClick={save} style={{ display: "flex", alignItems: "center", gap: 7, padding: "10px 22px", borderRadius: 100, background: "#899180", color: "white", border: "none", fontWeight: 700, cursor: "pointer", fontSize: 13 }}>
+          <Icon d={Icons.save} size={14} /> Guardar cambios
         </button>
       </div>
-      <div style={{ display: "flex", gap: 8, marginBottom: 28, borderBottom: `1px solid ${C.beige}`, paddingBottom: 0 }}>
+
+      {/* Tabs */}
+      <div style={{ display: "flex", gap: 4, marginBottom: 22, borderBottom: "1px solid #EDE8E2", flexWrap: "wrap" }}>
         {tabs.map(([id, label]) => (
-          <button key={id} onClick={() => setActiveTab(id)} style={{ padding: "10px 20px", borderRadius: "12px 12px 0 0", border: "none", background: activeTab === id ? C.white : "transparent", cursor: "pointer", fontSize: 13, fontWeight: 600, color: activeTab === id ? C.roseDeep : C.muted, borderBottom: activeTab === id ? "2px solid " + C.roseDeep : "2px solid transparent", marginBottom: -1 }}>
+          <button key={id} onClick={() => setTab(id)} style={{ padding: "9px 16px", border: "none", background: "transparent", cursor: "pointer", fontSize: 12, fontWeight: tab === id ? 700 : 400, color: tab === id ? "#899180" : "#7A7068", borderBottom: tab === id ? "2px solid #899180" : "2px solid transparent", marginBottom: -1 }}>
             {label}
           </button>
         ))}
       </div>
 
-      <div style={{ background: C.white, borderRadius: 20, padding: 32, boxShadow: "0 4px 24px rgba(139,110,82,0.08)" }}>
-        {activeTab === "general" && (
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
-            <Field label="Nombre de la tienda"><input value={form.storeName} onChange={e => setForm(f => ({ ...f, storeName: e.target.value }))} style={inputStyle} /></Field>
-            <Field label="Slogan / Tagline"><input value={form.tagline} onChange={e => setForm(f => ({ ...f, tagline: e.target.value }))} style={inputStyle} /></Field>
-            <div style={{ gridColumn: "1/-1" }}><Field label="Texto del hero (título principal)"><textarea value={form.heroTitle} onChange={e => setForm(f => ({ ...f, heroTitle: e.target.value }))} style={{ ...inputStyle, minHeight: 80, resize: "vertical" }} /></Field></div>
-            <div style={{ gridColumn: "1/-1" }}><Field label="Subtítulo del hero"><textarea value={form.heroSubtitle} onChange={e => setForm(f => ({ ...f, heroSubtitle: e.target.value }))} style={{ ...inputStyle, minHeight: 60, resize: "vertical" }} /></Field></div>
-            <div style={{ gridColumn: "1/-1" }}><Field label="Texto del banner promocional"><input value={form.promoBanner} onChange={e => setForm(f => ({ ...f, promoBanner: e.target.value }))} style={inputStyle} /></Field></div>
-            <Field label="Umbral de envío gratis (S/.)"><input type="number" value={form.freeShipping} onChange={e => setForm(f => ({ ...f, freeShipping: parseFloat(e.target.value) }))} style={inputStyle} /></Field>
-            <Field label="Dirección / Ciudad"><input value={form.address} onChange={e => setForm(f => ({ ...f, address: e.target.value }))} style={inputStyle} /></Field>
+      <div style={{ background: "white", borderRadius: 12, padding: 24, border: "1px solid #EDE8E2" }}>
+
+        {tab === "hero" && (
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
             <div style={{ gridColumn: "1/-1" }}>
-              <label style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer" }}>
-                <input type="checkbox" checked={!!form.promoActive} onChange={e => setForm(f => ({ ...f, promoActive: e.target.checked }))} style={{ width: 20, height: 20, accentColor: C.roseDeep }} />
-                <span style={{ fontSize: 14, fontWeight: 600, color: C.muted }}>Mostrar banner promocional en la tienda</span>
+              <Field label="Texto del badge superior"><input value={form.heroBadgeText || ""} onChange={e => setForm(f => ({ ...f, heroBadgeText: e.target.value }))} style={iS} /></Field>
+            </div>
+            <div style={{ gridColumn: "1/-1" }}>
+              <Field label="Título principal del hero (usa Enter para nueva línea)">
+                <textarea value={form.heroTitle || ""} onChange={e => setForm(f => ({ ...f, heroTitle: e.target.value }))} style={{ ...iS, minHeight: 70, resize: "vertical" }} />
+              </Field>
+            </div>
+            <div style={{ gridColumn: "1/-1" }}>
+              <Field label="Subtítulo del hero">
+                <textarea value={form.heroSubtitle || ""} onChange={e => setForm(f => ({ ...f, heroSubtitle: e.target.value }))} style={{ ...iS, minHeight: 55, resize: "vertical" }} />
+              </Field>
+            </div>
+            <Field label="Texto botón principal"><input value={form.heroBtn1 || ""} onChange={e => setForm(f => ({ ...f, heroBtn1: e.target.value }))} style={iS} placeholder="Ver colección" /></Field>
+            <Field label="Texto botón secundario"><input value={form.heroBtn2 || ""} onChange={e => setForm(f => ({ ...f, heroBtn2: e.target.value }))} style={iS} placeholder="Nuestra historia" /></Field>
+            <div style={{ gridColumn: "1/-1" }}>
+              <Field label="Banner promocional"><input value={form.promoBanner || ""} onChange={e => setForm(f => ({ ...f, promoBanner: e.target.value }))} style={iS} /></Field>
+            </div>
+            <div style={{ gridColumn: "1/-1" }}>
+              <label style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer", fontSize: 13, color: "#7A7068" }}>
+                <input type="checkbox" checked={!!form.promoActive} onChange={e => setForm(f => ({ ...f, promoActive: e.target.checked }))} style={{ accentColor: "#899180" }} /> Mostrar banner de promoción
               </label>
             </div>
           </div>
         )}
 
-        {activeTab === "contact" && (
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
-            <Field label="WhatsApp (solo número con código de país)"><input value={form.whatsapp} onChange={e => setForm(f => ({ ...f, whatsapp: e.target.value }))} style={inputStyle} placeholder="51999999999" /></Field>
-            <Field label="Correo electrónico de contacto"><input type="email" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} style={inputStyle} placeholder="hola@venetuskids.pe" /></Field>
-            <Field label="Instagram (URL completa)"><input value={form.instagram} onChange={e => setForm(f => ({ ...f, instagram: e.target.value }))} style={inputStyle} placeholder="https://instagram.com/..." /></Field>
-            <Field label="TikTok (URL completa)"><input value={form.tiktok} onChange={e => setForm(f => ({ ...f, tiktok: e.target.value }))} style={inputStyle} placeholder="https://tiktok.com/@..." /></Field>
-            <Field label="Facebook (URL completa)"><input value={form.facebook} onChange={e => setForm(f => ({ ...f, facebook: e.target.value }))} style={inputStyle} placeholder="https://facebook.com/..." /></Field>
-            <div style={{ gridColumn: "1/-1", background: C.beige, borderRadius: 16, padding: 20 }}>
-              <div style={{ fontSize: 13, fontWeight: 600, color: C.muted, marginBottom: 8 }}>Vista previa del botón de WhatsApp:</div>
-              <div style={{ fontSize: 13, color: C.faint }}>El botón flotante de WhatsApp en la tienda usará el número: <strong style={{ color: C.charcoal }}>{form.whatsapp}</strong></div>
-            </div>
-          </div>
-        )}
-
-        {activeTab === "payments" && (
+        {tab === "sections" && (
           <div>
-            <div style={{ background: C.sagePale, borderRadius: 16, padding: 20, marginBottom: 28 }}>
-              <div style={{ fontWeight: 700, color: C.charcoal, marginBottom: 8 }}>💡 Cómo configurar las pasarelas de pago</div>
-              <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.7, margin: 0 }}>Para activar pagos reales, obtén tus claves API de cada plataforma e ingrésalas abajo. Yape y transferencia bancaria siempre están disponibles sin configuración.</p>
+            <p style={{ fontSize: 11, fontWeight: 700, color: "#899180", textTransform: "uppercase", letterSpacing: "1px", margin: "0 0 14px" }}>Sección Categorías</p>
+            <Field label="Título de la sección de categorías"><input value={form.categoriesSectionTitle || ""} onChange={e => setForm(f => ({ ...f, categoriesSectionTitle: e.target.value }))} style={iS} /></Field>
+            <hr style={{ border: "none", borderTop: "1px solid #EDE8E2", margin: "18px 0" }} />
+            <p style={{ fontSize: 11, fontWeight: 700, color: "#899180", textTransform: "uppercase", letterSpacing: "1px", margin: "0 0 14px" }}>Sección Productos</p>
+            <Field label="Título de la sección de productos"><input value={form.productsSectionTitle || ""} onChange={e => setForm(f => ({ ...f, productsSectionTitle: e.target.value }))} style={iS} /></Field>
+            <hr style={{ border: "none", borderTop: "1px solid #EDE8E2", margin: "18px 0" }} />
+            <p style={{ fontSize: 11, fontWeight: 700, color: "#899180", textTransform: "uppercase", letterSpacing: "1px", margin: "0 0 14px" }}>Nuestra Historia</p>
+            <Field label="Título / cita principal"><textarea value={form.aboutTitle || ""} onChange={e => setForm(f => ({ ...f, aboutTitle: e.target.value }))} style={{ ...iS, minHeight: 55, resize: "vertical" }} /></Field>
+            <Field label="Texto descriptivo"><textarea value={form.aboutText || ""} onChange={e => setForm(f => ({ ...f, aboutText: e.target.value }))} style={{ ...iS, minHeight: 90, resize: "vertical" }} /></Field>
+            <hr style={{ border: "none", borderTop: "1px solid #EDE8E2", margin: "18px 0" }} />
+            <p style={{ fontSize: 11, fontWeight: 700, color: "#899180", textTransform: "uppercase", letterSpacing: "1px", margin: "0 0 14px" }}>Newsletter</p>
+            <Field label="Título del newsletter"><input value={form.newsletterTitle || ""} onChange={e => setForm(f => ({ ...f, newsletterTitle: e.target.value }))} style={iS} /></Field>
+            <Field label="Texto del newsletter"><input value={form.newsletterText || ""} onChange={e => setForm(f => ({ ...f, newsletterText: e.target.value }))} style={iS} /></Field>
+          </div>
+        )}
+
+        {tab === "testimonials" && (
+          <div>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+              <p style={{ fontSize: 13, color: "#7A7068", margin: 0 }}>{(form.testimonials || []).length} testimonios configurados</p>
+              <button onClick={() => setForm(f => ({ ...f, testimonials: [...(f.testimonials || []), { name: "Nueva clienta", role: "Mamá feliz", text: "Excelente calidad...", avatar: "N", bg: "#F5EEEC" }] }))}
+                style={{ display: "flex", alignItems: "center", gap: 5, padding: "8px 16px", borderRadius: 100, background: "#899180", color: "white", border: "none", fontWeight: 600, cursor: "pointer", fontSize: 12 }}>
+                <Icon d={Icons.plus} size={13} /> Agregar
+              </button>
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 24 }}>
-              {[
-                { key: "stripe", label: "💳 Stripe", desc: "Acepta tarjetas de crédito/débito internacionales. Ideal para pagos con Visa, Mastercard, Amex.", docs: "https://dashboard.stripe.com/apikeys", keyField: "stripeKey", placeholder: "sk_live_..." },
-                { key: "mp", label: "🟡 MercadoPago", desc: "Muy popular en Perú y Latinoamérica. Acepta tarjetas, Yape, Plin y más.", docs: "https://www.mercadopago.com.pe/developers", keyField: "mpKey", placeholder: "APP_USR-..." },
-                { key: "paypal", label: "💙 PayPal", desc: "Para clientes internacionales o que prefieren PayPal.", docs: "https://developer.paypal.com", keyField: "paypalId", placeholder: "AXxxxxxxx..." },
-              ].map(gw => (
-                <div key={gw.key} style={{ border: `1.5px solid ${form[gw.key + "Enabled"] ? C.roseDeep : C.beigeDark}`, borderRadius: 20, padding: 24, transition: "all 0.2s" }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-                    <div>
-                      <div style={{ fontWeight: 700, fontSize: 16, color: C.charcoal }}>{gw.label}</div>
-                      <div style={{ fontSize: 13, color: C.faint, marginTop: 2 }}>{gw.desc}</div>
-                    </div>
-                    <label style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer" }}>
-                      <span style={{ fontSize: 13, color: C.muted }}>{form[gw.key + "Enabled"] ? "Activado" : "Desactivado"}</span>
-                      <div onClick={() => setForm(f => ({ ...f, [gw.key + "Enabled"]: !f[gw.key + "Enabled"] }))}
-                        style={{ width: 48, height: 26, borderRadius: 100, background: form[gw.key + "Enabled"] ? C.roseDeep : C.beigeDark, position: "relative", cursor: "pointer", transition: "all 0.3s", flexShrink: 0 }}>
-                        <div style={{ width: 20, height: 20, borderRadius: "50%", background: "white", position: "absolute", top: 3, left: form[gw.key + "Enabled"] ? 24 : 4, transition: "all 0.3s", boxShadow: "0 2px 6px rgba(0,0,0,0.2)" }} />
-                      </div>
-                    </label>
-                  </div>
-                  {form[gw.key + "Enabled"] && (
-                    <div>
-                      <Field label="Clave API / Client ID">
-                        <input type="password" value={form[gw.keyField] || ""} onChange={e => setForm(f => ({ ...f, [gw.keyField]: e.target.value }))} style={inputStyle} placeholder={gw.placeholder} />
-                      </Field>
-                      <a href={gw.docs} target="_blank" rel="noopener" style={{ fontSize: 12, color: C.roseDeep, textDecoration: "none" }}>📖 Ver documentación →</a>
-                    </div>
-                  )}
+            {(form.testimonials || []).map((t, i) => (
+              <div key={i} style={{ background: "#FAFAF8", borderRadius: 10, padding: 18, marginBottom: 14, border: "1px solid #EDE8E2" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 12 }}>
+                  <span style={{ fontSize: 11, fontWeight: 700, color: "#A89888", textTransform: "uppercase", letterSpacing: "1px" }}>Testimonio #{i + 1}</span>
+                  <button onClick={() => setForm(f => ({ ...f, testimonials: f.testimonials.filter((_, j) => j !== i) }))} style={{ background: "none", border: "none", cursor: "pointer", color: "#C07070", display: "flex" }}><Icon d={Icons.x} size={14} /></button>
                 </div>
-              ))}
-              <div style={{ border: `1.5px solid ${C.beigeDark}`, borderRadius: 20, padding: 24, background: "#F3E5F5" }}>
-                <div style={{ fontWeight: 700, fontSize: 16, color: "#7B1FA2", marginBottom: 4 }}>💜 Yape / Plin — Siempre disponible</div>
-                <div style={{ fontSize: 13, color: "#9C27B0" }}>Se muestra automáticamente con el número: <strong>{form.whatsapp}</strong>. Configúralo en la pestaña Contacto y RRSS.</div>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+                  <Field label="Nombre"><input value={t.name} onChange={e => updTestimonial(i, "name", e.target.value)} style={iS} /></Field>
+                  <Field label="Rol/Descripción"><input value={t.role} onChange={e => updTestimonial(i, "role", e.target.value)} style={iS} /></Field>
+                  <Field label="Inicial del avatar"><input value={t.avatar} onChange={e => updTestimonial(i, "avatar", e.target.value)} style={iS} placeholder="M" maxLength={2} /></Field>
+                  <ColorInput label="Color de fondo" value={t.bg || "#F5EEEC"} onChange={v => updTestimonial(i, "bg", v)} />
+                  <div style={{ gridColumn: "1/-1" }}>
+                    <Field label="Texto del testimonio">
+                      <textarea value={t.text} onChange={e => updTestimonial(i, "text", e.target.value)} style={{ ...iS, resize: "vertical", minHeight: 60 }} />
+                    </Field>
+                  </div>
+                </div>
               </div>
+            ))}
+          </div>
+        )}
+
+        {tab === "benefits" && (
+          <div>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+              <p style={{ fontSize: 13, color: "#7A7068", margin: 0 }}>{(form.benefits || []).length} beneficios configurados</p>
+              <button onClick={() => setForm(f => ({ ...f, benefits: [...(f.benefits || []), { icon: "✨", title: "Nuevo beneficio", desc: "Descripción" }] }))}
+                style={{ display: "flex", alignItems: "center", gap: 5, padding: "8px 16px", borderRadius: 100, background: "#899180", color: "white", border: "none", fontWeight: 600, cursor: "pointer", fontSize: 12 }}>
+                <Icon d={Icons.plus} size={13} /> Agregar
+              </button>
+            </div>
+            {(form.benefits || []).map((b, i) => (
+              <div key={i} style={{ display: "grid", gridTemplateColumns: "60px 1fr 2fr auto", gap: 10, alignItems: "center", background: "#FAFAF8", borderRadius: 10, padding: "12px 16px", marginBottom: 10, border: "1px solid #EDE8E2" }}>
+                <Field label="Emoji"><input value={b.icon} onChange={e => updBenefit(i, "icon", e.target.value)} style={{ ...iS, fontSize: 20, textAlign: "center" }} /></Field>
+                <Field label="Título"><input value={b.title} onChange={e => updBenefit(i, "title", e.target.value)} style={iS} /></Field>
+                <Field label="Descripción"><input value={b.desc} onChange={e => updBenefit(i, "desc", e.target.value)} style={iS} /></Field>
+                <button onClick={() => setForm(f => ({ ...f, benefits: f.benefits.filter((_, j) => j !== i) }))} style={{ width: 30, height: 30, borderRadius: 8, background: "none", border: "1.5px solid #FFCDD2", cursor: "pointer", color: "#C07070", display: "flex", alignItems: "center", justifyContent: "center", marginTop: 4 }}><Icon d={Icons.trash} size={13} /></button>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {tab === "images" && (
+          <div>
+            <div style={{ background: "#EDF0EC", borderRadius: 10, padding: "12px 16px", marginBottom: 20, fontSize: 13, color: "#6B7264" }}>
+              💡 Sube imágenes reales para personalizar el aspecto visual de tu tienda. JPG o PNG, máx. 3MB.
+            </div>
+            <div style={{ borderBottom: "1px solid #EDE8E2", paddingBottom: 20, marginBottom: 20 }}>
+              <p style={{ fontSize: 11, fontWeight: 700, color: "#899180", textTransform: "uppercase", letterSpacing: "1px", margin: "0 0 12px" }}>Logo de la tienda</p>
+              <SingleImageUploader image={form.logoImage || ""} onChange={img => setForm(f => ({ ...f, logoImage: img }))} label="Logo principal" placeholder="Sube tu logo (recomendado: fondo transparente PNG)" />
+            </div>
+            <div style={{ borderBottom: "1px solid #EDE8E2", paddingBottom: 20, marginBottom: 20 }}>
+              <p style={{ fontSize: 11, fontWeight: 700, color: "#899180", textTransform: "uppercase", letterSpacing: "1px", margin: "0 0 12px" }}>Hero — Imagen de fondo</p>
+              <SingleImageUploader image={form.heroImage || ""} onChange={img => setForm(f => ({ ...f, heroImage: img }))} label="Imagen del hero" placeholder="Foto de bebé o producto para el fondo del hero" />
+            </div>
+            <div>
+              <p style={{ fontSize: 11, fontWeight: 700, color: "#899180", textTransform: "uppercase", letterSpacing: "1px", margin: "0 0 12px" }}>Sección "Nuestra Historia" — Imagen</p>
+              <SingleImageUploader image={form.aboutImage || ""} onChange={img => setForm(f => ({ ...f, aboutImage: img }))} label="Imagen de la historia" placeholder="Foto del equipo o proceso de producción" />
             </div>
           </div>
         )}
 
-        {activeTab === "content" && (
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
-            <Field label="Color principal (botones, badges)">
-              <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-                <input type="color" value={form.primaryColor} onChange={e => setForm(f => ({ ...f, primaryColor: e.target.value }))} style={{ width: 50, height: 50, borderRadius: 12, border: `1.5px solid ${C.beigeDark}`, cursor: "pointer", padding: 4 }} />
-                <input value={form.primaryColor} onChange={e => setForm(f => ({ ...f, primaryColor: e.target.value }))} style={{ ...inputStyle, flex: 1 }} />
-              </div>
-            </Field>
-            <Field label="Color de acento (textos, detalles)">
-              <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-                <input type="color" value={form.accentColor} onChange={e => setForm(f => ({ ...f, accentColor: e.target.value }))} style={{ width: 50, height: 50, borderRadius: 12, border: `1.5px solid ${C.beigeDark}`, cursor: "pointer", padding: 4 }} />
-                <input value={form.accentColor} onChange={e => setForm(f => ({ ...f, accentColor: e.target.value }))} style={{ ...inputStyle, flex: 1 }} />
-              </div>
-            </Field>
-            <div style={{ gridColumn: "1/-1", background: C.beige, borderRadius: 16, padding: 20 }}>
-              <div style={{ fontSize: 13, fontWeight: 600, color: C.muted, marginBottom: 12 }}>Vista previa de colores:</div>
-              <div style={{ display: "flex", gap: 12 }}>
-                <div style={{ padding: "10px 24px", borderRadius: 100, background: form.primaryColor, color: "white", fontWeight: 700, fontSize: 14 }}>Botón principal</div>
-                <div style={{ padding: "10px 24px", borderRadius: 100, background: "transparent", border: `2px solid ${form.accentColor}`, color: form.accentColor, fontWeight: 700, fontSize: 14 }}>Botón secundario</div>
-              </div>
-            </div>
-            <div style={{ gridColumn: "1/-1", background: "#FFF9F0", border: `1.5px solid ${C.sandLight}`, borderRadius: 16, padding: 20 }}>
-              <div style={{ fontSize: 13, fontWeight: 700, color: C.brown, marginBottom: 8 }}>🚀 Próximamente</div>
-              <div style={{ fontSize: 13, color: C.muted, lineHeight: 1.7 }}>
-                • Subida de imágenes y banners personalizados<br />
-                • Editor de testimonios desde el panel<br />
-                • Personalización del footer y secciones<br />
-                • Logo personalizado de la tienda
-              </div>
-            </div>
+        {tab === "contact" && (
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+            <Field label="Nombre de la tienda"><input value={form.storeName || ""} onChange={e => setForm(f => ({ ...f, storeName: e.target.value }))} style={iS} /></Field>
+            <Field label="WhatsApp (con código de país)"><input value={form.whatsapp || ""} onChange={e => setForm(f => ({ ...f, whatsapp: e.target.value }))} style={iS} placeholder="51999999999" /></Field>
+            <Field label="Correo electrónico"><input value={form.email || ""} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} style={iS} /></Field>
+            <Field label="Dirección"><input value={form.address || ""} onChange={e => setForm(f => ({ ...f, address: e.target.value }))} style={iS} /></Field>
+            <Field label="Instagram"><input value={form.instagram || ""} onChange={e => setForm(f => ({ ...f, instagram: e.target.value }))} style={iS} /></Field>
+            <Field label="TikTok"><input value={form.tiktok || ""} onChange={e => setForm(f => ({ ...f, tiktok: e.target.value }))} style={iS} /></Field>
+            <Field label="Facebook"><input value={form.facebook || ""} onChange={e => setForm(f => ({ ...f, facebook: e.target.value }))} style={iS} /></Field>
+            <Field label="Monto envío gratis (S/.)"><input type="number" value={form.freeShipping || ""} onChange={e => setForm(f => ({ ...f, freeShipping: parseFloat(e.target.value) }))} style={iS} /></Field>
           </div>
         )}
+
       </div>
     </div>
   );
 }
 
-// ─── ADMIN CLIENTS ────────────────────────────────────────────────────────────
+function AdminVisualEditor({ config, setConfig }) {
+  const toast = useToast();
+  const [form, setForm] = useState({ ...config });
+  const save = () => { setConfig({ ...form }); toast("✓ Diseño actualizado — los cambios se ven en la tienda ahora mismo"); };
+
+  return (
+    <div>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 22 }}>
+        <div>
+          <h2 style={{ fontFamily: "serif", fontSize: 26, color: "#3D3830", margin: "0 0 3px" }}>Personalización Visual</h2>
+          <p style={{ color: "#A89888", fontSize: 12, margin: 0 }}>Cambia colores y fuentes. Los cambios se aplican en toda la tienda.</p>
+        </div>
+        <button onClick={save} style={{ display: "flex", alignItems: "center", gap: 7, padding: "10px 22px", borderRadius: 100, background: "#899180", color: "white", border: "none", fontWeight: 700, cursor: "pointer", fontSize: 13 }}>
+          <Icon d={Icons.save} size={14} /> Guardar diseño
+        </button>
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
+        <div style={{ background: "white", borderRadius: 12, padding: 22, border: "1px solid #EDE8E2" }}>
+          <p style={{ fontSize: 11, fontWeight: 700, color: "#899180", textTransform: "uppercase", letterSpacing: "1px", margin: "0 0 16px" }}>🎨 Colores del sitio</p>
+          <ColorInput label="Color primario (navbar, botones, badges)" value={form.primaryColor || "#899180"} onChange={v => setForm(f => ({ ...f, primaryColor: v, buttonColor: v }))} />
+          <ColorInput label="Color de acento (detalles, newsletter)" value={form.accentColor || "#B5A99A"} onChange={v => setForm(f => ({ ...f, accentColor: v }))} />
+          <ColorInput label="Color de botones" value={form.buttonColor || form.primaryColor || "#899180"} onChange={v => setForm(f => ({ ...f, buttonColor: v }))} />
+          <ColorInput label="Color de texto de botones" value={form.buttonTextColor || "#FFFFFF"} onChange={v => setForm(f => ({ ...f, buttonTextColor: v }))} />
+          <ColorInput label="Color de encabezados" value={form.headingColor || "#3D3830"} onChange={v => setForm(f => ({ ...f, headingColor: v }))} />
+          <ColorInput label="Color de texto general" value={form.textColor || "#7A7068"} onChange={v => setForm(f => ({ ...f, textColor: v }))} />
+          <ColorInput label="Color de fondo del sitio" value={form.bgColor || "#FAFAF8"} onChange={v => setForm(f => ({ ...f, bgColor: v }))} />
+        </div>
+
+        <div>
+          <div style={{ background: "white", borderRadius: 12, padding: 22, border: "1px solid #EDE8E2", marginBottom: 16 }}>
+            <p style={{ fontSize: 11, fontWeight: 700, color: "#899180", textTransform: "uppercase", letterSpacing: "1px", margin: "0 0 16px" }}>🔤 Tipografía</p>
+            <div style={{ marginBottom: 14 }}>
+              <label style={{ display: "block", fontSize: 11, fontWeight: 700, color: "#7A7068", textTransform: "uppercase", letterSpacing: "1px", marginBottom: 6 }}>Fuente para títulos</label>
+              <select value={form.fontHeading || "Cormorant Garamond"} onChange={e => setForm(f => ({ ...f, fontHeading: e.target.value }))} style={{ width: "100%", padding: "9px 12px", borderRadius: 8, border: "1.5px solid #D8D0C8", background: "#FAFAF8", color: "#3D3830", fontSize: 13, outline: "none" }}>
+                <option value="Cormorant Garamond">Cormorant Garamond (elegante)</option>
+                <option value="Playfair Display">Playfair Display (clásica)</option>
+                <option value="Georgia">Georgia (serif clásica)</option>
+                <option value="DM Sans">DM Sans (moderna)</option>
+              </select>
+            </div>
+            <div>
+              <label style={{ display: "block", fontSize: 11, fontWeight: 700, color: "#7A7068", textTransform: "uppercase", letterSpacing: "1px", marginBottom: 6 }}>Fuente para texto</label>
+              <select value={form.fontBody || "DM Sans"} onChange={e => setForm(f => ({ ...f, fontBody: e.target.value }))} style={{ width: "100%", padding: "9px 12px", borderRadius: 8, border: "1.5px solid #D8D0C8", background: "#FAFAF8", color: "#3D3830", fontSize: 13, outline: "none" }}>
+                <option value="DM Sans">DM Sans (moderna y limpia)</option>
+                <option value="Inter">Inter (profesional)</option>
+                <option value="Lato">Lato (amigable)</option>
+                <option value="Open Sans">Open Sans (legible)</option>
+              </select>
+            </div>
+          </div>
+
+          <div style={{ background: "white", borderRadius: 12, padding: 22, border: "1px solid #EDE8E2" }}>
+            <p style={{ fontSize: 11, fontWeight: 700, color: "#899180", textTransform: "uppercase", letterSpacing: "1px", margin: "0 0 14px" }}>👁️ Vista previa</p>
+            <div style={{ background: form.bgColor || "#FAFAF8", borderRadius: 10, padding: 18, border: "1px solid #EDE8E2" }}>
+              <div style={{ background: form.primaryColor || "#899180", padding: "10px 18px", borderRadius: 8, marginBottom: 12, textAlign: "center" }}>
+                <span style={{ color: form.buttonTextColor || "white", fontWeight: 600, fontSize: 13 }}>Botón principal</span>
+              </div>
+              <h3 style={{ fontFamily: `"${form.fontHeading || "Cormorant Garamond"}", serif`, color: form.headingColor || "#3D3830", margin: "0 0 8px", fontSize: 22, fontWeight: 400 }}>Título de ejemplo</h3>
+              <p style={{ fontFamily: `"${form.fontBody || "DM Sans"}", sans-serif`, color: form.textColor || "#7A7068", fontSize: 13, lineHeight: 1.6, margin: 0 }}>Este es un texto de ejemplo para ver cómo se verá el contenido en tu tienda con la configuración actual.</p>
+              <span style={{ display: "inline-block", marginTop: 10, background: (form.primaryColor || "#899180") + "22", color: form.primaryColor || "#899180", padding: "3px 10px", borderRadius: 20, fontSize: 10, fontWeight: 700 }}>Badge de muestra</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style={{ background: "white", borderRadius: 12, padding: 22, border: "1px solid #EDE8E2", marginTop: 20 }}>
+        <p style={{ fontSize: 11, fontWeight: 700, color: "#899180", textTransform: "uppercase", letterSpacing: "1px", margin: "0 0 16px" }}>💳 Pasarelas de pago</p>
+        <div style={{ background: "#EDF0EC", borderRadius: 8, padding: "10px 14px", marginBottom: 16, fontSize: 12, color: "#6B7264" }}>Yape y transferencia siempre disponibles. Activa otras pasarelas con tu clave API.</div>
+        {[
+          { key: "stripe", label: "💳 Stripe — Tarjetas internacionales", kf: "stripeKey", ph: "sk_live_..." },
+          { key: "mp", label: "🟡 MercadoPago", kf: "mpKey", ph: "APP_USR-..." },
+          { key: "paypal", label: "💙 PayPal", kf: "paypalId", ph: "AXxxxxxxx..." },
+        ].map(gw => (
+          <div key={gw.key} style={{ border: `1.5px solid ${form[gw.key + "Enabled"] ? "#899180" : "#EDE8E2"}`, borderRadius: 10, padding: 16, marginBottom: 10 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: form[gw.key + "Enabled"] ? 12 : 0 }}>
+              <span style={{ fontWeight: 600, fontSize: 13, color: "#3D3830" }}>{gw.label}</span>
+              <div onClick={() => setForm(f => ({ ...f, [gw.key + "Enabled"]: !f[gw.key + "Enabled"] }))} style={{ width: 44, height: 24, borderRadius: 100, background: form[gw.key + "Enabled"] ? "#899180" : "#D8D0C8", position: "relative", cursor: "pointer", transition: "all 0.2s", flexShrink: 0 }}>
+                <div style={{ width: 18, height: 18, borderRadius: "50%", background: "white", position: "absolute", top: 3, left: form[gw.key + "Enabled"] ? 22 : 4, transition: "all 0.2s", boxShadow: "0 1px 4px rgba(0,0,0,0.15)" }} />
+              </div>
+            </div>
+            {form[gw.key + "Enabled"] && (
+              <Field label="Clave API">
+                <input type="password" value={form[gw.kf] || ""} onChange={e => setForm(f => ({ ...f, [gw.kf]: e.target.value }))} style={{ width: "100%", padding: "9px 12px", borderRadius: 8, border: "1.5px solid #D8D0C8", background: "#FAFAF8", color: "#3D3830", fontSize: 13, outline: "none", boxSizing: "border-box" }} placeholder={gw.ph} />
+              </Field>
+            )}
+          </div>
+        ))}
+        <div style={{ background: "linear-gradient(135deg, #F5EEF8, #EDE0F8)", borderRadius: 10, padding: 16, border: "1.5px solid #CE93D8" }}>
+          <p style={{ fontWeight: 700, fontSize: 13, color: "#7B1FA2", margin: "0 0 4px" }}>💜 Yape — Siempre activo</p>
+          <p style={{ fontSize: 12, color: "#9C27B0", margin: 0 }}>Al pagar con Yape se abre WhatsApp con el número: <strong>{form.whatsapp}</strong></p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function AdminSettings({ config, setConfig }) {
+  return <AdminVisualEditor config={config} setConfig={setConfig} />;
+}
+
 function AdminClients({ orders, setOrders }) {
   const toast = useToast();
   const [blockedEmails, setBlockedEmails] = useState([]);
@@ -1985,7 +2380,9 @@ function AdminPanel({ products, setProducts, categories, setCategories, orders, 
               {section === "coupons" && <AdminCoupons coupons={coupons} setCoupons={setCoupons} />}
               {section === "reviews" && <AdminReviews products={products} />}
               {section === "clients" && <AdminClients orders={orders} setOrders={setOrders} />}
-              {section === "settings" && <AdminSettings config={config} setConfig={setConfig} />}
+              {section === "pageeditor" && <AdminPageEditor config={config} setConfig={setConfig} />}
+        {section === "visual" && <AdminVisualEditor config={config} setConfig={setConfig} />}
+        {section === "settings" && <AdminSettings config={config} setConfig={setConfig} />}
             </motion.div>
           </AnimatePresence>
         </div>
