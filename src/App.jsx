@@ -2598,7 +2598,7 @@ function AdminPanel({ products, setProducts, categories, setCategories, orders, 
           <div style={{ fontSize: 11, color: "rgba(250,246,240,0.4)", marginTop: 2 }}>Panel Administrador</div>
         </div>
         <nav style={{ flex: 1, padding: "12px 12px", overflowY: "auto" }}>
-          {navItems.map(([id, icon, label]) => (
+          {navItems.map(({ id, icon, label, badge }) => (
             <button key={id} onClick={() => setSection(id)}
               style={{ width: "100%", display: "flex", alignItems: "center", gap: 10, padding: "11px 14px", borderRadius: 14, border: "none", background: section === id ? "rgba(255,255,255,0.12)" : "transparent", color: section === id ? "white" : "rgba(250,246,240,0.55)", fontWeight: section === id ? 600 : 400, fontSize: 13, cursor: "pointer", marginBottom: 2, position: "relative", textAlign: "left" }}>
               <Icon d={icon} size={16} />
