@@ -61,6 +61,26 @@ const C = {
 };
 const FONT = { serif: '"Cormorant Garamond","Georgia",serif', sans: '"DM Sans",system-ui,sans-serif' };
 
+// ── RESPONSIVE HOOK ──────────────────────────────────────────────────────────
+function useIsMobile(breakpoint = 768) {
+  const [isMobile, setIsMobile] = useState(() => typeof window !== "undefined" && window.innerWidth < breakpoint);
+  useEffect(() => {
+    const fn = () => setIsMobile(window.innerWidth < breakpoint);
+    window.addEventListener("resize", fn);
+    return () => window.removeEventListener("resize", fn);
+  }, [breakpoint]);
+  return isMobile;
+}
+function useIsTablet(breakpoint = 1024) {
+  const [isTablet, setIsTablet] = useState(() => typeof window !== "undefined" && window.innerWidth < breakpoint);
+  useEffect(() => {
+    const fn = () => setIsTablet(window.innerWidth < breakpoint);
+    window.addEventListener("resize", fn);
+    return () => window.removeEventListener("resize", fn);
+  }, [breakpoint]);
+  return isTablet;
+}
+
 // ─── INITIAL DATA ──────────────────────────────────────────────────────────
 const INIT_CONFIG = {
   /* ── IDENTIDAD ─────────────────────────────────────── */
@@ -180,7 +200,9 @@ const INIT_CONFIG = {
 
   /* ── PAGOS ──────────────────────────────────────────── */
   stripeKey: "", mpKey: "", paypalId: "",
+  yapeEnabled: true, transferEnabled: true,
   stripeEnabled: false, mpEnabled: false, paypalEnabled: false,
+  transferDetails: "BCP: 123-456789-0-12 · Interbank: 200-123456789-01",
 };
 
 const INIT_CATEGORIES = [
@@ -519,7 +541,7 @@ function Stars({ rating, size = 13 }) {
 // ════════════════════════════════════════════════════════════════════════════
 
 // ─── PRODUCT CARD (store) ──────────────────────────────────────────────────
-function ProductCard({ product, categories, onAddCart, onWishlist, wishlist = [], onDetail, config }) {
+function ProductCard({ product, categories, onAddCart, onWishlist, wishlist = [], onDetail, config, isMobile = false }) {
   const [hovered, setHovered] = useState(false);
   const cat = categories.find(c => c.id === product.categoryId);
   const inWish = wishlist.includes(product.id);
@@ -581,7 +603,7 @@ function ProductCard({ product, categories, onAddCart, onWishlist, wishlist = []
   );
 }
 
-function CartSidebar({ open, onClose, cart, setCart, config, onCheckout }) {
+function CartSidebar({ open, onClose, cart, setCart, config, onCheckout, isMobile = false }) {
   const toast = useToast();
   const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
   const shipping = subtotal >= config.freeShipping ? 0 : 15;
@@ -593,7 +615,7 @@ function CartSidebar({ open, onClose, cart, setCart, config, onCheckout }) {
         {open && <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", zIndex: 800 }} />}
       </AnimatePresence>
       <motion.div initial={{ x: "100%" }} animate={{ x: open ? 0 : "100%" }} transition={{ type: "spring", damping: 28, stiffness: 280 }}
-        style={{ position: "fixed", top: 0, right: 0, width: 420, height: "100vh", background: C.white, zIndex: 801, display: "flex", flexDirection: "column", padding: 32, overflowY: "auto" }}>
+        style={{ position: "fixed", top: 0, right: 0, width: isMobile ? "100vw" : 420, height: "100vh", background: C.white, zIndex: 801, display: "flex", flexDirection: "column", padding: 32, overflowY: "auto" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 28 }}>
           <h2 style={{ fontFamily: FONT.serif, fontSize: 24, color: C.charcoal, margin: 0 }}>Mi carrito 🛒</h2>
           <button onClick={onClose} style={{ background: C.beige, border: "none", borderRadius: "50%", width: 38, height: 38, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: C.muted }}>
@@ -810,8 +832,8 @@ function CheckoutModal({ open, onClose, cart, config, products, coupons, onCompl
           <div style={{ marginBottom: 24 }}>
             <div style={{ fontSize: 13, fontWeight: 700, color: C.muted, textTransform: "uppercase", letterSpacing: "1px", marginBottom: 12 }}>Método de pago</div>
             {[
-              { id: "yape", label: "💜 Yape / Plin", desc: "Pago inmediato al número: " + config.whatsapp, always: true },
-              { id: "transfer", label: "🏦 Transferencia bancaria", desc: "BCP / Interbank / BBVA", always: true },
+              config.yapeEnabled !== false && { id: "yape", label: "💜 Yape / Plin", desc: "Pago inmediato al número: " + config.whatsapp },
+              config.transferEnabled !== false && { id: "transfer", label: "🏦 Transferencia bancaria", desc: config.transferDetails || "BCP / Interbank / BBVA" },
               config.stripeEnabled && { id: "stripe", label: "💳 Tarjeta crédito/débito", desc: "Visa, Mastercard, Amex (Stripe)" },
               config.mpEnabled && { id: "mercadopago", label: "🟡 MercadoPago", desc: "Paga con tu cuenta MercadoPago" },
               config.paypalEnabled && { id: "paypal", label: "💙 PayPal", desc: "Paga con tu cuenta PayPal" },
@@ -827,6 +849,13 @@ function CheckoutModal({ open, onClose, cart, config, products, coupons, onCompl
               </div>
             ))}
           </div>
+          {payMethod === "transfer" && config.transferEnabled !== false && (
+            <div style={{ background: "#E8F3E8", borderRadius: 16, padding: 16, marginBottom: 16, border: "1.5px solid #A5C8A5" }}>
+              <div style={{ fontSize: 13, fontWeight: 700, color: "#2D6B2D", marginBottom: 6 }}>🏦 Datos para la transferencia</div>
+              <div style={{ fontSize: 13, color: "#2D5C2D", lineHeight: 1.7, whiteSpace: "pre-line" }}>{config.transferDetails || "BCP: 123-456789-0-12\nInterbank: 200-123456789-01"}</div>
+              <div style={{ fontSize: 12, color: "#4A7A4A", marginTop: 8 }}>Envía el comprobante por WhatsApp al <strong>{config.whatsapp}</strong></div>
+            </div>
+          )}
           {(payMethod === "stripe" && config.stripeEnabled) && (
             <div style={{ background: C.beige, borderRadius: 16, padding: 16, marginBottom: 20, fontSize: 13, color: C.muted }}>
               💳 En producción, aquí aparece el formulario seguro de Stripe con tu clave pública: <strong>{config.stripeKey || "no configurada"}</strong>
@@ -923,7 +952,7 @@ function HeroSection({ config, onShop }) {
     </div>
   );
 }
-function ProductDetailModal({ product, categories, open, onClose, onAddCart, onWishlist, wishlist = [], config }) {
+function ProductDetailModal({ product, categories, open, onClose, onAddCart, onWishlist, wishlist = [], config, isMobile = false }) {
   const [curImg, setCurImg] = useState(0);
   const cat = categories.find(c => c.id === product?.categoryId);
   const inWish = product && wishlist.includes(product.id);
@@ -938,7 +967,7 @@ function ProductDetailModal({ product, categories, open, onClose, onAddCart, onW
         onClick={e => e.target === e.currentTarget && onClose()}
         style={{ position: "fixed", inset: 0, background: "rgba(61,56,50,0.55)", zIndex: 1100, display: "flex", alignItems: "center", justifyContent: "center", padding: 16, overflowY: "auto" }}>
         <motion.div initial={{ scale: 0.95, opacity: 0, y: 20 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.95, opacity: 0 }}
-          style={{ background: "#FFFFFF", borderRadius: 16, width: "100%", maxWidth: 860, display: "grid", gridTemplateColumns: "1fr 1fr", boxShadow: "0 24px 80px rgba(0,0,0,0.22)", overflow: "hidden", maxHeight: "92vh" }}>
+          style={{ background: "#FFFFFF", borderRadius: 16, width: "100%", maxWidth: 860, display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", boxShadow: "0 24px 80px rgba(0,0,0,0.22)", overflow: "hidden", maxHeight: "92vh" }}>
 
           {/* Image panel */}
           <div style={{ position: "relative", background: product.bg || "#F5EEEC", minHeight: 380, display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
@@ -1043,6 +1072,7 @@ function ProductDetailModal({ product, categories, open, onClose, onAddCart, onW
 }
 
 
+
 function Storefront({ products, categories, config, coupons, cart, setCart, wishlist, setWishlist, orders, setOrders }) {
   const toast = useToast();
   const [cartOpen, setCartOpen] = useState(false);
@@ -1103,145 +1133,159 @@ function Storefront({ products, categories, config, coupons, cart, setCart, wish
   };
 
 
-  const pc  = config.primaryColor  || "#899180";
-  const ac  = config.accentColor   || "#B5A99A";
-  const bc  = config.buttonColor   || pc;
+  const isMobile = useIsMobile(768);
+  const isTablet  = useIsTablet(1024);
+
+  const pc  = config.primaryColor   || "#899180";
+  const ac  = config.accentColor    || "#B5A99A";
+  const bc  = config.buttonColor    || pc;
   const btc = config.buttonTextColor || "#FFFFFF";
-  const hc  = config.headingColor  || "#3D3830";
-  const tc  = config.textColor     || "#7A7068";
-  const bg  = config.bgColor       || "#FAFAF8";
-  const brd = config.borderColor   || "#EDE8E2";
+  const hc  = config.headingColor   || "#3D3830";
+  const tc  = config.textColor      || "#7A7068";
+  const bg  = config.bgColor        || "#FAFAF8";
+  const brd = config.borderColor    || "#EDE8E2";
   const SERIF = `"${config.fontHeading || "Cormorant Garamond"}", serif`;
   const SANS  = `"${config.fontBody    || "DM Sans"}", system-ui, sans-serif`;
+
+  const pad = isMobile ? "0 20px" : isTablet ? "0 32px" : "0 48px";
 
   return (
     <div style={{ background: bg, fontFamily: SANS }}>
 
-      {/* ── PROMO BAR ──────────────────────────────────────────────── */}
+      {/* ── PROMO BAR ── */}
       {config.promoActive && (
-        <div style={{ background: config.promoBannerColor || "#3D3830", color: config.promoBannerTextColor || "#FAFAF8", textAlign: "center", padding: "9px 20px", fontSize: 11, letterSpacing: "0.3px" }}>
+        <div style={{ background: config.promoBannerColor || "#3D3830", color: config.promoBannerTextColor || "#FAFAF8", textAlign: "center", padding: isMobile ? "8px 16px" : "9px 20px", fontSize: isMobile ? 10 : 11, letterSpacing: "0.3px", lineHeight: 1.5 }}>
           {config.promoBanner}
         </div>
       )}
 
-      {/* ── NAVBAR ────────────────────────────────────────────────── */}
+      {/* ── NAVBAR ── */}
       <nav style={{ position: "sticky", top: 0, zIndex: 200, background: config.navBgColor || "rgba(250,250,248,0.96)", backdropFilter: "blur(14px)", borderBottom: `1px solid ${brd}` }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 48px", height: 62, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+        <div style={{ maxWidth: 1280, margin: "0 auto", padding: isMobile ? "0 20px" : "0 48px", height: isMobile ? 56 : 62, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             {config.logoImage
-              ? <img src={config.logoImage} alt={config.storeName} style={{ height: 36, objectFit: "contain" }} />
-              : <span style={{ fontFamily: SERIF, fontSize: 20, fontWeight: 300, color: config.navTextColor || hc, letterSpacing: "1px" }}>{config.storeName}</span>
+              ? <img src={config.logoImage} alt={config.storeName} style={{ height: isMobile ? 28 : 36, objectFit: "contain" }} />
+              : <span style={{ fontFamily: SERIF, fontSize: isMobile ? 17 : 20, fontWeight: 300, color: config.navTextColor || hc, letterSpacing: "1px" }}>{config.storeName}</span>
             }
           </div>
-          <div style={{ display: "flex", alignItems: "center", gap: 26 }}>
-            {categories.slice(0, 4).map(cat => (
-              <button key={cat.id} onClick={() => { setFilterCat(cat.id); productsRef.current?.scrollIntoView({ behavior: "smooth" }); }}
-                style={{ background: "none", border: "none", cursor: "pointer", fontSize: 12, fontFamily: SANS, color: filterCat === cat.id ? (config.navActiveColor || pc) : (config.navTextColor || tc), fontWeight: filterCat === cat.id ? 600 : 400, borderBottom: `1px solid ${filterCat === cat.id ? (config.navActiveColor || pc) : "transparent"}`, padding: "4px 0", transition: "all 0.15s" }}>
-                {cat.name}
-              </button>
-            ))}
-          </div>
-          <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+          {!isMobile && (
+            <div style={{ display: "flex", alignItems: "center", gap: 26 }}>
+              {categories.slice(0, 4).map(cat => (
+                <button key={cat.id} onClick={() => { setFilterCat(cat.id); productsRef.current?.scrollIntoView({ behavior: "smooth" }); }}
+                  style={{ background: "none", border: "none", cursor: "pointer", fontSize: 12, fontFamily: SANS, color: filterCat === cat.id ? (config.navActiveColor || pc) : (config.navTextColor || tc), fontWeight: filterCat === cat.id ? 600 : 400, borderBottom: `1px solid ${filterCat === cat.id ? (config.navActiveColor || pc) : "transparent"}`, padding: "4px 0", transition: "all 0.15s" }}>
+                  {cat.name}
+                </button>
+              ))}
+            </div>
+          )}
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            {isMobile && (
+              <button onClick={() => productsRef.current?.scrollIntoView({ behavior: "smooth" })} style={{ background: "none", border: "none", cursor: "pointer", color: tc, fontSize: 12, fontFamily: SANS }}>Ver todo</button>
+            )}
             <button onClick={() => setCartOpen(true)} style={{ position: "relative", background: "none", border: "none", cursor: "pointer", color: tc, display: "flex", padding: 4 }}>
-              <Icon d={Icons.cart} size={19} strokeWidth={1.4} />
+              <Icon d={Icons.cart} size={isMobile ? 22 : 19} strokeWidth={1.4} />
               {cartCount > 0 && <span style={{ position: "absolute", top: 1, right: 1, background: bc, color: btc, fontSize: 8, fontWeight: 700, width: 13, height: 13, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>{cartCount}</span>}
             </button>
           </div>
         </div>
       </nav>
 
-      {/* ── HERO ──────────────────────────────────────────────────── */}
-      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 48px", display: "grid", gridTemplateColumns: "1fr 1fr", minHeight: "86vh", alignItems: "center", gap: 64 }}>
-        <div>
+      {/* ── HERO ── */}
+      <div style={{ maxWidth: 1280, margin: "0 auto", padding: isMobile ? "40px 20px 50px" : "0 48px", display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", minHeight: isMobile ? "auto" : "86vh", alignItems: "center", gap: isMobile ? 36 : 64 }}>
+        <div style={{ order: isMobile ? 2 : 1 }}>
           <motion.p initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
-            style={{ fontSize: 10, color: pc, textTransform: "uppercase", letterSpacing: "2.5px", margin: "0 0 18px", fontWeight: 600 }}>
+            style={{ fontSize: isMobile ? 9 : 10, color: pc, textTransform: "uppercase", letterSpacing: "2.5px", margin: "0 0 14px", fontWeight: 600 }}>
             {config.heroBadgeText}
           </motion.p>
           <motion.h1 initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
-            style={{ fontFamily: SERIF, fontSize: "clamp(34px, 3.8vw, 54px)", fontWeight: 300, lineHeight: 1.15, color: hc, margin: "0 0 20px", letterSpacing: "0.3px" }}>
+            style={{ fontFamily: SERIF, fontSize: isMobile ? "clamp(30px,8vw,40px)" : "clamp(34px, 3.8vw, 54px)", fontWeight: 300, lineHeight: 1.15, color: hc, margin: "0 0 16px", letterSpacing: "0.3px" }}>
             {(config.heroTitle || "").split("\n").map((l, i) => <span key={i}>{l}<br /></span>)}
           </motion.h1>
           <motion.p initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
-            style={{ fontSize: 15, lineHeight: 1.8, color: tc, maxWidth: 420, margin: "0 0 34px" }}>
+            style={{ fontSize: isMobile ? 14 : 15, lineHeight: 1.8, color: tc, maxWidth: 420, margin: "0 0 28px" }}>
             {config.heroSubtitle}
           </motion.p>
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}
-            style={{ display: "flex", gap: 14, alignItems: "center" }}>
+            style={{ display: "flex", gap: 12, alignItems: "center", flexWrap: isMobile ? "wrap" : "nowrap" }}>
             <button onClick={() => productsRef.current?.scrollIntoView({ behavior: "smooth" })}
-              style={{ padding: "13px 28px", borderRadius: 2, background: config.heroBtn1Color || bc, color: config.heroBtn1TextColor || btc, border: "none", fontWeight: 600, fontSize: 13, cursor: "pointer", letterSpacing: "0.4px" }}>
+              style={{ padding: isMobile ? "12px 24px" : "13px 28px", borderRadius: 2, background: config.heroBtn1Color || bc, color: config.heroBtn1TextColor || btc, border: "none", fontWeight: 600, fontSize: isMobile ? 13 : 13, cursor: "pointer", letterSpacing: "0.4px", width: isMobile ? "100%" : "auto" }}>
               {config.heroBtn1 || "Ver colección"}
             </button>
             <button onClick={() => document.getElementById("about-vk")?.scrollIntoView({ behavior: "smooth" })}
-              style={{ padding: "13px 20px", borderRadius: 2, background: config.heroBtn2Color || "transparent", color: config.heroBtn2TextColor || hc, border: `1px solid ${config.heroBtn2BorderColor || brd}`, fontWeight: 400, fontSize: 13, cursor: "pointer", letterSpacing: "0.3px" }}>
+              style={{ padding: isMobile ? "12px 24px" : "13px 20px", borderRadius: 2, background: config.heroBtn2Color || "transparent", color: config.heroBtn2TextColor || hc, border: `1px solid ${config.heroBtn2BorderColor || brd}`, fontWeight: 400, fontSize: 13, cursor: "pointer", letterSpacing: "0.3px", width: isMobile ? "100%" : "auto", textAlign: "center" }}>
               {config.heroBtn2 || "Nuestra historia"}
             </button>
           </motion.div>
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.7 }}
-            style={{ display: "flex", gap: 36, marginTop: 52, paddingTop: 30, borderTop: `1px solid ${brd}` }}>
-            {[[config.heroStat1Number || "5K+", config.heroStat1Label || "Familias"], [config.heroStat2Number || "200+", config.heroStat2Label || "Productos"], [config.heroStat3Number || "4.9", config.heroStat3Label || "Valoración"]].map(([n, l]) => (
-              <div key={l}>
-                <p style={{ fontFamily: SERIF, fontSize: 24, fontWeight: 300, color: hc, margin: "0 0 3px" }}>{n}</p>
-                <p style={{ fontSize: 11, color: tc, margin: 0, opacity: 0.7 }}>{l}</p>
-              </div>
-            ))}
-          </motion.div>
+          {!isMobile && (
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.7 }}
+              style={{ display: "flex", gap: 36, marginTop: 52, paddingTop: 30, borderTop: `1px solid ${brd}` }}>
+              {[[config.heroStat1Number || "5K+", config.heroStat1Label || "Familias"], [config.heroStat2Number || "200+", config.heroStat2Label || "Productos"], [config.heroStat3Number || "4.9", config.heroStat3Label || "Valoración"]].map(([n, l]) => (
+                <div key={l}>
+                  <p style={{ fontFamily: SERIF, fontSize: 24, fontWeight: 300, color: hc, margin: "0 0 3px" }}>{n}</p>
+                  <p style={{ fontSize: 11, color: tc, margin: 0, opacity: 0.7 }}>{l}</p>
+                </div>
+              ))}
+            </motion.div>
+          )}
         </div>
         <motion.div initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.15, duration: 0.7 }}
-          style={{ height: "74vh", borderRadius: 3, overflow: "hidden", position: "relative" }}>
+          style={{ height: isMobile ? "50vw" : "74vh", minHeight: isMobile ? 240 : 0, borderRadius: 3, overflow: "hidden", position: "relative", order: isMobile ? 1 : 2 }}>
           {config.heroImage
             ? <img src={config.heroImage} alt="Hero" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
             : <div style={{ width: "100%", height: "100%", background: config.heroBgGradient || "linear-gradient(160deg,#F5EEEC,#F5F2EE,#EDF0EC)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <div style={{ textAlign: "center" }}><div style={{ fontSize: 86, marginBottom: 12 }}>👶🏻</div><p style={{ fontFamily: SERIF, fontSize: 17, color: tc, fontWeight: 300 }}>{config.storeName}</p></div>
+                <div style={{ textAlign: "center" }}><div style={{ fontSize: isMobile ? 60 : 86, marginBottom: 12 }}>👶🏻</div><p style={{ fontFamily: SERIF, fontSize: isMobile ? 14 : 17, color: tc, fontWeight: 300 }}>{config.storeName}</p></div>
               </div>
           }
-          <motion.div animate={{ y: [0, -7, 0] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-            style={{ position: "absolute", bottom: 22, left: 22, background: "rgba(255,255,255,0.93)", backdropFilter: "blur(10px)", borderRadius: 3, padding: "11px 14px", boxShadow: "0 4px 18px rgba(0,0,0,0.07)", display: "flex", alignItems: "center", gap: 10 }}>
-            <div style={{ width: 32, height: 32, borderRadius: "50%", background: pc + "22", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13 }}>⭐</div>
-            <div>
-              <p style={{ fontSize: 11, fontWeight: 600, color: hc, margin: "0 0 1px" }}>{config.heroFloatingText || "+500 reseñas verificadas"}</p>
-              <p style={{ fontSize: 10, color: tc, margin: 0, opacity: 0.7 }}>{config.heroFloatingSubtext || "Calificación 4.9 / 5"}</p>
-            </div>
-          </motion.div>
+          {!isMobile && (
+            <motion.div animate={{ y: [0, -7, 0] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+              style={{ position: "absolute", bottom: 22, left: 22, background: "rgba(255,255,255,0.93)", backdropFilter: "blur(10px)", borderRadius: 3, padding: "11px 14px", boxShadow: "0 4px 18px rgba(0,0,0,0.07)", display: "flex", alignItems: "center", gap: 10 }}>
+              <div style={{ width: 32, height: 32, borderRadius: "50%", background: pc + "22", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13 }}>⭐</div>
+              <div>
+                <p style={{ fontSize: 11, fontWeight: 600, color: hc, margin: "0 0 1px" }}>{config.heroFloatingText || "+500 reseñas verificadas"}</p>
+                <p style={{ fontSize: 10, color: tc, margin: 0, opacity: 0.7 }}>{config.heroFloatingSubtext || "Calificación 4.9 / 5"}</p>
+              </div>
+            </motion.div>
+          )}
         </motion.div>
       </div>
 
-      {/* ── CATEGORÍAS ────────────────────────────────────────────── */}
-      <section style={{ padding: "72px 0", background: config.aboutBgColor || "#F5F2EE", borderTop: `1px solid ${brd}`, borderBottom: `1px solid ${brd}` }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 48px" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 28 }}>
+      {/* ── CATEGORÍAS ── */}
+      <section style={{ padding: isMobile ? "48px 0" : "72px 0", background: config.aboutBgColor || "#F5F2EE", borderTop: `1px solid ${brd}`, borderBottom: `1px solid ${brd}` }}>
+        <div style={{ maxWidth: 1280, margin: "0 auto", padding: `0 ${isMobile ? "20px" : isTablet ? "32px" : "48px"}` }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: isMobile ? 20 : 28 }}>
             <div>
               <p style={{ fontSize: 10, color: pc, textTransform: "uppercase", letterSpacing: "2px", margin: "0 0 6px", fontWeight: 600 }}>{config.catSectionLabel || "Explorar"}</p>
-              <h2 style={{ fontFamily: SERIF, fontSize: 28, fontWeight: 300, color: hc, margin: 0 }}>{config.catSectionTitle || "Todo lo que tu bebé necesita"}</h2>
+              <h2 style={{ fontFamily: SERIF, fontSize: isMobile ? 22 : 28, fontWeight: 300, color: hc, margin: 0 }}>{config.catSectionTitle || "Todo lo que tu bebé necesita"}</h2>
             </div>
-            <button onClick={() => productsRef.current?.scrollIntoView({ behavior: "smooth" })} style={{ fontSize: 11, color: pc, background: "none", border: "none", cursor: "pointer", fontWeight: 500 }}>{config.catSectionLinkText || "Ver todo →"}</button>
+            <button onClick={() => productsRef.current?.scrollIntoView({ behavior: "smooth" })} style={{ fontSize: 11, color: pc, background: "none", border: "none", cursor: "pointer", fontWeight: 500, whiteSpace: "nowrap" }}>{config.catSectionLinkText || "Ver todo →"}</button>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: 14 }}>
+          <div style={{ display: "grid", gridTemplateColumns: isMobile ? "repeat(3, 1fr)" : isTablet ? "repeat(4, 1fr)" : "repeat(6, 1fr)", gap: isMobile ? 10 : 14 }}>
             {categories.map((cat, i) => (
               <motion.div key={cat.id} initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }} viewport={{ once: true }}
                 onClick={() => { setFilterCat(cat.id); productsRef.current?.scrollIntoView({ behavior: "smooth" }); }} style={{ cursor: "pointer" }}>
-                <div style={{ aspectRatio: "3/4", borderRadius: 3, overflow: "hidden", background: cat.color || "#F5EEEC", marginBottom: 10, border: filterCat === cat.id ? `2px solid ${pc}` : "2px solid transparent", transition: "border-color 0.15s" }}>
-                  {cat.image ? <img src={cat.image} alt={cat.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} /> : <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 32 }}>{cat.emoji}</div>}
+                <div style={{ aspectRatio: "3/4", borderRadius: 3, overflow: "hidden", background: cat.color || "#F5EEEC", marginBottom: 8, border: filterCat === cat.id ? `2px solid ${pc}` : "2px solid transparent", transition: "border-color 0.15s" }}>
+                  {cat.image ? <img src={cat.image} alt={cat.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} /> : <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: isMobile ? 26 : 32 }}>{cat.emoji}</div>}
                 </div>
-                <p style={{ fontSize: 12, fontWeight: filterCat === cat.id ? 600 : 400, color: filterCat === cat.id ? pc : hc, margin: "0 0 2px", textAlign: "center" }}>{cat.name}</p>
-                <p style={{ fontSize: 10, color: tc, margin: 0, textAlign: "center", opacity: 0.7 }}>{products.filter(p => p.categoryId === cat.id && p.active).length} productos</p>
+                <p style={{ fontSize: isMobile ? 10 : 12, fontWeight: filterCat === cat.id ? 600 : 400, color: filterCat === cat.id ? pc : hc, margin: "0 0 2px", textAlign: "center" }}>{cat.name}</p>
+                {!isMobile && <p style={{ fontSize: 10, color: tc, margin: 0, textAlign: "center", opacity: 0.7 }}>{products.filter(p => p.categoryId === cat.id && p.active).length} productos</p>}
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── PRODUCTOS ─────────────────────────────────────────────── */}
-      <section ref={productsRef} style={{ padding: "72px 0" }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 48px" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 36, flexWrap: "wrap", gap: 18 }}>
+      {/* ── PRODUCTOS ── */}
+      <section ref={productsRef} style={{ padding: isMobile ? "48px 0" : "72px 0" }}>
+        <div style={{ maxWidth: 1280, margin: "0 auto", padding: `0 ${isMobile ? "20px" : isTablet ? "32px" : "48px"}` }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: isMobile ? "flex-start" : "flex-end", marginBottom: isMobile ? 20 : 36, flexWrap: "wrap", gap: 14, flexDirection: isMobile ? "column" : "row" }}>
             <div>
               <p style={{ fontSize: 10, color: pc, textTransform: "uppercase", letterSpacing: "2px", margin: "0 0 6px", fontWeight: 600 }}>{config.prodSectionLabel || "Colección"}</p>
-              <h2 style={{ fontFamily: SERIF, fontSize: 28, fontWeight: 300, color: hc, margin: 0 }}>{config.prodSectionTitle || "Más queridos"}</h2>
+              <h2 style={{ fontFamily: SERIF, fontSize: isMobile ? 22 : 28, fontWeight: 300, color: hc, margin: 0 }}>{config.prodSectionTitle || "Más queridos"}</h2>
             </div>
-            <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+            <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
               <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
                 {[{ id: "all", name: "Todo" }, ...categories].map(cat => (
-                  <button key={cat.id} onClick={() => setFilterCat(cat.id)} style={{ padding: "6px 14px", borderRadius: 2, border: `1px solid ${filterCat === cat.id ? pc : brd}`, background: filterCat === cat.id ? pc : "transparent", color: filterCat === cat.id ? btc : tc, fontSize: 11, fontWeight: 500, cursor: "pointer", transition: "all 0.15s" }}>
+                  <button key={cat.id} onClick={() => setFilterCat(cat.id)} style={{ padding: isMobile ? "5px 11px" : "6px 14px", borderRadius: 2, border: `1px solid ${filterCat === cat.id ? pc : brd}`, background: filterCat === cat.id ? pc : "transparent", color: filterCat === cat.id ? btc : tc, fontSize: isMobile ? 10 : 11, fontWeight: 500, cursor: "pointer", transition: "all 0.15s" }}>
                     {cat.name}
                   </button>
                 ))}
@@ -1254,11 +1298,11 @@ function Storefront({ products, categories, config, coupons, cart, setCart, wish
               </select>
             </div>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "32px 20px" }}>
+          <div style={{ display: "grid", gridTemplateColumns: isMobile ? "repeat(2, 1fr)" : isTablet ? "repeat(3, 1fr)" : "repeat(4, 1fr)", gap: isMobile ? "20px 12px" : "32px 20px" }}>
             <AnimatePresence>
               {filtered.map((p, i) => (
                 <motion.div key={p.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, scale: 0.97 }} transition={{ delay: i * 0.03 }}>
-                  <ProductCard product={p} categories={categories} onAddCart={addToCart} onWishlist={toggleWishlist} wishlist={wishlist} onDetail={setDetailProduct} config={config} />
+                  <ProductCard product={p} categories={categories} onAddCart={addToCart} onWishlist={toggleWishlist} wishlist={wishlist} onDetail={setDetailProduct} config={config} isMobile={isMobile} />
                 </motion.div>
               ))}
             </AnimatePresence>
@@ -1267,41 +1311,41 @@ function Storefront({ products, categories, config, coupons, cart, setCart, wish
         </div>
       </section>
 
-      {/* ── ABOUT ─────────────────────────────────────────────────── */}
-      <section id="about-vk" style={{ padding: "72px 0", background: config.aboutBgColor || "#F5F2EE", borderTop: `1px solid ${brd}` }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 48px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 72, alignItems: "center" }}>
+      {/* ── ABOUT ── */}
+      <section id="about-vk" style={{ padding: isMobile ? "48px 0" : "72px 0", background: config.aboutBgColor || "#F5F2EE", borderTop: `1px solid ${brd}` }}>
+        <div style={{ maxWidth: 1280, margin: "0 auto", padding: `0 ${isMobile ? "20px" : isTablet ? "32px" : "48px"}`, display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: isMobile ? 32 : 72, alignItems: "center" }}>
           <div>
             <p style={{ fontSize: 10, color: pc, textTransform: "uppercase", letterSpacing: "2px", margin: "0 0 14px", fontWeight: 600 }}>{config.aboutLabel || "Nuestra historia"}</p>
-            <h2 style={{ fontFamily: SERIF, fontSize: 30, fontWeight: 300, color: hc, lineHeight: 1.35, marginBottom: 18 }}>"{config.aboutTitle}"</h2>
-            <p style={{ fontSize: 14, color: tc, lineHeight: 1.85, marginBottom: 28 }}>{config.aboutText}</p>
-            <p style={{ fontFamily: SERIF, fontSize: 16, fontStyle: "italic", color: pc, margin: 0 }}>— {config.aboutSignature || "Con amor, el equipo Venetus Kids"}</p>
+            <h2 style={{ fontFamily: SERIF, fontSize: isMobile ? 22 : 30, fontWeight: 300, color: hc, lineHeight: 1.35, marginBottom: 16 }}>"{config.aboutTitle}"</h2>
+            <p style={{ fontSize: isMobile ? 13 : 14, color: tc, lineHeight: 1.85, marginBottom: 24 }}>{config.aboutText}</p>
+            <p style={{ fontFamily: SERIF, fontSize: 15, fontStyle: "italic", color: pc, margin: 0 }}>— {config.aboutSignature || "Con amor, el equipo Venetus Kids"}</p>
           </div>
           <div style={{ borderRadius: 3, overflow: "hidden" }}>
             {config.aboutImage
               ? <img src={config.aboutImage} alt="About" style={{ width: "100%", aspectRatio: "4/3", objectFit: "cover" }} />
               : <div style={{ aspectRatio: "4/3", background: `linear-gradient(135deg, ${pc}20, ${ac}30)`, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 3 }}>
-                  <div style={{ textAlign: "center" }}><div style={{ fontSize: 56, marginBottom: 10 }}>🤱</div><p style={{ fontFamily: SERIF, fontSize: 15, color: tc, fontWeight: 300 }}>Hecho con amor</p></div>
+                  <div style={{ textAlign: "center" }}><div style={{ fontSize: isMobile ? 44 : 56, marginBottom: 10 }}>🤱</div><p style={{ fontFamily: SERIF, fontSize: 15, color: tc, fontWeight: 300 }}>Hecho con amor</p></div>
                 </div>
             }
           </div>
         </div>
       </section>
 
-      {/* ── TESTIMONIOS ───────────────────────────────────────────── */}
-      <section style={{ padding: "72px 0" }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 48px" }}>
-          <div style={{ textAlign: "center", marginBottom: 44 }}>
+      {/* ── TESTIMONIOS ── */}
+      <section style={{ padding: isMobile ? "48px 0" : "72px 0" }}>
+        <div style={{ maxWidth: 1280, margin: "0 auto", padding: `0 ${isMobile ? "20px" : isTablet ? "32px" : "48px"}` }}>
+          <div style={{ textAlign: "center", marginBottom: isMobile ? 28 : 44 }}>
             <p style={{ fontSize: 10, color: pc, textTransform: "uppercase", letterSpacing: "2px", margin: "0 0 8px", fontWeight: 600 }}>{config.testimonialsLabel || "Testimonios"}</p>
-            <h2 style={{ fontFamily: SERIF, fontSize: 30, fontWeight: 300, color: hc, margin: 0 }}>{config.testimonialsTitle || "Lo que dicen nuestras clientas"}</h2>
+            <h2 style={{ fontFamily: SERIF, fontSize: isMobile ? 22 : 30, fontWeight: 300, color: hc, margin: 0 }}>{config.testimonialsTitle || "Lo que dicen nuestras clientas"}</h2>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 22 }}>
+          <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : isTablet ? "repeat(2, 1fr)" : "repeat(3, 1fr)", gap: 16 }}>
             {(config.testimonials || []).map((t, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }} viewport={{ once: true }}
-                style={{ background: config.cardBgColor || "white", borderRadius: 3, padding: "26px 22px", border: `1px solid ${brd}` }}>
-                <div style={{ color: "#C9A55A", fontSize: 12, marginBottom: 14, letterSpacing: "1px" }}>★★★★★</div>
-                <p style={{ fontSize: 13, lineHeight: 1.8, color: tc, fontStyle: "italic", marginBottom: 20 }}>"{t.text}"</p>
+                style={{ background: config.cardBgColor || "white", borderRadius: 3, padding: isMobile ? "20px 18px" : "26px 22px", border: `1px solid ${brd}` }}>
+                <div style={{ color: "#C9A55A", fontSize: 12, marginBottom: 12, letterSpacing: "1px" }}>★★★★★</div>
+                <p style={{ fontSize: 13, lineHeight: 1.8, color: tc, fontStyle: "italic", marginBottom: 18 }}>"{t.text}"</p>
                 <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                  <div style={{ width: 34, height: 34, borderRadius: "50%", background: t.bg || pc + "22", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 700, color: hc }}>{t.avatar}</div>
+                  <div style={{ width: 34, height: 34, borderRadius: "50%", background: t.bg || pc + "22", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 700, color: hc, flexShrink: 0 }}>{t.avatar}</div>
                   <div>
                     <p style={{ fontWeight: 600, fontSize: 13, color: hc, margin: "0 0 1px" }}>{t.name}</p>
                     <p style={{ fontSize: 11, color: tc, margin: 0, opacity: 0.7 }}>{t.role}</p>
@@ -1313,81 +1357,84 @@ function Storefront({ products, categories, config, coupons, cart, setCart, wish
         </div>
       </section>
 
-      {/* ── BENEFICIOS ────────────────────────────────────────────── */}
-      <section style={{ padding: "56px 0", background: config.benefitsBgColor || "#3D3830" }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 48px", display: "grid", gridTemplateColumns: `repeat(${(config.benefits || []).length || 4}, 1fr)`, gap: 36 }}>
+      {/* ── BENEFICIOS ── */}
+      <section style={{ padding: isMobile ? "40px 0" : "56px 0", background: config.benefitsBgColor || "#3D3830" }}>
+        <div style={{ maxWidth: 1280, margin: "0 auto", padding: `0 ${isMobile ? "20px" : isTablet ? "32px" : "48px"}`, display: "grid", gridTemplateColumns: isMobile ? "repeat(2, 1fr)" : `repeat(${(config.benefits || []).length || 4}, 1fr)`, gap: isMobile ? 20 : 36 }}>
           {(config.benefits || []).map((b, i) => (
-            <div key={i} style={{ textAlign: "center" }}>
-              <div style={{ fontSize: 28, marginBottom: 12 }}>{b.icon}</div>
-              <p style={{ fontFamily: SERIF, fontSize: 15, fontWeight: 400, color: "#F5F2EE", marginBottom: 6 }}>{b.title}</p>
-              <p style={{ fontSize: 12, color: "rgba(245,242,238,0.45)", margin: 0, lineHeight: 1.6 }}>{b.desc}</p>
+            <div key={i} style={{ textAlign: "center", padding: isMobile ? "12px 8px" : 0 }}>
+              <div style={{ fontSize: isMobile ? 24 : 28, marginBottom: isMobile ? 8 : 12 }}>{b.icon}</div>
+              <p style={{ fontFamily: SERIF, fontSize: isMobile ? 13 : 15, fontWeight: 400, color: "#F5F2EE", marginBottom: isMobile ? 4 : 6 }}>{b.title}</p>
+              <p style={{ fontSize: isMobile ? 11 : 12, color: "rgba(245,242,238,0.45)", margin: 0, lineHeight: 1.5 }}>{b.desc}</p>
             </div>
           ))}
         </div>
       </section>
 
-      {/* ── NEWSLETTER ────────────────────────────────────────────── */}
-      <section style={{ padding: "72px 40px", background: config.newsletterBgColor || pc, textAlign: "center" }}>
+      {/* ── NEWSLETTER ── */}
+      <section style={{ padding: isMobile ? "52px 20px" : "72px 40px", background: config.newsletterBgColor || pc, textAlign: "center" }}>
         <div style={{ maxWidth: 520, margin: "0 auto" }}>
-          <h2 style={{ fontFamily: SERIF, fontSize: 30, fontWeight: 300, color: "white", marginBottom: 10 }}>{config.newsletterTitle}</h2>
-          <p style={{ fontSize: 14, color: "rgba(255,255,255,0.75)", marginBottom: 28, lineHeight: 1.7 }}>{config.newsletterText}</p>
-          <div style={{ display: "flex", gap: 8, maxWidth: 400, margin: "0 auto" }}>
+          <h2 style={{ fontFamily: SERIF, fontSize: isMobile ? 24 : 30, fontWeight: 300, color: "white", marginBottom: 10 }}>{config.newsletterTitle}</h2>
+          <p style={{ fontSize: isMobile ? 13 : 14, color: "rgba(255,255,255,0.75)", marginBottom: 24, lineHeight: 1.7 }}>{config.newsletterText}</p>
+          <div style={{ display: "flex", gap: 8, maxWidth: 400, margin: "0 auto", flexDirection: isMobile ? "column" : "row" }}>
             <input placeholder={config.newsletterInputPlaceholder || "tu@correo.com"} style={{ flex: 1, padding: "12px 16px", borderRadius: 2, border: "none", background: "rgba(255,255,255,0.18)", color: "white", fontSize: 13, outline: "none" }} />
             <button onClick={() => toast("¡Suscripción exitosa!")} style={{ padding: "12px 20px", borderRadius: 2, background: config.newsletterBtnColor || "white", color: config.newsletterBtnTextColor || pc, border: "none", fontWeight: 700, cursor: "pointer", fontSize: 13, whiteSpace: "nowrap" }}>{config.newsletterBtnText || "Suscribirse"}</button>
           </div>
         </div>
       </section>
 
-      {/* ── FOOTER ────────────────────────────────────────────────── */}
-      <footer style={{ background: config.footerBgColor || "#3D3830", padding: "52px 0 32px" }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 48px" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1.5fr", gap: 40, marginBottom: 40 }}>
-            <div>
+      {/* ── FOOTER ── */}
+      <footer style={{ background: config.footerBgColor || "#3D3830", padding: isMobile ? "40px 0 28px" : "52px 0 32px" }}>
+        <div style={{ maxWidth: 1280, margin: "0 auto", padding: `0 ${isMobile ? "20px" : isTablet ? "32px" : "48px"}` }}>
+          <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr 1fr" : isTablet ? "2fr 1fr 1fr" : "2fr 1fr 1fr 1.5fr", gap: isMobile ? 24 : 40, marginBottom: isMobile ? 28 : 40 }}>
+            <div style={{ gridColumn: isMobile ? "1/-1" : "auto" }}>
               {config.logoImage
-                ? <img src={config.logoImage} alt={config.storeName} style={{ height: 36, objectFit: "contain", marginBottom: 12 }} />
-                : <p style={{ fontFamily: SERIF, fontSize: 20, fontWeight: 300, color: "#F5F2EE", marginBottom: 12, letterSpacing: "0.5px" }}>{config.storeName}</p>
+                ? <img src={config.logoImage} alt={config.storeName} style={{ height: 32, objectFit: "contain", marginBottom: 10 }} />
+                : <p style={{ fontFamily: SERIF, fontSize: isMobile ? 17 : 20, fontWeight: 300, color: "#F5F2EE", marginBottom: 10, letterSpacing: "0.5px" }}>{config.storeName}</p>
               }
-              <p style={{ fontSize: 12, color: "rgba(245,242,238,0.4)", lineHeight: 1.8, marginBottom: 18 }}>{config.footerTagline || config.tagline}</p>
+              <p style={{ fontSize: 12, color: "rgba(245,242,238,0.4)", lineHeight: 1.8, marginBottom: 14 }}>{config.footerTagline || config.tagline}</p>
             </div>
             <div>
-              <p style={{ fontSize: 10, fontWeight: 700, color: "rgba(245,242,238,0.3)", textTransform: "uppercase", letterSpacing: "1.5px", marginBottom: 14 }}>{config.footerCol1Title || "Tienda"}</p>
-              {(config.footerCol1Links || "Recién nacidos|Conjuntos|Accesorios|Zapatos|Mantas").split("|").map(l => <p key={l} style={{ fontSize: 12, color: "rgba(245,242,238,0.45)", marginBottom: 8 }}>{l}</p>)}
+              <p style={{ fontSize: 10, fontWeight: 700, color: "rgba(245,242,238,0.3)", textTransform: "uppercase", letterSpacing: "1.5px", marginBottom: 12 }}>{config.footerCol1Title || "Tienda"}</p>
+              {(config.footerCol1Links || "Recién nacidos|Conjuntos|Accesorios|Zapatos|Mantas").split("|").map(l => <p key={l} style={{ fontSize: 12, color: "rgba(245,242,238,0.45)", marginBottom: 7 }}>{l}</p>)}
             </div>
             <div>
-              <p style={{ fontSize: 10, fontWeight: 700, color: "rgba(245,242,238,0.3)", textTransform: "uppercase", letterSpacing: "1.5px", marginBottom: 14 }}>{config.footerCol2Title || "Ayuda"}</p>
-              {(config.footerCol2Links || "Cómo comprar|Envíos|Cambios|FAQ").split("|").map(l => <p key={l} style={{ fontSize: 12, color: "rgba(245,242,238,0.45)", marginBottom: 8 }}>{l}</p>)}
+              <p style={{ fontSize: 10, fontWeight: 700, color: "rgba(245,242,238,0.3)", textTransform: "uppercase", letterSpacing: "1.5px", marginBottom: 12 }}>{config.footerCol2Title || "Ayuda"}</p>
+              {(config.footerCol2Links || "Cómo comprar|Envíos|Cambios|FAQ").split("|").map(l => <p key={l} style={{ fontSize: 12, color: "rgba(245,242,238,0.45)", marginBottom: 7 }}>{l}</p>)}
             </div>
-            <div>
-              <p style={{ fontSize: 10, fontWeight: 700, color: "rgba(245,242,238,0.3)", textTransform: "uppercase", letterSpacing: "1.5px", marginBottom: 14 }}>Contacto</p>
-              {[[" 📍", config.address], ["📱", config.whatsapp], ["📧", config.email]].map(([ic, v]) => <div key={v} style={{ display: "flex", gap: 8, marginBottom: 10 }}><span style={{ fontSize: 12 }}>{ic}</span><span style={{ fontSize: 12, color: "rgba(245,242,238,0.45)" }}>{v}</span></div>)}
-            </div>
+            {!isMobile && (
+              <div>
+                <p style={{ fontSize: 10, fontWeight: 700, color: "rgba(245,242,238,0.3)", textTransform: "uppercase", letterSpacing: "1.5px", marginBottom: 12 }}>Contacto</p>
+                {[["📍", config.address], ["📱", config.whatsapp], ["📧", config.email]].map(([ic, v]) => <div key={v} style={{ display: "flex", gap: 8, marginBottom: 9 }}><span style={{ fontSize: 12 }}>{ic}</span><span style={{ fontSize: 12, color: "rgba(245,242,238,0.45)" }}>{v}</span></div>)}
+              </div>
+            )}
           </div>
-          <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 22, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 20, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 10 }}>
             <p style={{ fontSize: 11, color: "rgba(245,242,238,0.28)", margin: 0 }}>{config.footerCopyright || `© 2025 ${config.storeName} · Lima, Perú`}</p>
-            <div style={{ display: "flex", gap: 7 }}>
-              {(config.footerPaymentMethods || "Yape|Visa|MC|BCP").split("|").map(m => <span key={m} style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.09)", padding: "3px 9px", borderRadius: 2, fontSize: 10, color: "rgba(245,242,238,0.3)" }}>{m}</span>)}
+            <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+              {(config.footerPaymentMethods || "Yape|Visa|MC|BCP").split("|").map(m => <span key={m} style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.09)", padding: "3px 8px", borderRadius: 2, fontSize: 10, color: "rgba(245,242,238,0.3)" }}>{m}</span>)}
             </div>
           </div>
         </div>
       </footer>
 
-      {/* ── WHATSAPP FLOATING ──────────────────────────────────────── */}
+      {/* ── WHATSAPP ── */}
       <motion.a href={`https://wa.me/${config.whatsapp}`} target="_blank"
         animate={{ boxShadow: ["0 4px 16px rgba(37,211,102,0.3)", "0 4px 24px rgba(37,211,102,0.55)", "0 4px 16px rgba(37,211,102,0.3)"] }}
         transition={{ duration: 3, repeat: Infinity }}
-        style={{ position: "fixed", bottom: 26, right: 26, width: 50, height: 50, background: "#25D366", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, textDecoration: "none", zIndex: 500 }}>
+        style={{ position: "fixed", bottom: isMobile ? 20 : 26, right: isMobile ? 16 : 26, width: isMobile ? 46 : 50, height: isMobile ? 46 : 50, background: "#25D366", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: isMobile ? 20 : 22, textDecoration: "none", zIndex: 500 }}>
         💬
       </motion.a>
 
-      <CartSidebar open={cartOpen} onClose={() => setCartOpen(false)} cart={cart} setCart={setCart} config={config} onCheckout={() => { setCartOpen(false); setCheckoutOpen(true); }} />
+      <CartSidebar open={cartOpen} onClose={() => setCartOpen(false)} cart={cart} setCart={setCart} config={config} onCheckout={() => { setCartOpen(false); setCheckoutOpen(true); }} isMobile={isMobile} />
       <CheckoutModal open={checkoutOpen} onClose={() => setCheckoutOpen(false)} cart={cart} config={config} products={products} coupons={coupons} onComplete={handleCheckoutComplete} />
-      <ProductDetailModal product={detailProduct} categories={categories} open={!!detailProduct} onClose={() => setDetailProduct(null)} onAddCart={addToCart} onWishlist={toggleWishlist} wishlist={wishlist} config={config} />
+      <ProductDetailModal product={detailProduct} categories={categories} open={!!detailProduct} onClose={() => setDetailProduct(null)} onAddCart={addToCart} onWishlist={toggleWishlist} wishlist={wishlist} config={config} isMobile={isMobile} />
 
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=Playfair+Display:wght@300;400;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=Playfair+Display:wght@300;400&display=swap');
         * { box-sizing: border-box; } body { margin: 0; }
         input, select, textarea, button { font-family: inherit; }
-        ::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-thumb { background: #D8D0C8; border-radius: 2px; }
+        ::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-thumb { background: ${C.linen3}; border-radius: 2px; }
+        @media (max-width: 768px) { body { -webkit-text-size-adjust: 100%; } }
       `}</style>
     </div>
   );
@@ -2286,7 +2333,32 @@ function AdminVisualEditor({ config, setConfig }) {
           {/* Payments */}
           <div style={{ background: "white", borderRadius: 12, padding: 22, border: "1px solid #EDE8E2" }}>
             <p style={{ fontSize: 11, fontWeight: 700, color: "#899180", textTransform: "uppercase", letterSpacing: "1px", margin: "0 0 14px" }}>💳 Métodos de pago</p>
-            <div style={{ background: "#EDF0EC", borderRadius: 8, padding: "9px 13px", marginBottom: 14, fontSize: 12, color: "#6B7264" }}>Yape y transferencia bancaria siempre disponibles. Activa pasarelas adicionales aquí.</div>
+            <div style={{ background: "#EDF0EC", borderRadius: 8, padding: "9px 13px", marginBottom: 14, fontSize: 12, color: "#6B7264" }}>Activa o desactiva cada método. Yape y Transferencia no requieren clave API.</div>
+            {/* Yape toggle */}
+            <div style={{ border: `1.5px solid ${form.yapeEnabled !== false ? "#899180" : "#EDE8E2"}`, borderRadius: 10, padding: 14, marginBottom: 10 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: form.yapeEnabled !== false ? 10 : 0 }}>
+                <span style={{ fontWeight: 600, fontSize: 13, color: "#3D3830" }}>💜 Yape / Plin</span>
+                <div onClick={() => setForm(f => ({ ...f, yapeEnabled: f.yapeEnabled === false ? true : false }))} style={{ width: 44, height: 24, borderRadius: 100, background: form.yapeEnabled !== false ? "#899180" : "#D8D0C8", position: "relative", cursor: "pointer", flexShrink: 0 }}>
+                  <div style={{ width: 18, height: 18, borderRadius: "50%", background: "white", position: "absolute", top: 3, left: form.yapeEnabled !== false ? 22 : 4, transition: "left 0.2s", boxShadow: "0 1px 4px rgba(0,0,0,0.15)" }} />
+                </div>
+              </div>
+              {form.yapeEnabled !== false && <p style={{ fontSize: 12, color: "#9C27B0", margin: 0, background: "#F3E5F5", borderRadius: 6, padding: "6px 10px" }}>Número Yape/Plin: <strong>{form.whatsapp}</strong> — configurable en Contacto</p>}
+            </div>
+            {/* Transfer toggle */}
+            <div style={{ border: `1.5px solid ${form.transferEnabled !== false ? "#899180" : "#EDE8E2"}`, borderRadius: 10, padding: 14, marginBottom: 10 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: form.transferEnabled !== false ? 10 : 0 }}>
+                <span style={{ fontWeight: 600, fontSize: 13, color: "#3D3830" }}>🏦 Transferencia bancaria</span>
+                <div onClick={() => setForm(f => ({ ...f, transferEnabled: f.transferEnabled === false ? true : false }))} style={{ width: 44, height: 24, borderRadius: 100, background: form.transferEnabled !== false ? "#899180" : "#D8D0C8", position: "relative", cursor: "pointer", flexShrink: 0 }}>
+                  <div style={{ width: 18, height: 18, borderRadius: "50%", background: "white", position: "absolute", top: 3, left: form.transferEnabled !== false ? 22 : 4, transition: "left 0.2s", boxShadow: "0 1px 4px rgba(0,0,0,0.15)" }} />
+                </div>
+              </div>
+              {form.transferEnabled !== false && (
+                <div>
+                  <label style={{ display: "block", fontSize: 11, fontWeight: 700, color: "#7A7068", textTransform: "uppercase", letterSpacing: "1px", marginBottom: 6 }}>Datos bancarios (se muestran al cliente)</label>
+                  <textarea value={form.transferDetails || ""} onChange={e => setForm(f => ({ ...f, transferDetails: e.target.value }))} style={{ width: "100%", padding: "9px 12px", borderRadius: 8, border: "1.5px solid #D8D0C8", background: "#FAFAF8", color: "#3D3830", fontSize: 13, outline: "none", boxSizing: "border-box", resize: "vertical", minHeight: 55 }} placeholder={"BCP: 123-456789-0-12\nInterbank: 200-123456789-01"} />
+                </div>
+              )}
+            </div>
             {[
               { key: "stripe", label: "💳 Stripe — Tarjetas de crédito/débito", kf: "stripeKey", ph: "sk_live_..." },
               { key: "mp", label: "🟡 MercadoPago — Perú y Latinoamérica", kf: "mpKey", ph: "APP_USR-..." },
