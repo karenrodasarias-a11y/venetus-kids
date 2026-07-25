@@ -1527,6 +1527,8 @@ function Storefront({ products, categories, config, coupons, cart, setCart, wish
   const [filterCat, setFilterCat] = useState("all");
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("featured");
+  const [priceRange, setPriceRange] = useState(null); // [min, max] or null
+  const [filtersOpen, setFiltersOpen] = useState(false);
   const productsRef = useRef(null);
   const searchInputRef = useRef(null);
   const [detailProduct, setDetailProduct] = useState(null);
@@ -1543,16 +1545,24 @@ function Storefront({ products, categories, config, coupons, cart, setCart, wish
 
   const cartCount = cart.reduce((s, i) => s + i.qty, 0);
 
+  const priceBounds = useMemo(() => {
+    const active = products.filter(p => p.active);
+    if (!active.length) return [0, 500];
+    return [Math.floor(Math.min(...active.map(p => p.price))), Math.ceil(Math.max(...active.map(p => p.price)))];
+  }, [products]);
+
   const filtered = useMemo(() => {
     let p = products.filter(p => p.active);
     if (filterCat !== "all") p = p.filter(p => p.categoryId === filterCat);
     if (search) { const q = search.toLowerCase(); p = p.filter(p => p.name.toLowerCase().includes(q) || (p.desc || "").toLowerCase().includes(q)); }
+    if (priceRange) p = p.filter(p => p.price >= priceRange[0] && p.price <= priceRange[1]);
     if (sort === "featured") p = [...p].sort((a, b) => b.featured - a.featured);
+    if (sort === "popular") p = [...p].sort((a, b) => (b.reviews || 0) - (a.reviews || 0));
     if (sort === "price_asc") p = [...p].sort((a, b) => a.price - b.price);
     if (sort === "price_desc") p = [...p].sort((a, b) => b.price - a.price);
     if (sort === "newest") p = [...p].sort((a, b) => b.createdAt - a.createdAt);
     return p;
-  }, [products, filterCat, search, sort]);
+  }, [products, filterCat, search, sort, priceRange]);
 
   useEffect(() => { setVisibleCount(12); }, [filterCat, search, sort]);
   const visibleProducts = filtered.slice(0, visibleCount);
@@ -1853,10 +1863,14 @@ function Storefront({ products, categories, config, coupons, cart, setCart, wish
               </div>
               <select value={sort} onChange={e => setSort(e.target.value)} style={{ padding: "7px 11px", borderRadius: 2, border: `1px solid ${brd}`, background: bg, color: hc, fontSize: 11, cursor: "pointer", outline: "none" }}>
                 <option value="featured">Destacados</option>
+                <option value="popular">Más populares</option>
                 <option value="newest">Nuevos</option>
                 <option value="price_asc">Precio ↑</option>
                 <option value="price_desc">Precio ↓</option>
               </select>
+              <button onClick={() => setFiltersOpen(v => !v)} style={{ display: "flex", alignItems: "center", gap: 6, padding: isMobile ? "7px 11px" : "7px 13px", borderRadius: 2, border: `1px solid ${priceRange ? pc : brd}`, background: priceRange ? pc : "transparent", color: priceRange ? btc : hc, fontSize: 11, fontWeight: 500, cursor: "pointer", whiteSpace: "nowrap" }}>
+                <Icon d={Icons.tag} size={13} strokeWidth={1.6} /> Precio{priceRange ? ` S/.${priceRange[0]}–${priceRange[1]}` : ""}
+              </button>
               <button onClick={() => setSizeGuideOpen(true)} style={{ display: "flex", alignItems: "center", gap: 6, padding: isMobile ? "7px 11px" : "7px 13px", borderRadius: 2, border: `1px solid ${brd}`, background: "transparent", color: hc, fontSize: 11, fontWeight: 500, cursor: "pointer", whiteSpace: "nowrap" }}>
                 <Icon d={Icons.tag} size={13} strokeWidth={1.6} /> Guía de tallas
               </button>
@@ -1865,6 +1879,35 @@ function Storefront({ products, categories, config, coupons, cart, setCart, wish
               </button>
             </div>
           </div>
+          {filtersOpen && (
+            <div style={{ display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap", padding: "14px 18px", background: config.cardBgColor || "white", border: `1px solid ${brd}`, borderRadius: 12, marginBottom: 24 }}>
+              <span style={{ fontSize: 11, fontWeight: 600, color: hc, textTransform: "uppercase", letterSpacing: "0.5px" }}>Rango de precio</span>
+              <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                {[
+                  [null, "Todos"],
+                  [[priceBounds[0], Math.round(priceBounds[0] + (priceBounds[1] - priceBounds[0]) * 0.33)], "Económico"],
+                  [[Math.round(priceBounds[0] + (priceBounds[1] - priceBounds[0]) * 0.33), Math.round(priceBounds[0] + (priceBounds[1] - priceBounds[0]) * 0.66)], "Medio"],
+                  [[Math.round(priceBounds[0] + (priceBounds[1] - priceBounds[0]) * 0.66), priceBounds[1]], "Premium"],
+                ].map(([range, label]) => {
+                  const active = range === null ? !priceRange : (priceRange && priceRange[0] === range[0] && priceRange[1] === range[1]);
+                  return (
+                    <button key={label} onClick={() => setPriceRange(range)} style={{ padding: "6px 14px", borderRadius: 100, border: `1px solid ${active ? pc : brd}`, background: active ? pc : "transparent", color: active ? btc : hc, fontSize: 11, fontWeight: 500, cursor: "pointer" }}>
+                      {label}
+                    </button>
+                  );
+                })}
+              </div>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, marginLeft: "auto" }}>
+                <input type="number" value={priceRange ? priceRange[0] : priceBounds[0]} min={priceBounds[0]} max={priceRange ? priceRange[1] : priceBounds[1]}
+                  onChange={e => setPriceRange([parseInt(e.target.value) || 0, priceRange ? priceRange[1] : priceBounds[1]])}
+                  style={{ width: 64, padding: "6px 8px", borderRadius: 6, border: `1px solid ${brd}`, background: bg, color: hc, fontSize: 11, outline: "none" }} />
+                <span style={{ fontSize: 11, color: tc }}>—</span>
+                <input type="number" value={priceRange ? priceRange[1] : priceBounds[1]} min={priceRange ? priceRange[0] : priceBounds[0]} max={priceBounds[1]}
+                  onChange={e => setPriceRange([priceRange ? priceRange[0] : priceBounds[0], parseInt(e.target.value) || 0])}
+                  style={{ width: 64, padding: "6px 8px", borderRadius: 6, border: `1px solid ${brd}`, background: bg, color: hc, fontSize: 11, outline: "none" }} />
+              </div>
+            </div>
+          )}
           <div style={{ display: "grid", gridTemplateColumns: isMobile ? "repeat(2, 1fr)" : isTablet ? "repeat(3, 1fr)" : "repeat(4, 1fr)", gap: isMobile ? "20px 12px" : "32px 20px" }}>
             <AnimatePresence>
               {visibleProducts.map((p, i) => (
@@ -1886,7 +1929,7 @@ function Storefront({ products, categories, config, coupons, cart, setCart, wish
               <Icon d={Icons.search} size={30} strokeWidth={1.2} style={{ color: tc, opacity: 0.35, marginBottom: 14 }} />
               <p style={{ fontFamily: SERIF, fontSize: 20, fontWeight: 300, color: hc, margin: "0 0 8px" }}>No encontramos productos con esa búsqueda</p>
               <p style={{ fontSize: 13, color: tc, opacity: 0.7, margin: "0 0 20px" }}>Prueba con otra categoría o quita los filtros de búsqueda.</p>
-              <button onClick={() => { setFilterCat("all"); setSearch(""); }} style={{ padding: "10px 24px", borderRadius: 100, border: `1px solid ${brd}`, background: "transparent", color: hc, fontSize: 12, fontWeight: 600, cursor: "pointer" }}>
+              <button onClick={() => { setFilterCat("all"); setSearch(""); setPriceRange(null); }} style={{ padding: "10px 24px", borderRadius: 100, border: `1px solid ${brd}`, background: "transparent", color: hc, fontSize: 12, fontWeight: 600, cursor: "pointer" }}>
                 Limpiar filtros
               </button>
             </div>
@@ -2109,6 +2152,21 @@ function AdminDashboard({ products, orders, categories, config }) {
     const maxRev = Math.max(...ranked.map(p => p.soldRevenue), 1);
     return ranked.map(p => ({ ...p, barPct: Math.round((p.soldRevenue / maxRev) * 100) }));
   }, [orders, products]);
+
+  const categoryRevenue = useMemo(() => {
+    const byCat = {};
+    orders.forEach(o => (o.items || []).forEach(it => {
+      const prod = products.find(p => p.id === it.productId);
+      const catId = prod?.categoryId || "other";
+      byCat[catId] = (byCat[catId] || 0) + it.qty * it.price;
+    }));
+    const total = Object.values(byCat).reduce((s, v) => s + v, 0) || 1;
+    const palette = [C.terracota, C.dorado, C.salviaDark, C.roseDeep, "#8B7355", "#5C7A6B"];
+    return categories
+      .map((c, i) => ({ ...c, revenue: byCat[c.id] || 0, pct: Math.round(((byCat[c.id] || 0) / total) * 100), color: palette[i % palette.length] }))
+      .sort((a, b) => b.revenue - a.revenue)
+      .filter(c => c.revenue > 0);
+  }, [orders, products, categories]);
 
   return (
     <div>
