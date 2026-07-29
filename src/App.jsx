@@ -372,7 +372,7 @@ const INIT_ORDERS = [
 ];
 
 // ─── STORAGE HELPERS (Vercel Blob compartido + cache local) ─────
-const SHARED_KEYS = new Set(["vk_products", "vk_categories", "vk_config", "vk_orders", "vk_coupons", "vk_leads", "vk_blocked_clients"]);
+const SHARED_KEYS = new Set(["vk_products", "vk_categories", "vk_config", "vk_orders", "vk_coupons", "vk_leads", "vk_blocked_clients", "vk_reviews"]);
 const storage = {
   async get(key) {
     if (SHARED_KEYS.has(key)) {
@@ -3595,7 +3595,16 @@ function AdminReviews({ products }) {
     { id: "r2", productId: "p2", productName: "Conjunto Floral Niña", author: "Luciana Pérez", rating: 5, text: "Exactamente como en las fotos. Llegó rápido.", date: Date.now() - 86400000 * 2, approved: true },
     { id: "r3", productId: "p5", productName: "Manta Muslina Premium", author: "Camila R.", rating: 5, text: "La mejor manta que he comprado. Ultra suave.", date: Date.now() - 86400000, approved: false },
   ];
-  const [reviews, setReviews] = useState(sampleReviews);
+  const [reviews, setReviewsRaw] = useState(sampleReviews);
+  const [reviewsLoaded, setReviewsLoaded] = useState(false);
+  useEffect(() => { storage.get("vk_reviews").then(v => { if (v) setReviewsRaw(v); setReviewsLoaded(true); }); }, []);
+  const setReviews = (val) => {
+    setReviewsRaw(prev => {
+      const v = typeof val === "function" ? val(prev) : val;
+      storage.set("vk_reviews", v);
+      return v;
+    });
+  };
   const [pendingOnly, setPendingOnly] = useState(false);
   const toast = useToast();
   const pendingCount = reviews.filter(r => !r.approved).length;
