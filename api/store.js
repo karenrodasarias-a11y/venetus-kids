@@ -9,7 +9,8 @@ export default async function handler(req, res) {
       if (!key) return res.status(400).json({ error: "Falta key" });
       const { blobs } = await list({ prefix: `${KEY_PREFIX}${key}.json` });
       if (!blobs.length) return res.status(200).json({ value: null });
-      const r = await fetch(blobs[0].url);
+      blobs.sort((a, b) => new Date(b.uploadedAt) - new Date(a.uploadedAt));
+      const r = await fetch(blobs[0].url + `?t=${Date.now()}`);
       const value = await r.json();
       return res.status(200).json({ value });
     }
@@ -23,6 +24,7 @@ export default async function handler(req, res) {
         access: "public",
         contentType: "application/json",
         allowOverwrite: true,
+        addRandomSuffix: false,
       });
       return res.status(200).json({ ok: true });
     }
