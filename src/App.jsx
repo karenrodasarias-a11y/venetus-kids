@@ -371,13 +371,29 @@ const INIT_ORDERS = [
   { id: "ord5", orderNumber: "VC-005", customerName: "Sofia Vega", customerEmail: "sofia@example.com", customerPhone: "954321098", address: "Jr. Arequipa 789, Barranco", items: [{ productId: "p4", name: "Zapatos Gateo Cuero", price: 79.90, qty: 1, emoji: "👟" }, { productId: "p7", name: "Pelele Estampado Oso", price: 55.00, qty: 1, emoji: "🐻" }], subtotal: 134.90, discount: 0, shipping: 0, total: 134.90, status: "PREPARING", paymentStatus: "PAID", paymentMethod: "PayPal", coupon: null, createdAt: Date.now() - 3600000 },
 ];
 
-// ─── STORAGE HELPERS (localStorage — funciona en cualquier despliegue) ─────
+// ─── STORAGE HELPERS (Vercel Blob compartido + cache local) ─────
+const SHARED_KEYS = new Set(["vk_products", "vk_categories", "vk_config"]);
 const storage = {
   async get(key) {
+    if (SHARED_KEYS.has(key)) {
+      try {
+        const r = await fetch(`/api/store?key=${encodeURIComponent(key)}`);
+        if (r.ok) {
+          const { value } = await r.json();
+          if (value != null) { try { localStorage.setItem(key, JSON.stringify(value)); } catch {} return value; }
+        }
+      } catch {}
+    }
     try { const r = localStorage.getItem(key); return r ? JSON.parse(r) : null; } catch { return null; }
   },
   async set(key, val) {
-    try { localStorage.setItem(key, JSON.stringify(val)); return true; } catch { return false; }
+    try { localStorage.setItem(key, JSON.stringify(val)); } catch {}
+    if (SHARED_KEYS.has(key)) {
+      try {
+        await fetch("/api/store", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ key, value: val }) });
+      } catch { return false; }
+    }
+    return true;
   },
 };
 
