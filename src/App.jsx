@@ -3752,6 +3752,8 @@ function AdminLogin({ onLogin }) {
 // ─── ADMIN PANEL ──────────────────────────────────────────────────────────────
 function AdminPanel({ products, setProducts, categories, setCategories, orders, setOrders, coupons, setCoupons, config, setConfig, onExitAdmin }) {
   const [section, setSection] = useState("dashboard");
+  const isMobile = useIsMobile(900);
+  const [navOpen, setNavOpen] = useState(false);
   const navItems = [
     { id: "dashboard",  icon: Icons.grid,     label: "Dashboard" },
     { id: "products",   icon: Icons.package,  label: "Productos" },
@@ -3769,9 +3771,10 @@ function AdminPanel({ products, setProducts, categories, setCategories, orders, 
   const sectionLabels = { dashboard: "Dashboard", products: "Productos", orders: "Pedidos", categories: "Categorías", coupons: "Cupones", reviews: "Reseñas", clients: "Clientes", leads: "Suscriptores", pageeditor: "Editor de página", visual: "Diseño visual", settings: "Configuración técnica" };
 
   return (
-    <div style={{ display: "flex", minHeight: "100vh", background: C.linen }}>
+    <div style={{ display: "flex", minHeight: "100vh", background: C.linen, position: "relative" }}>
+      {isMobile && navOpen && <div onClick={() => setNavOpen(false)} style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.4)", zIndex: 19 }} />}
       {/* Sidebar */}
-      <aside style={{ width: 240, background: C.charcoal, display: "flex", flexDirection: "column", position: "sticky", top: 0, height: "100vh", flexShrink: 0 }}>
+      <aside style={{ width: 240, background: C.charcoal, display: "flex", flexDirection: "column", position: isMobile ? "fixed" : "sticky", top: 0, left: 0, height: "100vh", flexShrink: 0, zIndex: 20, transform: isMobile && !navOpen ? "translateX(-100%)" : "translateX(0)", transition: "transform 0.25s ease" }}>
         <div style={{ padding: "28px 20px 20px", borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
           <div style={{ fontFamily: FONT.serif, fontSize: 20, fontWeight: 600, color: "#F4EDE2", letterSpacing: "0.1em" }}>VITTOLI <span style={{ color: "#C9A66B", fontStyle: "italic", fontWeight: 500 }}>&amp;</span> CO.</div>
           <div style={{ fontSize: 11, color: "rgba(250,246,240,0.4)", marginTop: 2 }}>Panel Administrador</div>
@@ -3780,7 +3783,7 @@ function AdminPanel({ products, setProducts, categories, setCategories, orders, 
           {navItems.map(({ id, icon, label, badge, divider }) => (
             <React.Fragment key={id}>
               {divider && <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "1px", textTransform: "uppercase", color: "rgba(250,246,240,0.32)", margin: "18px 14px 8px" }}>{divider}</p>}
-              <button onClick={() => setSection(id)}
+              <button onClick={() => { setSection(id); if (isMobile) setNavOpen(false); }}
                 style={{ width: "100%", display: "flex", alignItems: "center", gap: 10, padding: "11px 14px", borderRadius: 12, border: "none", background: section === id ? "rgba(201,166,107,0.16)" : "transparent", color: section === id ? "#F4EDE2" : "rgba(250,246,240,0.55)", fontWeight: section === id ? 600 : 400, fontSize: 13, cursor: "pointer", marginBottom: 2, position: "relative", textAlign: "left", boxShadow: section === id ? "inset 3px 0 0 #C9A66B" : "none", transition: "background 0.15s, box-shadow 0.15s" }}>
                 <Icon d={icon} size={16} />
                 {label}
@@ -3801,12 +3804,19 @@ function AdminPanel({ products, setProducts, categories, setCategories, orders, 
       </aside>
 
       {/* Content */}
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", minHeight: "100vh", overflow: "auto" }}>
-        <div style={{ padding: "20px 32px", borderBottom: `1px solid ${C.beige}`, background: "rgba(255,255,255,0.6)", position: "sticky", top: 0, zIndex: 5, backdropFilter: "blur(8px)" }}>
-          <p style={{ fontSize: 11, color: C.muted, margin: "0 0 4px", textTransform: "uppercase", letterSpacing: "1px" }}>Panel administrador</p>
-          <h1 style={{ fontFamily: FONT.serif, fontSize: 22, fontWeight: 500, color: C.charcoal, margin: 0 }}>{sectionLabels[section] || "Dashboard"}</h1>
+      <div style={{ flex: 1, display: "flex", flexDirection: "column", minHeight: "100vh", overflow: "auto", width: isMobile ? "100%" : "auto" }}>
+        <div style={{ padding: isMobile ? "16px 20px" : "20px 32px", borderBottom: `1px solid ${C.beige}`, background: "rgba(255,255,255,0.6)", position: "sticky", top: 0, zIndex: 5, backdropFilter: "blur(8px)", display: "flex", alignItems: "center", gap: 14 }}>
+          {isMobile && (
+            <button onClick={() => setNavOpen(true)} style={{ width: 38, height: 38, flexShrink: 0, borderRadius: 10, border: `1.5px solid ${C.beigeDark}`, background: "white", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <Icon d={Icons.grid} size={18} />
+            </button>
+          )}
+          <div>
+            <p style={{ fontSize: 11, color: C.muted, margin: "0 0 4px", textTransform: "uppercase", letterSpacing: "1px" }}>Panel administrador</p>
+            <h1 style={{ fontFamily: FONT.serif, fontSize: 22, fontWeight: 500, color: C.charcoal, margin: 0 }}>{sectionLabels[section] || "Dashboard"}</h1>
+          </div>
         </div>
-        <div style={{ padding: "32px" }}>
+        <div style={{ padding: isMobile ? "18px" : "32px" }}>
           <AnimatePresence mode="wait">
             <motion.div key={section} initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -16 }} transition={{ duration: 0.2 }}>
               {section === "dashboard" && <AdminDashboard products={products} orders={orders} categories={categories} config={config} />}
