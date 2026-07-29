@@ -372,7 +372,7 @@ const INIT_ORDERS = [
 ];
 
 // ─── STORAGE HELPERS (Vercel Blob compartido + cache local) ─────
-const SHARED_KEYS = new Set(["vk_products", "vk_categories", "vk_config"]);
+const SHARED_KEYS = new Set(["vk_products", "vk_categories", "vk_config", "vk_orders", "vk_coupons", "vk_leads", "vk_blocked_clients"]);
 const storage = {
   async get(key) {
     if (SHARED_KEYS.has(key)) {
