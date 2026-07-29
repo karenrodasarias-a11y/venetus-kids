@@ -2404,8 +2404,8 @@ function AdminProducts({ products, setProducts, categories }) {
         </button>
       </div>
 
-      <div style={{ background: "white", borderRadius: 12, border: "1px solid #EDE8E2", overflow: "hidden" }}>
-        <table style={{ width: "100%", borderCollapse: "collapse" }}>
+      <div style={{ background: "white", borderRadius: 12, border: "1px solid #EDE8E2", overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
+        <table style={{ width: "100%", minWidth: 640, borderCollapse: "collapse" }}>
           <thead><tr style={{ background: "#F5F2EE" }}>
             {["Producto", "Categoría", "Precio", "Stock", "Estado", "Acciones"].map(h => (
               <th key={h} style={{ fontSize: 10, fontWeight: 700, color: "#6B6357", textTransform: "uppercase", letterSpacing: "1px", padding: "9px 14px", textAlign: "left" }}>{h}</th>
