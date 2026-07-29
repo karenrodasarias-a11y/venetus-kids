@@ -514,17 +514,30 @@ const selectStyle = { ...inputStyle, cursor: "pointer" };
 
 // ─── STAT CARD ─────────────────────────────────────────────────────────────
 // ─── IMAGE UPLOADER ─────────────────────────────────────────────────────────
+async function uploadFile(file) {
+  const res = await fetch("/api/upload", {
+    method: "POST",
+    headers: { "Content-Type": file.type || "application/octet-stream", "x-filename": encodeURIComponent(file.name) },
+    body: file,
+  });
+  if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error || "Error al subir");
+  const { url } = await res.json();
+  return url;
+}
+
 function ImageUploader({ images = [], onChange, maxImages = 6, label = "Fotos del producto" }) {
   const ref = useRef();
-  const handleFiles = (e) => {
+  const [uploading, setUploading] = useState(false);
+  const handleFiles = async (e) => {
     const files = Array.from(e.target.files).slice(0, maxImages - images.length);
-    files.forEach(file => {
-      if (file.size > 2097152) { alert("Máx. 2MB por imagen"); return; }
-      const reader = new FileReader();
-      reader.onload = ev => onChange(prev => [...(prev || []), ev.target.result]);
-      reader.readAsDataURL(file);
-    });
     e.target.value = "";
+    setUploading(true);
+    for (const file of files) {
+      if (file.size > 5242880) { alert("Máx. 5MB por imagen"); continue; }
+      try { const url = await uploadFile(file); onChange(prev => [...(prev || []), url]); }
+      catch (err) { alert("Error al subir imagen: " + err.message); }
+    }
+    setUploading(false);
   };
   const remove = (i) => onChange(images.filter((_, j) => j !== i));
   const move = (i, dir) => {
@@ -548,14 +561,14 @@ function ImageUploader({ images = [], onChange, maxImages = 6, label = "Fotos de
           </div>
         ))}
         {images.length < maxImages && (
-          <button onClick={() => ref.current?.click()} style={{ aspectRatio: "1/1", borderRadius: 8, border: "2px dashed #D8D0C8", background: "#FAFAF8", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 6, color: "#6B6357" }}>
+          <button onClick={() => ref.current?.click()} disabled={uploading} style={{ aspectRatio: "1/1", borderRadius: 8, border: "2px dashed #D8D0C8", background: "#FAFAF8", cursor: uploading ? "wait" : "pointer", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 6, color: "#6B6357", opacity: uploading ? 0.6 : 1 }}>
             <Icon d={Icons.upload} size={20} />
-            <span style={{ fontSize: 10, fontWeight: 600 }}>Subir foto</span>
+            <span style={{ fontSize: 10, fontWeight: 600 }}>{uploading ? "Subiendo…" : "Subir foto"}</span>
           </button>
         )}
       </div>
       <input ref={ref} type="file" accept="image/*" multiple onChange={handleFiles} style={{ display: "none" }} />
-      <p style={{ fontSize: 10, color: "#6B6357", margin: 0 }}>Máx. {maxImages} fotos · 2MB c/u · La primera es la imagen principal · Usa ← → para reordenar</p>
+      <p style={{ fontSize: 10, color: "#6B6357", margin: 0 }}>Máx. {maxImages} fotos · 5MB c/u · La primera es la imagen principal · Usa ← → para reordenar</p>
     </div>
   );
 }
@@ -563,20 +576,22 @@ function ImageUploader({ images = [], onChange, maxImages = 6, label = "Fotos de
 // ─── SINGLE IMAGE UPLOADER ───────────────────────────────────────────────────
 function SingleImageUploader({ image, onChange, label = "Imagen", placeholder = "Haz clic para subir" }) {
   const ref = useRef();
-  const handleFile = (e) => {
-    const file = e.target.files[0]; if (!file) return;
-    if (file.size > 3145728) { alert("Máx. 3MB"); return; }
-    const reader = new FileReader();
-    reader.onload = ev => onChange(ev.target.result);
-    reader.readAsDataURL(file); e.target.value = "";
+  const [uploading, setUploading] = useState(false);
+  const handleFile = async (e) => {
+    const file = e.target.files[0]; e.target.value = ""; if (!file) return;
+    if (file.size > 5242880) { alert("Máx. 5MB"); return; }
+    setUploading(true);
+    try { const url = await uploadFile(file); onChange(url); }
+    catch (err) { alert("Error al subir imagen: " + err.message); }
+    setUploading(false);
   };
   return (
     <div style={{ marginBottom: 16 }}>
       <label style={{ display: "block", fontSize: 11, fontWeight: 700, color: "#7A7068", textTransform: "uppercase", letterSpacing: "1px", marginBottom: 8 }}>{label}</label>
-      <div onClick={() => ref.current?.click()} style={{ borderRadius: 8, overflow: "hidden", border: "2px dashed #D8D0C8", background: "#FAFAF8", minHeight: 100, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", position: "relative" }}>
+      <div onClick={() => !uploading && ref.current?.click()} style={{ borderRadius: 8, overflow: "hidden", border: "2px dashed #D8D0C8", background: "#FAFAF8", minHeight: 100, display: "flex", alignItems: "center", justifyContent: "center", cursor: uploading ? "wait" : "pointer", position: "relative", opacity: uploading ? 0.6 : 1 }}>
         {image
           ? <><img src={image} alt="" style={{ width: "100%", height: 150, objectFit: "cover" }} /><button onClick={e => { e.stopPropagation(); onChange(""); }} style={{ position: "absolute", top: 8, right: 8, width: 28, height: 28, borderRadius: "50%", background: "rgba(220,50,50,0.85)", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}><Icon d={Icons.x} size={12} /></button></>
-          : <div style={{ textAlign: "center", padding: 20, color: "#6B6357" }}><Icon d={Icons.upload} size={24} /><p style={{ margin: "6px 0 2px", fontSize: 12, fontWeight: 500 }}>{placeholder}</p><p style={{ margin: 0, fontSize: 10 }}>JPG, PNG · Máx. 3MB</p></div>
+          : <div style={{ textAlign: "center", padding: 20, color: "#6B6357" }}><Icon d={Icons.upload} size={24} /><p style={{ margin: "6px 0 2px", fontSize: 12, fontWeight: 500 }}>{uploading ? "Subiendo…" : placeholder}</p><p style={{ margin: 0, fontSize: 10 }}>JPG, PNG · Máx. 5MB</p></div>
         }
       </div>
       <input ref={ref} type="file" accept="image/*" onChange={handleFile} style={{ display: "none" }} />
@@ -585,31 +600,44 @@ function SingleImageUploader({ image, onChange, label = "Imagen", placeholder = 
 }
 
 // ─── COLOR SWATCH INPUT ──────────────────────────────────────────────────────
-function ColorSwatchInput({ colors = [], onChange, label = "Colores disponibles" }) {
+function ColorSwatchInput({ colors = [], colorStock = {}, onChange, onStockChange, label = "Colores disponibles" }) {
   const [input, setInput] = useState("");
+  const [stockInput, setStockInput] = useState("");
   const addColor = () => {
     const hex = input.trim();
     if (!hex.match(/^#[0-9A-Fa-f]{6}$/)) { alert("Ingresa un código HEX válido (ej: #FF5733)"); return; }
-    if (!colors.includes(hex)) onChange([...colors, hex]);
-    setInput("");
+    if (!colors.includes(hex)) {
+      onChange([...colors, hex]);
+      onStockChange && onStockChange({ ...colorStock, [hex]: parseInt(stockInput) || 0 });
+    }
+    setInput(""); setStockInput("");
   };
-  const remove = (i) => onChange(colors.filter((_, j) => j !== i));
+  const remove = (i) => {
+    const hex = colors[i];
+    onChange(colors.filter((_, j) => j !== i));
+    if (onStockChange) { const next = { ...colorStock }; delete next[hex]; onStockChange(next); }
+  };
+  const setStock = (hex, val) => onStockChange && onStockChange({ ...colorStock, [hex]: Math.max(0, parseInt(val) || 0) });
   return (
     <div style={{ marginBottom: 16 }}>
       <label style={{ display: "block", fontSize: 11, fontWeight: 700, color: "#7A7068", textTransform: "uppercase", letterSpacing: "1px", marginBottom: 8 }}>{label}</label>
-      <div style={{ display: "flex", gap: 8, marginBottom: 10, flexWrap: "wrap" }}>
+      <div style={{ display: "flex", gap: 10, marginBottom: 10, flexWrap: "wrap" }}>
         {colors.map((c, i) => (
-          <div key={i} title={c} onClick={() => remove(i)} style={{ width: 32, height: 32, borderRadius: "50%", background: c, border: "2px solid #E5DDD4", cursor: "pointer", position: "relative", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <span style={{ opacity: 0, transition: "opacity 0.15s", fontSize: 12, color: "white" }}>✕</span>
+          <div key={i} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 5, padding: 8, borderRadius: 10, border: "1.5px solid #EDE8E2", background: "#FAFAF8" }}>
+            <div title={`${c} · clic para eliminar`} onClick={() => remove(i)} style={{ width: 30, height: 30, borderRadius: "50%", background: c, border: "2px solid #E5DDD4", cursor: "pointer", position: "relative", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <span style={{ opacity: 0, transition: "opacity 0.15s", fontSize: 12, color: "white" }}>✕</span>
+            </div>
+            <input type="number" min="0" value={colorStock[c] ?? 0} onChange={e => setStock(c, e.target.value)} title="Stock disponible de este color" style={{ width: 46, padding: "3px 4px", borderRadius: 6, border: "1.5px solid #D8D0C8", fontSize: 11, textAlign: "center" }} />
           </div>
         ))}
       </div>
       <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
         <input type="color" value={input || "#899180"} onChange={e => setInput(e.target.value)} style={{ width: 40, height: 36, borderRadius: 6, border: "1.5px solid #D8D0C8", cursor: "pointer", padding: 2 }} />
         <input value={input} onChange={e => setInput(e.target.value)} placeholder="#899180" maxLength={7} style={{ flex: 1, padding: "8px 12px", borderRadius: 8, border: "1.5px solid #D8D0C8", background: "#FAFAF8", fontSize: 13, fontFamily: "monospace", letterSpacing: "1px", outline: "none" }} onKeyDown={e => e.key === "Enter" && addColor()} />
+        <input type="number" min="0" value={stockInput} onChange={e => setStockInput(e.target.value)} placeholder="Stock" style={{ width: 70, padding: "8px 10px", borderRadius: 8, border: "1.5px solid #D8D0C8", fontSize: 12, textAlign: "center" }} />
         <button onClick={addColor} style={{ padding: "8px 14px", borderRadius: 8, background: "#899180", color: "white", border: "none", cursor: "pointer", fontSize: 12, fontWeight: 600, whiteSpace: "nowrap" }}>Agregar</button>
       </div>
-      <p style={{ fontSize: 10, color: "#6B6357", margin: "6px 0 0" }}>Haz clic en un color para eliminarlo · Presiona Enter o Agregar</p>
+      <p style={{ fontSize: 10, color: "#6B6357", margin: "6px 0 0" }}>Clic en un color para eliminarlo · define el stock disponible por color</p>
     </div>
   );
 }
@@ -838,24 +866,27 @@ function CartSidebar({ open, onClose, cart, setCart, config, onCheckout, isMobil
           <>
             <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 0 }}>
               {cart.map(item => (
-                <div key={item.id} style={{ display: "flex", gap: 14, padding: "16px 0", borderBottom: `1px solid ${C.beige}` }}>
+                <div key={item.cartLineId || item.id} style={{ display: "flex", gap: 14, padding: "16px 0", borderBottom: `1px solid ${C.beige}` }}>
                   <div style={{ width: 64, height: 64, borderRadius: 14, background: item.bg || C.roseLight, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 28, flexShrink: 0 }}>{item.emoji}</div>
                   <div style={{ flex: 1 }}>
-                    <div style={{ fontWeight: 600, fontSize: 14, color: C.charcoal, marginBottom: 3 }}>{item.name}</div>
+                    <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 3 }}>
+                      <div style={{ fontWeight: 600, fontSize: 14, color: C.charcoal }}>{item.name}</div>
+                      {item.selectedColor && <div title={item.selectedColor} style={{ width: 13, height: 13, borderRadius: "50%", background: item.selectedColor, border: "1.5px solid #E5DDD4", flexShrink: 0 }} />}
+                    </div>
                     <div style={{ fontSize: 13, color: C.muted, marginBottom: 8 }}>S/. {item.price.toFixed(2)} c/u</div>
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                       <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                        <button onClick={() => setCart(c => c.map(x => x.id === item.id ? { ...x, qty: Math.max(1, x.qty - 1) } : x))}
+                        <button onClick={() => setCart(c => c.map(x => (x.cartLineId || x.id) === (item.cartLineId || item.id) ? { ...x, qty: Math.max(1, x.qty - 1) } : x))}
                           style={{ width: 28, height: 28, borderRadius: "50%", border: `1.5px solid ${C.beigeDark}`, background: "transparent", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: C.muted }}>
                           <Icon d={Icons.minus} size={12} />
                         </button>
                         <span style={{ fontSize: 14, fontWeight: 700, color: C.charcoal, minWidth: 20, textAlign: "center" }}>{item.qty}</span>
-                        <button onClick={() => setCart(c => c.map(x => x.id === item.id ? { ...x, qty: x.qty + 1 } : x))}
+                        <button onClick={() => setCart(c => c.map(x => (x.cartLineId || x.id) === (item.cartLineId || item.id) ? { ...x, qty: x.qty + 1 } : x))}
                           style={{ width: 28, height: 28, borderRadius: "50%", border: `1.5px solid ${C.beigeDark}`, background: "transparent", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: C.muted }}>
                           <Icon d={Icons.plus} size={12} />
                         </button>
                       </div>
-                      <button onClick={() => setCart(c => c.filter(x => x.id !== item.id))}
+                      <button onClick={() => setCart(c => c.filter(x => (x.cartLineId || x.id) !== (item.cartLineId || item.id)))}
                         style={{ background: "none", border: "none", cursor: "pointer", color: C.roseDeep, padding: 4 }}>
                         <Icon d={Icons.trash} size={16} />
                       </button>
@@ -1251,12 +1282,17 @@ function HeroSection({ config, onShop }) {
 function ProductDetailModal({ product, categories, products = [], open, onClose, onAddCart, onWishlist, wishlist = [], onSelectRelated, config, isMobile = false }) {
   const [curImg, setCurImg] = useState(0);
   const [imgLoaded, setImgLoaded] = useState(false);
+  const [selectedColor, setSelectedColor] = useState(null);
   const cat = categories.find(c => c.id === product?.categoryId);
   const inWish = product && wishlist.includes(product.id);
   const imgs = product?.images?.length > 0 ? product.images : [];
   const pc = config?.primaryColor || "#899180";
-  useEffect(() => { setCurImg(0); setImgLoaded(false); }, [product?.id]);
+  useEffect(() => { setCurImg(0); setImgLoaded(false); setSelectedColor(product?.colors?.length === 1 ? product.colors[0] : null); }, [product?.id]);
   if (!open || !product) return null;
+  const colorStockMap = product.colorStock || {};
+  const getColorStock = (hex) => colorStockMap[hex] != null ? colorStockMap[hex] : product.stock;
+  const needsColor = product.colors && product.colors.length > 0;
+  const canAdd = product.stock > 0 && (!needsColor || (selectedColor && getColorStock(selectedColor) > 0));
   const lines = (product.details || "").split("\n").filter(l => l.trim());
   const related = products.filter(p => p.active && p.id !== product.id && p.categoryId === product.categoryId).slice(0, 4);
   return (
@@ -1304,7 +1340,7 @@ function ProductDetailModal({ product, categories, products = [], open, onClose,
           </div>
 
           {/* Info panel */}
-          <div style={{ padding: "28px 26px", display: "flex", flexDirection: "column", overflowY: "auto", maxHeight: "92vh" }}>
+          <div style={{ padding: isMobile ? "26px 22px 30px" : "32px 30px", display: "flex", flexDirection: "column", gap: 2, overflowY: "auto", maxHeight: "92vh" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 8 }}>
               <div style={{ flex: 1, paddingRight: 8 }}>
                 <p style={{ fontSize: 10, color: pc, textTransform: "uppercase", letterSpacing: "1.5px", margin: "0 0 5px", fontWeight: 600 }}>{cat?.name}</p>
@@ -1334,14 +1370,26 @@ function ProductDetailModal({ product, categories, products = [], open, onClose,
             <p style={{ fontSize: 13, lineHeight: 1.8, color: "#7A7068", marginBottom: 14 }}>{product.desc}</p>
 
             {/* Colors */}
-            {product.colors && product.colors.length > 0 && (
+            {needsColor && (
               <div style={{ marginBottom: 14 }}>
                 <p style={{ fontSize: 11, fontWeight: 700, color: "#7A7068", textTransform: "uppercase", letterSpacing: "1px", margin: "0 0 8px" }}>Colores disponibles</p>
-                <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                  {product.colors.map((c, i) => (
-                    <div key={i} title={c} style={{ width: 28, height: 28, borderRadius: "50%", background: c, border: "2px solid #E5DDD4", boxShadow: "0 1px 4px rgba(0,0,0,0.1)" }} />
-                  ))}
+                <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+                  {product.colors.map((c, i) => {
+                    const cs = getColorStock(c);
+                    const out = cs <= 0;
+                    const sel = selectedColor === c;
+                    return (
+                      <button key={i} type="button" disabled={out} onClick={() => setSelectedColor(c)} title={out ? `${c} \u00b7 agotado` : c}
+                        style={{ width: 34, height: 34, padding: 0, borderRadius: "50%", background: c, border: sel ? `2.5px solid ${pc}` : "2px solid #E5DDD4", boxShadow: sel ? `0 0 0 3px ${pc}33` : "0 1px 4px rgba(0,0,0,0.1)", cursor: out ? "not-allowed" : "pointer", opacity: out ? 0.35 : 1, position: "relative" }}>
+                        {out && <span style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13, color: "#3D3830" }}>✕</span>}
+                      </button>
+                    );
+                  })}
                 </div>
+                {!selectedColor
+                  ? <p style={{ fontSize: 11, color: "#B5605A", margin: "8px 0 0" }}>Selecciona un color</p>
+                  : (colorStockMap[selectedColor] != null) && <p style={{ fontSize: 11, color: "#6B6357", margin: "8px 0 0" }}>{getColorStock(selectedColor) > 0 ? `${getColorStock(selectedColor)} disponibles en este color` : "Sin stock en este color"}</p>
+                }
               </div>
             )}
 
@@ -1356,10 +1404,11 @@ function ProductDetailModal({ product, categories, products = [], open, onClose,
             <div style={{ marginTop: "auto", paddingTop: 12 }}>
               {product.stock === 0
                 ? <div style={{ textAlign: "center", padding: 12, background: "#F5F2EE", borderRadius: 10, color: "#7A7068", fontWeight: 600 }}>Sin stock disponible</div>
-                : <button onClick={() => { onAddCart(product); onClose(); }} style={{ width: "100%", padding: "13px", borderRadius: 100, background: pc, color: "white", border: "none", fontWeight: 700, fontSize: 14, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
-                    <Icon d={Icons.cart} size={16} /> Añadir al carrito
+                : <button disabled={!canAdd} onClick={() => { onAddCart(product, selectedColor); onClose(); }} style={{ width: "100%", padding: "17px", borderRadius: 100, background: canAdd ? pc : "#D8D0C8", color: "white", border: "none", fontWeight: 700, fontSize: 16, cursor: canAdd ? "pointer" : "not-allowed", display: "flex", alignItems: "center", justifyContent: "center", gap: 10, boxShadow: canAdd ? `0 8px 22px ${pc}40` : "none", transition: "box-shadow 0.2s, background 0.2s" }}>
+                    <Icon d={Icons.cart} size={18} /> Añadir al carrito
                   </button>
               }
+              {needsColor && !selectedColor && product.stock > 0 && <p style={{ fontSize: 11, color: "#B5605A", textAlign: "center", margin: "8px 0 0" }}>Elige un color para continuar</p>}
               <div style={{ display: "flex", justifyContent: "center", gap: 16, marginTop: 10, fontSize: 11, color: "#6B6357" }}>
                 <span>🌿 Material seguro</span><span>🚀 Envío 24-48h</span><span>↩️ Cambio fácil</span>
               </div>
@@ -1368,21 +1417,21 @@ function ProductDetailModal({ product, categories, products = [], open, onClose,
           </div>
 
           {related.length > 0 && (
-            <div style={{ borderTop: "1px solid #EDE8E2", padding: isMobile ? "20px" : "22px 26px", background: "#FAFAF8" }}>
-              <p style={{ fontSize: 11, fontWeight: 700, color: pc, textTransform: "uppercase", letterSpacing: "1px", margin: "0 0 14px" }}>También te puede gustar</p>
-              <div style={{ display: "grid", gridTemplateColumns: isMobile ? "repeat(2, 1fr)" : "repeat(4, 1fr)", gap: 14 }}>
+            <div style={{ borderTop: "1px solid #EDE8E2", padding: isMobile ? "14px 20px" : "14px 26px", background: "#FAFAF8", maxHeight: 108, overflow: "hidden" }}>
+              <p style={{ fontSize: 10, fontWeight: 700, color: pc, textTransform: "uppercase", letterSpacing: "1px", margin: "0 0 10px" }}>También te puede gustar</p>
+              <div style={{ display: "flex", gap: 12, overflowX: "auto" }}>
                 {related.map(rp => {
                   const rThumb = rp.images && rp.images[0];
                   return (
-                    <div key={rp.id} onClick={() => onSelectRelated && onSelectRelated(rp)} style={{ cursor: "pointer", background: "white", borderRadius: 12, overflow: "hidden", border: "1px solid #EDE8E2" }}>
-                      <div style={{ aspectRatio: "1/1", background: rp.bg || "#F5EEEC", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
+                    <div key={rp.id} onClick={() => onSelectRelated && onSelectRelated(rp)} style={{ cursor: "pointer", background: "white", borderRadius: 10, overflow: "hidden", border: "1px solid #EDE8E2", display: "flex", alignItems: "center", gap: 8, flexShrink: 0, width: isMobile ? 168 : 190, padding: 6 }}>
+                      <div style={{ width: 48, height: 48, borderRadius: 8, background: rp.bg || "#F5EEEC", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden", flexShrink: 0 }}>
                         {rThumb
                           ? <img src={rThumb} alt={rp.name} loading="lazy" decoding="async" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                           : React.createElement("image-slot", { id: `product-photo-${rp.id}`, shape: "rect", placeholder: "Foto", style: { width: "100%", height: "100%" } })
                         }
                       </div>
-                      <div style={{ padding: "8px 10px" }}>
-                        <p style={{ fontSize: 12, fontWeight: 500, color: "#3D3830", margin: "0 0 3px", lineHeight: 1.3, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{rp.name}</p>
+                      <div style={{ minWidth: 0 }}>
+                        <p style={{ fontSize: 12, fontWeight: 500, color: "#3D3830", margin: "0 0 2px", lineHeight: 1.3, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{rp.name}</p>
                         <p style={{ fontSize: 12, fontWeight: 700, color: "#3D3830", margin: 0 }}>{config?.currency || "S/."} {rp.price.toFixed(2)}</p>
                       </div>
                     </div>
@@ -1567,9 +1616,10 @@ function Storefront({ products, categories, config, coupons, cart, setCart, wish
   useEffect(() => { setVisibleCount(12); }, [filterCat, search, sort]);
   const visibleProducts = filtered.slice(0, visibleCount);
 
-  const addToCart = (product) => {
-    setCart(c => { const ex = c.find(i => i.id === product.id); return ex ? c.map(i => i.id === product.id ? { ...i, qty: i.qty + 1 } : i) : [...c, { ...product, qty: 1 }]; });
-    toast(`🛒 ${product.name} añadido al carrito`);
+  const addToCart = (product, color = null) => {
+    const cartLineId = product.id + (color ? "__" + color : "");
+    setCart(c => { const ex = c.find(i => i.cartLineId === cartLineId); return ex ? c.map(i => i.cartLineId === cartLineId ? { ...i, qty: i.qty + 1 } : i) : [...c, { ...product, qty: 1, cartLineId, selectedColor: color || null }]; });
+    toast(`🛒 ${product.name}${color ? " (" + color + ")" : ""} añadido al carrito`);
     setCartOpen(true);
     setCartBump(true);
     clearTimeout(bumpTimer.current);
@@ -2280,11 +2330,11 @@ function AdminProducts({ products, setProducts, categories }) {
   const [cellValue, setCellValue] = useState("");
 
   const openNew = () => {
-    setForm({ name: "", desc: "", details: "", price: "", oldPrice: "", stock: "", categoryId: categories[0]?.id || "", badge: "", emoji: "🎁", images: [], colors: [], bg: "#F5EEEC", active: true, featured: false });
+    setForm({ name: "", desc: "", details: "", price: "", oldPrice: "", stock: "", categoryId: categories[0]?.id || "", badge: "", emoji: "🎁", images: [], colors: [], colorStock: {}, bg: "#F5EEEC", active: true, featured: false });
     setModal("new");
   };
   const openEdit = (p) => {
-    setForm({ ...p, price: String(p.price), oldPrice: p.oldPrice ? String(p.oldPrice) : "", stock: String(p.stock), images: p.images || [], colors: p.colors || [] });
+    setForm({ ...p, price: String(p.price), oldPrice: p.oldPrice ? String(p.oldPrice) : "", stock: String(p.stock), images: p.images || [], colors: p.colors || [], colorStock: p.colorStock || {} });
     setModal(p);
   };
   const save = () => {
@@ -2463,7 +2513,9 @@ function AdminProducts({ products, setProducts, categories }) {
           <div style={{ gridColumn: "1/-1" }}>
             <ColorSwatchInput
               colors={form.colors || []}
+              colorStock={form.colorStock || {}}
               onChange={colors => setForm(f => ({ ...f, colors }))}
+              onStockChange={colorStock => setForm(f => ({ ...f, colorStock }))}
               label="🎨 Colores disponibles"
             />
           </div>
