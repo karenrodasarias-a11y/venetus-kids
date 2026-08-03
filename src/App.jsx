@@ -229,6 +229,11 @@ const INIT_CONFIG = {
 
   /* ── SECCIÓN BENEFICIOS ─────────────────────────────── */
   benefitsBgColor: "#2B3A4A",
+  productBadges: [
+    { icon: "🌿", text: "Material seguro", active: true },
+    { icon: "🚀", text: "Envío 24-48h", active: true },
+    { icon: "↩️", text: "Cambio fácil", active: true },
+  ],
   benefits: [
     { icon: "check", title: "Algodón seguro", desc: "100% algodón, testeado dermatológicamente" },
     { icon: "package", title: "Envíos rápidos", desc: "24-48 horas a todo el Perú" },
@@ -1460,8 +1465,10 @@ function ProductDetailModal({ product, categories, products = [], open, onClose,
                   </button>
               }
               {needsColor && !selectedColor && product.stock > 0 && <p style={{ fontSize: 11, color: "#B5605A", textAlign: "center", margin: "8px 0 0" }}>Elige un color para continuar</p>}
-              <div style={{ display: "flex", justifyContent: "center", gap: 16, marginTop: 10, fontSize: 11, color: "#6B6357" }}>
-                <span>🌿 Material seguro</span><span>🚀 Envío 24-48h</span><span>↩️ Cambio fácil</span>
+              <div style={{ display: "flex", justifyContent: "center", gap: 16, marginTop: 10, fontSize: 11, color: "#6B6357", flexWrap: "wrap" }}>
+                {(config.productBadges || []).filter(b => b.active !== false).map((b, i) => (
+                  <span key={i}>{b.icon} {b.text}</span>
+                ))}
               </div>
             </div>
           </div>
@@ -2951,7 +2958,7 @@ function AdminPageEditor({ config, setConfig }) {
 
   const TABS = [
     ["hero", "🏠 Hero"], ["promo", "📢 Promo"], ["sections", "📝 Textos"],
-    ["testimonials", "💬 Testimonios"], ["benefits", "⭐ Beneficios"],
+    ["testimonials", "💬 Testimonios"], ["benefits", "⭐ Beneficios"], ["productBadges", "🏷️ Etiquetas producto"],
     ["footer", "🔗 Footer"], ["images", "🖼️ Imágenes"], ["contact", "📞 Contacto"],
   ];
 
@@ -3104,8 +3111,26 @@ function AdminPageEditor({ config, setConfig }) {
           </div>
         )}
 
-        {/* ── BENEFICIOS ── */}
-        {tab === "benefits" && (
+        {/* ── ETIQUETAS PRODUCTO ── */}
+        {tab === "productBadges" && (
+          <div>
+            <p style={{ fontSize: 13, color: "#7A7068", margin: "0 0 16px" }}>Se muestran debajo del botón "Añadir al carrito" en la ficha de producto.</p>
+            {(form.productBadges || []).map((b, i) => (
+              <div key={i} style={{ display: "grid", gridTemplateColumns: "60px 1fr auto auto", gap: 10, alignItems: "center", marginBottom: 10, padding: 12, background: "#FAFAF8", borderRadius: 10 }}>
+                <input value={b.icon} onChange={e => setForm(f => ({ ...f, productBadges: f.productBadges.map((x, j) => j === i ? { ...x, icon: e.target.value } : x) }))} style={{ ...iS, textAlign: "center" }} />
+                <input value={b.text} onChange={e => setForm(f => ({ ...f, productBadges: f.productBadges.map((x, j) => j === i ? { ...x, text: e.target.value } : x) }))} style={iS} />
+                <button onClick={() => setForm(f => ({ ...f, productBadges: f.productBadges.map((x, j) => j === i ? { ...x, active: x.active === false } : x) }))} style={{ background: b.active === false ? "#F8D7DA" : "#D4EDDA", color: b.active === false ? "#721C24" : "#155724", border: "none", padding: "8px 14px", borderRadius: 100, fontSize: 11, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap" }}>
+                  {b.active === false ? "Desactivada" : "Activa"}
+                </button>
+                <button onClick={() => setForm(f => ({ ...f, productBadges: f.productBadges.filter((_, j) => j !== i) }))} style={{ width: 34, height: 34, borderRadius: 8, background: "none", border: "1.5px solid #D8D0C8", cursor: "pointer", color: "#B5605A" }}>✕</button>
+              </div>
+            ))}
+            <button onClick={() => setForm(f => ({ ...f, productBadges: [...(f.productBadges || []), { icon: "✨", text: "Nueva etiqueta", active: true }] }))} style={{ display: "flex", alignItems: "center", gap: 5, padding: "8px 16px", borderRadius: 100, background: "#899180", color: "white", border: "none", fontWeight: 600, cursor: "pointer" }}>
+              <Icon d={Icons.plus} size={13} /> Agregar etiqueta
+            </button>
+          </div>
+        )}
+
           <div>
             <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16 }}>
               <p style={{ fontSize: 13, color: "#7A7068", margin: 0 }}>{(form.benefits || []).length} beneficios</p>
@@ -3956,6 +3981,7 @@ export default function App() {
           ...cf,
           testimonials: cf.testimonials?.length ? cf.testimonials : INIT_CONFIG.testimonials,
           benefits: cf.benefits?.length ? cf.benefits : INIT_CONFIG.benefits,
+          productBadges: cf.productBadges?.length ? cf.productBadges : INIT_CONFIG.productBadges,
         });
       if (cart) setCartRaw(cart);
       if (wl) setWishlistRaw(wl);
