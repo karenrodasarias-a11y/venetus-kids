@@ -530,7 +530,22 @@ const selectStyle = { ...inputStyle, cursor: "pointer" };
 
 // ─── STAT CARD ─────────────────────────────────────────────────────────────
 // ─── IMAGE UPLOADER ─────────────────────────────────────────────────────────
+async function compressImage(file, maxDim = 1600, quality = 0.82) {
+  if (!file.type.startsWith("image/") || file.type === "image/gif") return file;
+  const bitmap = await createImageBitmap(file).catch(() => null);
+  if (!bitmap) return file;
+  const scale = Math.min(1, maxDim / Math.max(bitmap.width, bitmap.height));
+  const w = Math.round(bitmap.width * scale), h = Math.round(bitmap.height * scale);
+  const canvas = document.createElement("canvas");
+  canvas.width = w; canvas.height = h;
+  canvas.getContext("2d").drawImage(bitmap, 0, 0, w, h);
+  const blob = await new Promise(r => canvas.toBlob(r, "image/jpeg", quality));
+  if (!blob || blob.size >= file.size) return file;
+  return new File([blob], file.name.replace(/\.\w+$/, ".jpg"), { type: "image/jpeg" });
+}
+
 async function uploadFile(file) {
+  file = await compressImage(file);
   const res = await fetch("/api/upload", {
     method: "POST",
     headers: { "Content-Type": file.type || "application/octet-stream", "x-filename": encodeURIComponent(file.name) },
@@ -1304,6 +1319,26 @@ function ProductDetailModal({ product, categories, products = [], open, onClose,
   const imgs = product?.images?.length > 0 ? product.images : [];
   const pc = config?.primaryColor || "#899180";
   useEffect(() => { setCurImg(0); setImgLoaded(false); setSelectedColor(product?.colors?.length === 1 ? product.colors[0] : null); }, [product?.id]);
+  useEffect(() => {
+    if (!open || !product) return;
+    const prevTitle = document.title;
+    document.title = `${product.name} — ${document.title.split(" — ").pop()}`;
+    let ogTitle = document.querySelector('meta[property="og:title"]');
+    let ogDesc = document.querySelector('meta[property="og:description"]');
+    const prevOgTitle = ogTitle?.getAttribute("content"), prevOgDesc = ogDesc?.getAttribute("content");
+    if (ogTitle) ogTitle.setAttribute("content", product.name);
+    if (ogDesc) ogDesc.setAttribute("content", product.desc || prevOgDesc || "");
+    let ogImg = document.querySelector('meta[property="og:image"]');
+    if (!ogImg) { ogImg = document.createElement("meta"); ogImg.setAttribute("property", "og:image"); document.head.appendChild(ogImg); }
+    const prevOgImg = ogImg.getAttribute("content");
+    if (product.images?.[0]) ogImg.setAttribute("content", product.images[0]);
+    return () => {
+      document.title = prevTitle;
+      if (ogTitle && prevOgTitle != null) ogTitle.setAttribute("content", prevOgTitle);
+      if (ogDesc && prevOgDesc != null) ogDesc.setAttribute("content", prevOgDesc);
+      if (ogImg && prevOgImg != null) ogImg.setAttribute("content", prevOgImg);
+    };
+  }, [open, product?.id]);
   if (!open || !product) return null;
   const colorStockMap = product.colorStock || {};
   const getColorStock = (hex) => colorStockMap[hex] != null ? colorStockMap[hex] : product.stock;
@@ -1647,7 +1682,28 @@ function Storefront({ products, categories, config, coupons, cart, setCart, wish
     toast(wishlist.includes(id) ? "💔 Eliminado de favoritos" : "💕 Añadido a favoritos");
   };
 
-  const handleCheckoutComplete = (orderData) => {
+  const handleCheckoutComplete = async (orderData) => {
+    const freshProducts = (await storage.get("vk_products")) || products;
+    for (const line of cart) {
+      const fp = freshProducts.find(p => p.id === line.id);
+      if (!fp || fp.stock <= 0) { toast(`⚠️ "${line.name}" ya no tiene stock disponible`, "error"); return; }
+      if (line.selectedColor) {
+        const cs = fp.colorStock?.[line.selectedColor];
+        if (cs != null && cs < line.qty) { toast(`⚠️ Solo quedan ${cs} de "${line.name}" en ese color`, "error"); return; }
+      } else if (fp.stock < line.qty) {
+        toast(`⚠️ Solo quedan ${fp.stock} de "${line.name}"`, "error"); return;
+      }
+    }
+    const updatedProducts = freshProducts.map(p => {
+      const line = cart.find(i => i.id === p.id);
+      if (!line) return p;
+      const next = { ...p, stock: Math.max(0, p.stock - line.qty) };
+      if (line.selectedColor && p.colorStock?.[line.selectedColor] != null) {
+        next.colorStock = { ...p.colorStock, [line.selectedColor]: Math.max(0, p.colorStock[line.selectedColor] - line.qty) };
+      }
+      return next;
+    });
+    setProducts(updatedProducts);
     const newOrder = {
       id: "ord" + Date.now(),
       orderNumber: "VC-" + String(orders.length + 1).padStart(3, "0"),
